@@ -1,0 +1,15 @@
+.button-text {
+  width: 11vw;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  text-overflow: ellipsis;
+  border-radius: 0;
+}
+
+#multiselect-dropdown > .dropdown-menu {
+  max-height: 75vh;
+  overflow-y: auto;
+  min-width: 100%;
+  width: max-content;
+}

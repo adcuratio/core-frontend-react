@@ -1,0 +1,414 @@
+import { observable, action } from 'mobx';
+import API from '../api';
+
+class NetworkStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
+  @observable networkData = [];
+  @observable companies = [];
+
+  @action async getListOfDates() {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get('/admin/v2/addressable_inventory/');
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async getNetworkAdInventory(activeTab, activeDate, url) {
+    this.rootStore.uiStore.isLoading = true;
+    const getURL = !url ? `/admin/v2/addressable_inventory/?inv_type=${activeTab}&week_start=${activeDate}` : url;
+    try {
+      const res = await API.get(getURL);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async getAllCompanies() {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get('/advertiser/get_company_list/');
+      this.companies = res.data.data;
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async createChannel(data) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.post('/admin/channels/', data);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async createShow(data) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.post('/admin/show_list/', data);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async getAllCreatives() {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const getURL = '/pilot/get_creative_files/';
+      const res = await API.get(getURL);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async getVideoUrl(creativeId) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const getURL = `/pilot/get_ftp_creative_files/?item_id=${creativeId}`;
+      const res = await API.get(getURL);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async approveCreative(data) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.post('/pilot/approve_creative/', data);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async editApproveCreative(data) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.put('/pilot/approve_creative/', data);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async declineCreative(data) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.post('/pilot/decline_creative/', data);
+      this.rootStore.uiStore.isLoading = false;
+      return res;
+    } catch (error) {
+      this.rootStore.uiStore.isLoading = false;
+      return error;
+    }
+  }
+
+  @action async getLogs(month, year) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/list_logs/?month=${month}&year=${year}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async getFoxLogs(month, year) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/fox_log_list/?month=${month}&year=${year}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async getLogsDetails(logId) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/get_log_details/?log_id=${logId}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async getFoxLogsDetails(logId) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/fox_log_detail/?fox_log_track_id=${logId}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async searchLogDetails(logId, search) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/get_log_details/?log_id=${logId}&search=${search}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async foxSearchLogDetails(logId, search) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/fox_log_detail/?fox_log_track_id=${logId}&search=${search}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async getTraffickingPlanPage(url) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/get_log_details/?${url.split('?')[1]}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async getFoxTraffickingPlanPage(url) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get(`/pilot/fox_log_detail?${url.split('?')[1]}`);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  async approveQA(data) {
+    this.rootStore.uiStore.isLoading = true;
+
+    try {
+      const res = await API.post('/fox_cbs/approve_qa_creative/', data);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  async declineQA(data) {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.post('/fox_cbs/decline_qa_creative/', data);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  // [manage creatives module] Upload a new creative.
+  @action async saveCreative(
+    isciCreative,
+    isciIdentifier,
+    isciFile,
+    entityId,
+    entityType,
+    deliveryVendor = '',
+    selectedchannels,
+    houseId
+  ) {
+    this.rootStore.uiStore.isLoading = true;
+    const formData = new FormData();
+    formData.append('creative_name', isciCreative);
+    formData.append('identifier', isciIdentifier);
+    formData.append('entity_id', entityId);
+    formData.append('entity_type', entityType);
+    formData.append('creative_file_name', isciFile);
+    formData.set('channel_list', JSON.stringify(selectedchannels));
+    formData.append('house_id', houseId);
+    if (deliveryVendor) {
+      formData.append('delivery_vendor', deliveryVendor);
+    }
+
+    try {
+      const res = await API.post('/pilot/upload_creative_files/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (res.status === 200) {
+        this.forUploadCreative = res.data.data;
+      }
+      return res.data;
+    } catch (error) {
+      // do something
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+  // [manage creatives module] Upload a new creative.
+  @action async uploadSaveCreative(
+    isciCreative,
+    isciIdentifier,
+    isciFile,
+    entityId,
+    entityType,
+    deliveryVendor = '',
+    selectedNetworkOption,
+    selectedAdOption
+
+    // selectedchannels,
+  ) {
+    this.rootStore.uiStore.isLoading = true;
+    const formData = new FormData();
+    formData.append('creative_name', isciCreative);
+    formData.append('identifier', isciIdentifier);
+    formData.append('entity_id', entityId);
+    formData.append('entity_type', entityType);
+    formData.append('creative_file_name', isciFile);
+    formData.append('network_feed', JSON.stringify(selectedNetworkOption));
+    formData.append('ad_type', Number(selectedAdOption));
+
+    // formData.set('channel_list', JSON.stringify(selectedchannels));
+    if (deliveryVendor) {
+      formData.append('delivery_vendor', deliveryVendor);
+    }
+
+    try {
+      const res = await API.post('/pilot/upload_creative_files/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (res.status === 200) {
+        this.forUploadCreative = res.data.data;
+      }
+      return res.data;
+    } catch (error) {
+      // do something
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  // [manage creatives module] Getting list of all the available channels for a network.
+  @action async getAllChannels() {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get('/admin/channels/');
+      if (res.data.success === true) {
+        this.networkData = res.data.data[0];
+      } else {
+        this.networkData = [];
+      }
+      return res;
+    } catch (error) {
+      this.networkData = [];
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  // [manage creatives module] Getting list of creatives. (pagination enabled)
+  @action async getCreatives(url) {
+    this.rootStore.uiStore.isLoading = true;
+    const getURL = !url ? '/creative/v1/creatives/' : url;
+    try {
+      const res = await API.get(getURL);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  // [review creatives module] Getting list of creatives. (pagination enabled)
+  @action async getCreativesForReview(activeTab, url) {
+    this.rootStore.uiStore.isLoading = true;
+    const getURL = !url ? `/creative/v1/replacement_creatives/?status_type=${activeTab}` : url;
+    try {
+      const res = await API.get(getURL);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+
+  @action async getAggregateNetworksFilterData() {
+    this.rootStore.uiStore.isLoading = true;
+    try {
+      const res = await API.get('/schedules/v1/aggregation-inventory/');
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+  @action async getAggregateNetworksTableData(url, pageUrl) {
+    this.rootStore.uiStore.isLoading = true;
+    const getUrl = !pageUrl ? `/schedules/v1/aggregation-inventory/?${url}` : pageUrl;
+    try {
+      const res = await API.get(getUrl);
+      return res;
+    } catch (error) {
+      return error;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
+  }
+}
+export default NetworkStore;

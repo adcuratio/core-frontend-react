@@ -1,0 +1,71 @@
+.newad {
+  width: 160px;
+  margin: 10px;
+  padding: 10px;
+}
+#table1 .table th,
+#table1 .table td {
+  height: 40px;
+  width: 33%;
+  vertical-align: middle;
+  font-weight: normal;
+  padding-left: 10px;
+  text-align: left;
+}
+#table2 .table th,
+#table2 .table td {
+  height: 40px;
+  width: 33%;
+  vertical-align: middle;
+  font-weight: normal;
+  padding-left: 10px;
+  text-align: left;
+}
+#table3 .table th,
+#table3 .table td {
+  height: 40px;
+  width: 33%;
+  vertical-align: middle;
+  font-weight: normal;
+  padding-left: 10px;
+  text-align: left;
+}
+.table td input {
+  text-align: center;
+}
+#demo4jstree .selected {
+  display: none !important;
+}
+#demo5jstree .selected {
+  display: none !important;
+}
+.main-container {
+  position: relative;
+  clear: both;
+}
+.tree1 {
+  float: left;
+  height: 400px;
+  overflow: auto;
+}
+
+.tree2 {
+  height: 400px;
+  float: left;
+  display: inline-block;
+  overflow: auto;
+}
+.newad:hover {
+  color: black;
+}
+.remove-ad {
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 1px;
+  font-size: 12px;
+  margin-right: 3px;
+}
+
+.preview-summary-wrap .summary .col-md-5:first-child {
+  border-right: 1px solid #ccc;
+}

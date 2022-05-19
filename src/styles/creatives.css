@@ -1,0 +1,79 @@
+.creative-thumb {
+  width: 100px;
+  /* height: 75px; */
+  background: #000;
+}
+
+.creative-thumb-small {
+  width: 40px;
+  height: 30px;
+  background: #000;
+  vertical-align: middle;
+}
+
+.video-thumbnail {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.video-thumbnail:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  font-family: 'Font Awesome 5 Brands';
+  font-weight: 400;
+  content: '\f167';
+  font-size: 45px;
+  color: #fff;
+  opacity: 0.8;
+  text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+
+.video-thumbnail.video-thumbnail-small:before {
+  font-size: 20px;
+}
+
+.video-thumbnail:hover:before {
+  color: #eee;
+}
+
+.creative-video-wrapper {
+  text-align: center;
+}
+
+#adVideo {
+  background: #000;
+}
+
+a.no-hover:hover {
+  color: #000 !important;
+}
+
+a.no-hover:focus {
+  text-decoration: none;
+}
+
+.upload-form-field {
+  display: inline-block;
+  width: 230px !important;
+  border: 1px solid #a0a0a0;
+  height: 35px;
+  margin-right: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 6px 6px;
+  color: #2f2f2f;
+  text-overflow: ellipsis;
+  text-align: left;
+  vertical-align: middle;
+}
+.creative-font {
+  font-size: 13px !important;
+  overflow-wrap: break-word;
+}
+.creative-vid {
+  width: 100%;
+}

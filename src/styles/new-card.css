@@ -1,0 +1,90 @@
+.show-adspot-accordion {
+  margin-bottom: 10px;
+}
+.shows-adspot-card {
+  background-color: #fff;
+  box-shadow: 1px 1px 3px 0px #a0a0a0;
+  display: block;
+}
+.shows-adspot-card.collapsed {
+  display: block;
+  color: #000;
+  font-size: 14px;
+}
+.shows-adspot-card.collapsed::before {
+  display: none;
+}
+.shows-adspot-card > div {
+  display: inline-block;
+}
+.adspot-card-wrapper {
+  padding: 5px 10px;
+  width: calc(100% - 5px);
+}
+.avatar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 25%;
+  padding-top: 5px;
+  text-align: center;
+}
+.avatar-img {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+}
+.adspot-card-description {
+  display: inline-block;
+  width: 70%;
+  vertical-align: middle;
+  padding-left: 20px;
+}
+.adspot-card-description > div {
+  display: inline-block;
+}
+.adspot-card-description .description-1 {
+  width: 50%;
+  vertical-align: top;
+}
+.adspot-card-description .description-2 {
+  width: 50%;
+  vertical-align: top;
+}
+.desc-title {
+  display: inline-block;
+  width: calc(100% - 50px);
+}
+.adspot-card-description .desc-body {
+  font-size: 12px;
+  padding-top: 5px;
+}
+.adspot-card-description .desc-heading {
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.shows-adspot-card .desc-count {
+  color: #eea32c;
+  font-weight: bold;
+}
+.shows-adspot-card .desc-count-lg {
+  font-size: 25px;
+  text-align: center;
+  apdding-top: 10px;
+}
+.shows-adspot-card .dropdown-icon {
+  padding: 8px;
+}
+.show-adspot-accordion .card-accordion-block {
+  background-color: #dfdfdf;
+}
+.adspot-options-wrapper {
+  padding: 10px;
+}
+.adspot-option-list div {
+  display: inline-block;
+}
+.card-accordion-block .adspot-option {
+  width: calc(100% - 100px);
+}

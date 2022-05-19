@@ -1,0 +1,85 @@
+.campaign-summary {
+  border: 1px solid black;
+  overflow: hidden;
+  display: inline-block;
+  border-collapse: separate;
+  border: solid #ccc 1px;
+  height: 70px;
+  width: 40%;
+  margin: 10px;
+  color: #333;
+}
+
+.campaign-summary.cmt-campaign-summary {
+  margin-left: 0;
+}
+
+.col-md-5 .campaign-summary {
+  width: auto;
+}
+
+.campaign-summary tr:last-child td {
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  vertical-align: middle;
+  height: 60px;
+}
+.campaign-summary .value {
+  padding: 15px 10px;
+  font-size: 24px;
+  color: #eea32c;
+}
+.total-campaign,
+.trading-campaign {
+  margin: 5px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+td {
+  width: 10%;
+}
+.total-campaign-nu {
+  padding: 15px 10px;
+  border-right: solid 1px #ccc;
+  float: right;
+  font-size: 24px;
+}
+.preview-wrapper .total-campaign-nu {
+  border-right: none;
+}
+.trading-campaign-nu {
+  float: right;
+  padding: 15px 10px;
+  font-size: 24px;
+}
+.trade-summary {
+  margin: 10px;
+  font-size: 15px;
+  font-family: opensans;
+}
+.button-center {
+  text-align: center;
+  margin-top: 20px;
+}
+.new-trade {
+  width: 180px;
+  color: #fff;
+  background-color: #505e69;
+  font-family: opensans;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 10px;
+  margin-top: 15px;
+  border: 1px solid transparent;
+}
+.new-trade:hover {
+  background: #243643;
+  border: 1px solid #ccc;
+}
+
+.draft-fn-wrapper {
+  position: absolute;
+  right: 25px;
+  top: 10px;
+}

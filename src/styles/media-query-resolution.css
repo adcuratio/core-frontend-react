@@ -1,0 +1,39 @@
+@media only screen and (max-width: 1600px) {
+  .nav-tabs-size > li > a {
+    font-size: 11px;
+  }
+
+  .ncm-landing-box {
+    height: 150px;
+    width: 150px;
+    padding: 20px;
+  }
+
+  .ncm-landing-icon {
+    height: 50%;
+    font-size: 20px;
+  }
+
+  .option-symbol {
+    display: inline;
+    margin-left: 18px;
+    vertical-align: middle;
+  }
+  .ncm-option-symbol {
+    width: 22px !important;
+  }
+
+  .network-landing-box-text {
+    height: 50%;
+  }
+
+  .network-landing-icon {
+    height: 50%;
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .form-button-sub-agency {
+    padding: 0px 20px;
+  }
+}

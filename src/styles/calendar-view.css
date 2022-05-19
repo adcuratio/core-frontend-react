@@ -1,0 +1,134 @@
+.cal-day-panel {
+  height: 450px !important;
+  overflow: auto;
+}
+
+.cal-week-box .cal-day-panel {
+  height: 400px !important;
+}
+
+mwl-calendar span[data-cal-date] {
+  font-size: 1em;
+}
+
+mwl-calendar .cal-year-box [class*='span'] {
+  height: 100px;
+}
+
+mwl-calendar p {
+  color: #4a4a4a;
+}
+
+/* custom templates styles */
+
+.adc-cell-main-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  /* width: 100%; */
+  transform: translate(-50%, -50%);
+}
+
+.adc-cell-text {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  text-align: center;
+  /* width: 100%; */
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.adc-cell-h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.adc-cell-h5 {
+  font-size: 10px;
+}
+
+.cal-day-outmonth .adc-cell-main-content,
+.cal-day-outmonth .adc-cell-text {
+  opacity: 0.1;
+}
+
+mwl-calendar .cal-month-box .cal-row-head [class*='cal-cell'],
+mwl-calendar .cal-row-head [class*='cal-cell'] {
+  border-left: 1px solid #f4f5f5;
+  background-color: #243643;
+  color: #a9a9a9;
+}
+
+mwl-calendar .cal-month-box .cal-row-head [class*='cal-cell']:hover,
+mwl-calendar .cal-week-box .cal-row-head [class*='cal-cell']:hover {
+  background-color: #39566b;
+  color: #fff;
+}
+
+mwl-calendar .cal-week-box .cal-row-head {
+  background-color: #243643;
+}
+
+mwl-calendar .cal-day-weekend span[data-cal-date] {
+  color: #ffb2b2;
+}
+
+mwl-calendar .cal-week-box .cal-day-today span[data-cal-date] {
+  color: #fff;
+}
+
+mwl-calendar .cal-row-fluid:hover,
+mwl-calendar .cal-year-box .row:hover {
+  background-color: transparent;
+}
+
+.green-event {
+  height: 10px;
+  width: 10px;
+  background-color: #98c22a;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.adspot-card-description .description {
+  width: 100%;
+}
+
+.cal-week-box [data-event-class],
+.cal-day-box .day-highlight {
+  border: 1px solid #cb6566 !important;
+  background-color: #efd0d1 !important;
+}
+
+.cal-month-day {
+  background-color: #d7e8f9 !important;
+  border: 1px solid #7cb5ec !important;
+}
+
+.cal-year-box {
+  background-color: #fbeacf !important;
+}
+
+mwl-calendar .cal-year-box .row {
+  border: 1px solid #eea32c !important;
+}
+
+mwl-calendar .cal-year-box [class*='cal-cell'] + [class*='cal-cell'],
+mwl-calendar .cal-year-box [class*='span'] + [class*='span'] {
+  border-left: 1px solid #eea32c !important;
+}
+
+.cal-day-outmonth .adc-cell-main-content,
+.cal-day-outmonth .adc-cell-text {
+  opacity: 0.4 !important;
+}
+
+#monthViewCard .card.segment-card {
+  width: 13%;
+}
+
+#yearViewCard .card.segment-card {
+  width: 16%;
+}

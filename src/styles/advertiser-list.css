@@ -1,0 +1,206 @@
+.add-user-btn {
+  float: right;
+  margin: 30px 0px;
+}
+.add-campaign-btn {
+  float: right;
+  margin: 10px;
+}
+.companyCampaign {
+  margin: 10px;
+}
+.agency-add-brand {
+  padding: 10px;
+}
+.select-campaign-heading {
+  padding: 8px 0px;
+  font-size: 14px;
+  font-weight: normal;
+}
+.select-campaign-title {
+  font-weight: bold;
+}
+.new-campaign-end-date {
+  margin-bottom: 10px;
+}
+.addIdBtn {
+  margin: 10px;
+}
+.date-heding {
+  margin: 10px;
+}
+.end-date {
+  margin: 10px;
+}
+.table-heading {
+  font-size: 15px !important;
+  font-weight: bold;
+}
+.table-wrapper tr th {
+  background: #243643;
+  color: #fff;
+}
+.phone-number {
+  border: 1px solid #b4b8bb;
+  padding: 7px 0px;
+}
+.phone-nu {
+  width: 88% !important;
+  border: 0px !important;
+  outline: 0px;
+}
+.phone-number-block {
+  border: 1px solid #b4b8bb;
+  font-size: 14px;
+  color: #000;
+}
+.phonu-nu:before {
+  content: '+1';
+}
+.add-icon {
+  color: #b4b8bb;
+  font-size: 14px;
+}
+.dark {
+  color: #6b6d6a;
+}
+.modal-popup-box {
+  max-width: 450px !important;
+}
+
+.radio-wrap {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+  font-size: 1.6em;
+  line-height: 0.75;
+  background-color: transparent;
+  position: static;
+  height: 15px;
+  top: 0px;
+  width: auto;
+  opacity: 1;
+  color: #000;
+  margin: 2px;
+}
+.ui-select-multiple.ui-select-bootstrap {
+  background-color: #fff;
+  width: auto;
+  border: 1px solid #b4b8bb;
+  margin: 0px;
+}
+.table th,
+.table td {
+  /*height: 80px;*/
+}
+
+.save-modal-btn,
+.save-modal-btn:active,
+.save-modal-btn:hover,
+.save-modal-btn:focus {
+  background-color: #98c22a;
+  color: #fff;
+}
+
+.filter-box {
+  height: 470px;
+  padding: 10px;
+  background: #fff;
+}
+
+.agency {
+  font-size: 24px;
+  padding: 0px 20px;
+}
+.white-bg {
+  background-color: #fff;
+}
+.quant-header {
+  height: 50px;
+}
+
+.agency-heading {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.add-agency-btn {
+  margin: 10px;
+}
+.add-agency-msg-btn {
+  margin: -15px;
+}
+.agency-list {
+  height: 40px;
+  padding: 10px;
+}
+
+.agency-list a {
+  color: inherit;
+  cursor: pointer;
+}
+
+.agency-list-select {
+  font-weight: bold;
+}
+.filter-box {
+  border: 1px solid black;
+  margin: 10px;
+  padding: 20px;
+  height: 490px;
+}
+.filter-text {
+  display: inline-block;
+  width: calc(100% - 120px);
+  padding: 5px;
+  margin: 10px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+.filter-text span {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.agency-box {
+  height: 300px;
+  overflow: auto;
+  border-right: 1px solid #eee;
+}
+.company-box {
+  height: 300px;
+  overflow: auto;
+}
+.add-trafficking-btn {
+  margin: 10px;
+}
+.edit-er-text {
+  width: 50% !important;
+}
+
+.add-admin-btn {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+.company-adv-user {
+  margin-top: 26px;
+}
+.file-name {
+  font-size: 18px;
+}
+.video-link:active,
+.video-link:hover,
+.video-link:visited {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
+.quant-trade-preview .filter-wrap p,
+.quant-trade-preview .filter-wrap input,
+.quant-trade-preview .filter-wrap button {
+  display: inline-block;
+  margin-right: 10px;
+  width: auto;
+}

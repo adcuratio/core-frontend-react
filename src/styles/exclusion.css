@@ -1,0 +1,131 @@
+.excluded-company-heading,
+.exclude-company {
+  color: #676767;
+  font-size: 16px;
+  padding: 10px;
+}
+.excluded-company-nu {
+  background-color: #ffffff;
+  width: 200px;
+  height: 60px;
+  margin: 10px;
+  text-align: center;
+  font-size: 20px;
+  padding-top: 20px;
+}
+.campaigns-exclusion {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  width: 49%;
+  display: inline-block;
+  height: 100%;
+  overflow: auto;
+}
+.selected-companies {
+  width: 49%;
+  background-color: #e7e9ea;
+  display: inline-block;
+  height: 100%;
+  overflow: auto;
+}
+.selected-companies-list {
+  width: 250px;
+  display: inline-block;
+  font-size: 12px;
+  padding: 10px 30px;
+  clear: both;
+}
+.remove {
+  text-decoration: underline;
+  background: transparent;
+  border: 0px;
+  color: #0000ee;
+}
+.remove:hover,
+.remove:focus,
+.remove:visited {
+  color: #0000ee;
+}
+.remove-all {
+  padding-top: 30px;
+  padding-right: 60px;
+}
+input[type='checkbox'] {
+  display: none;
+  cursor: auto;
+}
+input[type='checkbox'] + label,
+input[type='checkbox'] + span {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  background: #b4b8bb;
+  border-radius: 1px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+input.square-check[type='checkbox'] + label,
+input.square-check[type='checkbox'] + span,
+input.square-check[type='checkbox']:checked + label,
+input.square-check[type='checkbox']:checked + span {
+  border-radius: 0px;
+}
+
+input.square-check[type='checkbox']:checked + label,
+input.square-check[type='checkbox']:checked + span {
+  background: url(../images/unwanted-checked.png) top no-repeat;
+}
+
+input[type='checkbox']:checked + label,
+input[type='checkbox']:checked + span {
+  background: url(../images/checked.png) top no-repeat;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+label.check-label {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  background: #b4b8bb;
+  border-radius: 1px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+label.selected-label {
+  background: url(../images/checked.png) top no-repeat;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+label.indetermined-label:before {
+  content: '-';
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  font-size: 21px;
+}
+label.indetermined-label {
+  background: orange;
+  color: #fff;
+}
+label.check-label1 {
+  background: url(../images/unchecked2.png) top no-repeat;
+}
+
+.inclusion-abs-link {
+  position: absolute;
+  right: 20px;
+}
+
+.included-shows-wrapper {
+  height: 100%;
+}

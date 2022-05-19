@@ -1,0 +1,155 @@
+.search-bar-network-logs {
+  width: 14vw;
+  border: 1px solid black;
+  margin-top: 10px;
+  margin-right: 8px;
+}
+.search-bar {
+  width: 285px;
+  border: 1px solid black;
+  margin-top: 10px;
+}
+
+.network-upload-btn {
+  height: 35px;
+  width: 103px;
+}
+.network-logs-margin {
+  margin-left: 0.4vw;
+}
+.network-drpdwn-menu {
+  width: 11vw !important;
+}
+.search-bar-padding {
+  float: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.cmt-search-bar {
+  display: inline-block;
+  margin-top: 0px;
+}
+.search-box {
+  width: 247px !important;
+  display: inline-block;
+}
+.search-box-network-logs {
+  width: 12vw !important;
+  display: inline-block;
+}
+.search-symbol {
+  font-size: 15px;
+}
+.search {
+  clear: both;
+  overflow: auto;
+  margin-top: -50px;
+  margin-right: 10px;
+}
+.search-table {
+  margin: 10px auto;
+}
+.display-inline {
+  display: inline-block;
+}
+.filter {
+  clear: both;
+  overflow: auto;
+}
+.filter-by {
+  width: 280px;
+  margin-right: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.filter-by select {
+  background: #fff;
+}
+.filter-heading {
+  font-size: 16px;
+  font-weight: bold;
+  padding-bottom: 5px;
+  padding-top: -5px;
+}
+.disable {
+  display: none;
+}
+.popup-box {
+  margin-top: 10%;
+  background-color: #fff;
+  border: 1px solid black;
+}
+.popup-box-scroll {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+}
+.trade-btn {
+  background-color: transparent;
+  outline: none;
+  padding: 0px;
+  height: 50px;
+  cursor: auto !important;
+}
+.trade-btn:focus {
+  border: 0px;
+  outline: 0px;
+}
+.tradebtn {
+  height: 30px;
+  padding: 5px;
+  /* margin: 5px; */
+  min-width: 60px;
+  float: none;
+  border: 1px solid;
+}
+.tradebtn.back {
+  width: auto;
+}
+.trade-details {
+  background-color: #fff;
+  padding: 5px;
+  font-size: 12px;
+  font-family: opensans;
+}
+.trade-details-heading {
+  background-color: #243643;
+  color: #fff;
+  font-size: 16px;
+  height: 35px;
+  width: 100%;
+  padding: 6px 5px;
+  margin: 10px 0px;
+}
+.search-bottom {
+  margin-bottom: 30px;
+}
+.declinepopup-input {
+  margin: 10px 0px;
+}
+.modal-btn {
+  display: inline-block;
+  padding: 5px;
+}
+#addTraffickPlanModal {
+  max-height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  padding: 0 !important;
+}
+#addTraffickPlanModal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+#addTraffickPlanModal .modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  background: #fff;
+  border: 1px solid #fff;
+}
+.uib-datepicker-popup.dropdown-menu {
+  z-index: 1051;
+}
