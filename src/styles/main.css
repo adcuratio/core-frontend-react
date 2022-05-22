@@ -2101,3 +2101,8 @@ input.profile_input[type="number"] {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
+
+.image-logo {
+  height: 1.8rem;
+  margin: 18px 10%;
+}

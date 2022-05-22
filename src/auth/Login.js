@@ -15,6 +15,7 @@ import CustomButton from "../components/CustomButton";
 import { inject, observer } from "mobx-react";
 
 import Logo from "../images/logo.png";
+import { Link } from "react-router-dom";
 
 const Login = inject("authStore")(
   observer((props) => {
@@ -23,6 +24,8 @@ const Login = inject("authStore")(
     const [errorMessage, setErrorMessage] = useState("");
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+
+    console.log(Logo);
     useEffect(() => {
       authStore.deleteSession();
     }, []);
@@ -104,7 +107,7 @@ const Login = inject("authStore")(
     return (
       <>
         <LoginHeaderWrapper>
-          <LogoWrapper src={Logo} alt="" />
+          <img src={Logo} alt="Logo of Adcuratio" className="image-logo" />
         </LoginHeaderWrapper>
         <AuthWrapper>
           <AuthTitle>Adcuratio Login</AuthTitle>
@@ -127,9 +130,10 @@ const Login = inject("authStore")(
               <div className="alert alert-danger">{errorMessage}</div>
             ) : null}
             <div className="flex-container2 mt20">
-              <p className="cursor-pointer" onClick={onForgotPassword}>
-                Forgot Password?
-              </p>
+              <Link to="/forgot-password">
+                <p className="cursor-pointer">Forgot Password?</p>
+              </Link>
+
               <CustomButton
                 buttonText="LOGIN"
                 type="ternary"
