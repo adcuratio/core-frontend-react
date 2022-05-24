@@ -1,20 +1,79 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 
 import API from '../api';
 
 import { errorNotification } from './../common/utils';
 
 class SuperAdminStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-  }
 
-  @observable adspotsDate = [];
-  @observable getWeek = [];
-  @observable getTradeId = [];
-  @observable getEntityId = [];
-  @observable networkFeedbackData = [];
-  @observable ADInventory = {};
+  adspotsDate = null;
+  getWeek = null;
+  getTradeId = null;
+  getEntityId = null;
+  networkFeedbackData = null;
+  ADInventory = null;
+
+  constructor(
+    adspotsDate,
+    getWeek,
+    getTradeId,
+    getEntityId,
+    networkFeedbackData,
+    ADInventory,
+  ) {
+    makeObservable(this, {
+      adspotsDate: observable,
+      getWeek: observable,
+      getTradeId: observable,
+      getEntityId: observable,
+      networkFeedbackData: observable,
+      ADInventory: observable,
+      getAdspotsDate: action,
+      getFilterData: action,
+      getAdspotsForDate: action,
+      getNetworkFeedbackData: action,
+      getNetworkFeedbackWeekData: action,
+      saveAdspots: action,
+      getMetaSlotInfoDates: action,
+      getMetaSlotInfo: action,
+      getCompanyDataProviderList: action,
+      updateCompanyDataProvider: action,
+      getICD10List: action,
+      getIDC10FileDetails: action,
+      getXanDeliveryReportsList: action,
+      getXanDeliveryReportsDetails: action,
+      handleCalculateButton: action,
+      opsGetCreatives: action,
+      getAllChannels: action,
+      associateNetworksToCreatives: action,
+      associateChannelsToCreatives: action,
+      editAssociatedNetworksToCreatives: action,
+      fetchCampaigns: action,
+      fetchAdspotDetails: action,
+      fetchSlotsDetails: action,
+      fetchPrecheckDetails: action,
+      fetchSegmentTags: action,
+      fetchCreatives: action,
+      companyDropdownListMgLogs: action,
+      companyDropdownListSegmentLogs: action,
+      fetchNetworkLogs: action,
+      opsGetCampaigns: action,
+      getCampaignDistributors: action,
+      modifyAssociatedDistributorsToCampaign: action,
+      createNewRecurringSchedule: action,
+      getAllSegments: action,
+      getCompanyList: action,
+      getClientDataFilters: action,
+      getPaginatedClientData: action,
+      getClientData: action,
+      updateClientData: action,
+      getActiveLinks: action,
+      generateToken: action,
+      confirmClientStatusQA: action,
+      uploadConsent: action,
+      fetchConsent: action,
+    });
+  }
 
   getUniqNetworks = (adspots) => [...new Set(adspots.map((a) => a.channel))];
 
@@ -31,7 +90,7 @@ class SuperAdminStore {
     }
   };
 
-  @action async getAdspotsDate() {
+  getAdspotsDate() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/addressable_inventory/');
@@ -46,7 +105,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getFilterData() {
+  getFilterData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/get_network_feedback_meta/');
@@ -63,7 +122,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getAdspotsForDate(selectedDate) {
+  getAdspotsForDate(selectedDate) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/admin/addressable_inventory/?week_start=${selectedDate}`;
@@ -76,7 +135,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getNetworkFeedbackData() {
+  getNetworkFeedbackData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/get_network_feedback/');
@@ -89,7 +148,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getNetworkFeedbackWeekData(selectedWeek, selectedTradeId, selectedEntityId) {
+  getNetworkFeedbackWeekData(selectedWeek, selectedTradeId, selectedEntityId) {
     this.rootStore.uiStore.isLoading = true;
     const queryParam = {};
     if (selectedWeek) {
@@ -113,7 +172,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async saveAdspots(payload = null) {
+  saveAdspots(payload = null) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/admin/addressable_inventory/', payload);
@@ -125,7 +184,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getMetaSlotInfoDates() {
+  getMetaSlotInfoDates() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/meta_slot_info_dates');
@@ -137,7 +196,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getMetaSlotInfo(date) {
+  getMetaSlotInfo(date) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/admin/meta_slot_info/?date_str=${date}`);
@@ -149,7 +208,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getCompanyDataProviderList() {
+  getCompanyDataProviderList() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/data_providers/');
@@ -161,7 +220,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async updateCompanyDataProvider(data) {
+  updateCompanyDataProvider(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put('/admin/data_providers/', data);
@@ -174,7 +233,7 @@ class SuperAdminStore {
   }
 
   // ICD10
-  @action async getICD10List({ month, year, url = '' }) {
+  getICD10List({ month, year, url = '' }) {
     this.rootStore.uiStore.isLoading = true;
     const requestURL = !url ? `xandr/v1/reports?month=${month}&year=${year}${url}` : url;
     try {
@@ -187,7 +246,7 @@ class SuperAdminStore {
     }
   }
   // ICD 10 File Details
-  @action async getIDC10FileDetails(id) {
+  getIDC10FileDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`xandr/v1/reports/${id}`);
@@ -200,7 +259,7 @@ class SuperAdminStore {
   }
 
   // xandr delivery reports view
-  @action async getXanDeliveryReportsList({ month, year }, url = '') {
+  getXanDeliveryReportsList({ month, year }, url = '') {
     this.rootStore.uiStore.isLoading = true;
     const requestURL = !url ? `xandr/v1/delivery-reports?month=${month}&year=${year}` : url;
     try {
@@ -212,7 +271,7 @@ class SuperAdminStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getXanDeliveryReportsDetails(url) {
+  getXanDeliveryReportsDetails(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(url);
@@ -224,7 +283,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async handleCalculateButton(data) {
+  handleCalculateButton(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/admin/venn_diagram/', data);
@@ -237,7 +296,7 @@ class SuperAdminStore {
   }
 
   // [manage creatives module] Getting list of creatives. (pagination enabled)
-  @action async opsGetCreatives(url) {
+  opsGetCreatives(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/admin/get_creative_list/' : url;
     try {
@@ -250,7 +309,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getAllChannels() {
+  getAllChannels() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/get_channel_group/');
@@ -262,7 +321,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async associateNetworksToCreatives(payload) {
+  associateNetworksToCreatives(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/admin/network_association/`, payload);
@@ -274,7 +333,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async associateChannelsToCreatives(adId, channelList) {
+  associateChannelsToCreatives(adId, channelList) {
     this.rootStore.uiStore.isLoading = true;
     const payload = {
       channel_list: channelList,
@@ -290,7 +349,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async editAssociatedNetworksToCreatives(payload) {
+  editAssociatedNetworksToCreatives(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/admin/network_association/`, payload);
@@ -302,7 +361,7 @@ class SuperAdminStore {
     }
   }
   // API call for fetching the campaigns.
-  @action async fetchCampaigns(payload) {
+  fetchCampaigns(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = payload || '/ncm/campaign';
@@ -316,7 +375,7 @@ class SuperAdminStore {
   }
 
   // API call for fetching the ads pot details data.
-  @action async fetchAdspotDetails({ tradeId, dataType, url }) {
+  fetchAdspotDetails({ tradeId, dataType, url }) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = !url ? `/ncm/status_details/?cmt_id=${tradeId}&option=${dataType}` : url;
@@ -330,7 +389,7 @@ class SuperAdminStore {
   }
 
   // API call for fetching the slots details data.
-  @action async fetchSlotsDetails({ tradeId, url }) {
+  fetchSlotsDetails({ tradeId, url }) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = !url ? `/admin/slots_detail/?trade_id=${tradeId}` : url;
@@ -344,7 +403,7 @@ class SuperAdminStore {
   }
 
   // API call for fetching pre-checked data.
-  @action async fetchPrecheckDetails(tradeId) {
+  fetchPrecheckDetails(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/ncm/trade_prechecks/?trade_id=${tradeId}`);
@@ -357,7 +416,7 @@ class SuperAdminStore {
   }
 
   // API call for Attribute Logs
-  @action async fetchSegmentTags() {
+  fetchSegmentTags() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/ncm/get_segment_tags/');
@@ -370,7 +429,7 @@ class SuperAdminStore {
   }
 
   // API call for creative log page
-  @action async fetchCreatives() {
+  fetchCreatives() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const dealUrl = '/pilot/get_creative_files/';
@@ -384,7 +443,7 @@ class SuperAdminStore {
   }
 
   // API call for handling the change of company in messaging group logs
-  @action async companyDropdownListMgLogs(cid) {
+  companyDropdownListMgLogs(cid) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(
@@ -399,7 +458,7 @@ class SuperAdminStore {
   }
 
   // API call for handling the change of company in segment logs.
-  @action async companyDropdownListSegmentLogs(cid) {
+  companyDropdownListSegmentLogs(cid) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/admin/get_audience_segments/?entity_id=${cid}&audience_segment_type=target_segments`);
@@ -411,7 +470,7 @@ class SuperAdminStore {
     }
   }
   // API call for fetching network logs.
-  @action async fetchNetworkLogs({ selectedMonthInt, selectedYear }) {
+  fetchNetworkLogs({ selectedMonthInt, selectedYear }) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/list_logs/?month=${selectedMonthInt}&year=${selectedYear}`);
@@ -423,7 +482,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async opsGetCampaigns() {
+  opsGetCampaigns() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('campaign/customized_messaging_trades/');
@@ -435,7 +494,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getCampaignDistributors() {
+  getCampaignDistributors() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('campaign/distributors/');
@@ -447,7 +506,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async modifyAssociatedDistributorsToCampaign(payload, id) {
+  modifyAssociatedDistributorsToCampaign(payload, id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`campaign/customized_messaging_trades/${id}/`, payload);
@@ -459,7 +518,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async createNewRecurringSchedule(payload) {
+  createNewRecurringSchedule(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/schedules/mock-schedule/`, payload);
@@ -471,7 +530,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getAllSegments(advId, brandId) {
+  getAllSegments(advId, brandId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(
@@ -485,7 +544,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getCompanyList() {
+  getCompanyList() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/advertiser/get_company_list/`;
@@ -499,7 +558,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getClientDataFilters(payload) {
+  getClientDataFilters(payload) {
     let getURL;
     this.rootStore.uiStore.isLoading = true;
     try {
@@ -513,7 +572,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getPaginatedClientData(payload, url) {
+  getPaginatedClientData(payload, url) {
     this.rootStore.uiStore.isLoading = true;
     let getURL;
     if (!url) {
@@ -557,7 +616,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getClientData(url) {
+  getClientData(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/users/client/' : url;
     try {
@@ -570,7 +629,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async updateClientData(id, data) {
+  updateClientData(id, data) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = `/users/client/${id}/`;
     try {
@@ -583,7 +642,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async getActiveLinks(url) {
+  getActiveLinks(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/users/links/' : url;
     try {
@@ -596,7 +655,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async generateToken() {
+  generateToken() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/users/client/`);
@@ -608,7 +667,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async confirmClientStatusQA(data, id) {
+  confirmClientStatusQA(data, id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.patch(`/users/client/${id}/`, data);
@@ -620,7 +679,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async uploadConsent(data) {
+  uploadConsent(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/users/consent_file_upload/`, data, {
@@ -636,7 +695,7 @@ class SuperAdminStore {
     }
   }
 
-  @action async fetchConsent(data) {
+  fetchConsent(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/users/consent_file_upload/?client_form_id=${data}`);
