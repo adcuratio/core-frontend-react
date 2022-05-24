@@ -1,12 +1,22 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import API from '../api';
 
 class XandrStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+  constructor() {
+    makeObservable(this, {
+      getAllManageCreatives: action,
+      confirmCreative: action,
+      getSegmentFilesList: action,
+      onUpdateSegmentFile: action,
+      getOrderList: action,
+      getOrderlines: action,
+      getInventoryDetails: action,
+      changeOrderState: action,
+      getOrderDetails: action,
+    });
   }
 
-  @action async getAllManageCreatives(url) {
+  getAllManageCreatives(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = !url ? `/xandr-core/v1/creatives/` : url;
@@ -19,7 +29,7 @@ class XandrStore {
     }
   }
 
-  @action async confirmCreative(id) {
+  confirmCreative(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/xandr-core/v1/creatives/${id}/`);
@@ -31,7 +41,7 @@ class XandrStore {
     }
   }
 
-  @action async getSegmentFilesList(url) {
+  getSegmentFilesList(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = !url ? `/xandr-core/v1/segment_files/` : url;
@@ -44,7 +54,7 @@ class XandrStore {
     }
   }
 
-  @action async onUpdateSegmentFile(fileId, payload) {
+  onUpdateSegmentFile(fileId, payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.patch(`/xandr-core/v1/segment_files/${fileId}/`, payload);
@@ -56,7 +66,7 @@ class XandrStore {
     }
   }
 
-  @action async getOrderList(url, state) {
+  getOrderList(url, state) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = !url ? `/xandr/v1/orders/?state=${state}` : url;
@@ -69,7 +79,7 @@ class XandrStore {
     }
   }
 
-  @action async getOrderlines(order_id, url) {
+  getOrderlines(order_id, url) {
     try {
       const getURL = !url ? `/xandr/v1/orders/${order_id}/orderlines` : url;
       const res = await API.get(getURL);
@@ -80,7 +90,7 @@ class XandrStore {
     }
   }
 
-  @action async getInventoryDetails(trade_id, url) {
+  getInventoryDetails(trade_id, url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = !url ? `/ncm/inventory_detail/?trade_id=${trade_id}` : url;
@@ -93,7 +103,7 @@ class XandrStore {
     }
   }
 
-  @action async changeOrderState(id, payload) {
+  changeOrderState(id, payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/xandr/v1/orders/${id}/`;
@@ -106,7 +116,7 @@ class XandrStore {
     }
   }
 
-  @action async getOrderDetails(id) {
+  getOrderDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/xandr-core/v1/order_details?trade_id=${id}`;
