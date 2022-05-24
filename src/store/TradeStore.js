@@ -1,12 +1,22 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import API from '../api';
 
 class TradeStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+  constructor() {
+    makeObservable(this, {
+      getOrderList: action,
+      getOrderlines: action,
+      getOrderDetails: action,
+      getDishOrderDetails: action,
+      getInventoryDetails: action,
+      getInventoryPage: action,
+      changeOrderState: action,
+      approveOrderline: action,
+      downloadInventory: action,
+    })
   }
 
-  @action async getOrderList() {
+  getOrderList() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/ncm/get_order/`;
@@ -19,7 +29,7 @@ class TradeStore {
     }
   }
 
-  @action async getOrderlines(order_id) {
+  getOrderlines(order_id) {
     try {
       const getURL = `/ncm/get_orderlines/?trade_id=${order_id}`;
       const res = await API.get(getURL);
@@ -31,7 +41,7 @@ class TradeStore {
     }
   }
 
-  @action async getOrderDetails(id) {
+  getOrderDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/ncm/order_detail/?trade_id=${id}`;
@@ -44,7 +54,7 @@ class TradeStore {
     }
   }
 
-  @action async getDishOrderDetails(id) {
+  getDishOrderDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/campaign/v1/operator_trade_details/?trade_id=${id}`;
@@ -57,7 +67,7 @@ class TradeStore {
     }
   }
 
-  @action async getInventoryDetails(id) {
+  getInventoryDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/ncm/inventory_detail/?trade_id=${id}`;
@@ -70,7 +80,7 @@ class TradeStore {
     }
   }
 
-  @action async getInventoryPage(url) {
+  getInventoryPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(url);
@@ -82,7 +92,7 @@ class TradeStore {
     }
   }
 
-  @action async changeOrderState(payload) {
+  changeOrderState(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/advertiser/approve_trade/`;
@@ -95,7 +105,7 @@ class TradeStore {
     }
   }
 
-  @action async approveOrderline(payload) {
+  approveOrderline(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/campaign/v1/approve_orderline/`;
@@ -108,7 +118,7 @@ class TradeStore {
     }
   }
 
-  @action async downloadInventory(tradeId) {
+  downloadInventory(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/schedules/download_inventory_detail/?trade_id=${tradeId}`;
