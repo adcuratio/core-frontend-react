@@ -1,35 +1,84 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import API from '../api';
 
 class CampaignStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-  }
 
-  @observable campaigns = []; // Also referred as Orders at some places
+  campaigns = null; // Also referred as Orders at some places
 
   // Data for form
-  @observable formDealIds = [];
-  @observable formAdids = [];
-  @observable formCreativeDurations = [];
-  @observable formAdidsandVendors = {};
-  @observable formAdids = [];
-  @observable deliveryVendors = [];
-  @observable nextPageUrl = '';
-  @observable uniqAdspotFilterData = {
-    uniqNetworks: [],
-    uniqDeals: [],
-    uniqFW: [],
-    uniqDP: [],
-    uniqSN: [],
+  formDealIds = null;
+  formAdids = null;
+  formCreativeDurations = null;
+  formAdidsandVendors = null;
+  formAdids = null;
+  deliveryVendors = null;
+  nextPageUrl = null;
+  uniqAdspotFilterData = {
+    uniqNetworks: null,
+    uniqDeals: null,
+    uniqFW: null,
+    uniqDP: null,
+    uniqSN: null,
   };
-  @observable formCMTInventory = [];
-  @observable relatedMSG = {};
-  @observable segmentsAvailableForCopy = [];
-  @observable selectedId;
-  @observable response;
+  formCMTInventory = null;
+  relatedMSG = null;
+  segmentsAvailableForCopy = null;
+  selectedId = null;
+  response = null;
 
-  @action prepareNCMData() {
+
+  constructor(
+    campaigns,
+    formDealIds,
+    formAdids,
+    formCreativeDurations,
+    formAdidsandVendors,
+    deliveryVendors,
+    nextPageUrl,
+    uniqAdspotFilterData,
+    formCMTInventory,
+    relatedMSG,
+    segmentsAvailableForCopy,
+    selectedId,
+    response,
+  ) {
+    makeObservable(this, {
+      campaigns: observable, // Also referred as Orders at some places
+
+      // Data for form
+      formDealIds: observable,
+      formAdids: observable,
+      formCreativeDurations: observable,
+      formAdidsandVendors: observable,
+      formAdids: observable,
+      deliveryVendors: observable,
+      nextPageUrl: observable,
+      uniqAdspotFilterData: observable,
+      formCMTInventory: observable,
+      relatedMSG: observable,
+      segmentsAvailableForCopy: observable,
+      selectedId: observable,
+      response: observable,
+      prepareNCMData: action,
+      clearNCMData: action,
+      clearStep1Data: action,
+      getCMTInventory: action,
+      getCreativeDurationForEntity: action,
+      getDealIds: action,
+      getAdids: action,
+      handlePagination: action,
+      getSegments: action,
+      getMGDistribution: action,
+      saveNCMCampaign: action,
+      saveCreative: action,
+      copySegment: action,
+      copySelectedSegments: action,
+      getVideoUrl: action,
+      editHouseIdAction: action,
+    });
+  }
+
+  prepareNCMData() {
     this.formDealIds = [];
     this.formAdids = [];
     this.formCreativeDurations = [];
@@ -48,11 +97,11 @@ class CampaignStore {
     this.relatedMSG = {};
     this.segmentsAvailableForCopy = [];
   }
-  @action clearNCMData() {
+  clearNCMData() {
     this.relatedMSG = {};
     this.segmentsAvailableForCopy = [];
   }
-  @action clearStep1Data() {
+  clearStep1Data() {
     this.formAdidsandVendors = [];
     this.formAdids = [];
     this.deliveryVendors = [];
@@ -60,7 +109,7 @@ class CampaignStore {
     this.formDealIds = [];
   }
 
-  @action async getCMTInventory(deals, entityId, entityType, adId) {
+  getCMTInventory(deals, entityId, entityType, adId) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -90,7 +139,7 @@ class CampaignStore {
     }
   }
 
-  @action async getCreativeDurationForEntity(entityType, entityId) {
+  getCreativeDurationForEntity(entityType, entityId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_creative_duration_list/', {
@@ -106,7 +155,7 @@ class CampaignStore {
     }
   }
 
-  @action async getDealIds(entityType, entityId, creativeId) {
+  getDealIds(entityType, entityId, creativeId) {
     this.rootStore.uiStore.isLoading = true;
     const params = {
       entity_type: entityType,
@@ -131,7 +180,7 @@ class CampaignStore {
   processCreatives = (res) => res.data.data.results;
 
   // obj structure: {entityType: null, entityId: null, duration: null, url: null}
-  @action async getAdids(obj) {
+  getAdids(obj) {
     this.rootStore.uiStore.isLoading = true;
     let queryURL = '';
 
@@ -171,11 +220,11 @@ class CampaignStore {
     }
   }
 
-  @action handlePagination() {
+  handlePagination() {
     this.getAdids({ url: this.nextPageUrl });
   }
 
-  @action async getSegments(strategy, companyId, entityType, entityId, adId) {
+  getSegments(strategy, companyId, entityType, entityId, adId) {
     try {
       const res = await API.get(
         `/advertiser/get_related_messaging_groups/?type=${strategy}&company_id=${companyId}&${entityType}_id=${entityId}&default_adid=${adId}`
@@ -192,7 +241,7 @@ class CampaignStore {
     }
   }
 
-  @action async getMGDistribution(segArr, mgArr, entityType, entityId) {
+  getMGDistribution(segArr, mgArr, entityType, entityId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/ncm/segment_distribution/', {
@@ -209,7 +258,7 @@ class CampaignStore {
     }
   }
 
-  @action async saveNCMCampaign(payload) {
+  saveNCMCampaign(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/advertiser/customized_trade_view/', payload);
@@ -223,7 +272,7 @@ class CampaignStore {
     }
   }
 
-  @action async saveCreative(
+  saveCreative(
     isciCreative,
     isciIdentifier,
     isciFile,
@@ -271,7 +320,7 @@ class CampaignStore {
     }
   }
 
-  @action async copySegment(selectedEntity, entityType) {
+  copySegment(selectedEntity, entityType) {
     let reqString = `company_id=${selectedEntity.company}`;
     if (entityType === 'brand') reqString = `${reqString}&brand_id=${selectedEntity.id}`;
     // else {
@@ -290,7 +339,7 @@ class CampaignStore {
     }
   }
 
-  @action async copySelectedSegments(payload) {
+  copySelectedSegments(payload) {
     const res = await API.post('/advertiser/copy_adc_group/', payload);
     if (res.data.success) {
       this.response = res.data.success;
@@ -298,7 +347,7 @@ class CampaignStore {
     }
   }
 
-  @action async getVideoUrl(creativeId) {
+  getVideoUrl(creativeId) {
     try {
       const res = await API.get(`/pilot/get_ftp_creative_files/?item_id=${creativeId}`);
       if (res.data.success) {
@@ -308,7 +357,7 @@ class CampaignStore {
       // do something
     }
   }
-  @action async editHouseIdAction(payload) {
+  editHouseIdAction(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.patch(`/pilot/upload_creative_files/`, payload);
