@@ -1,15 +1,26 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import API from '../api';
 
 class PostLogsStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+
+  postLogsData = null;
+  postLogsViewData = null;
+
+  constructor(
+    postLogsData,
+    postLogsViewData
+  ) {
+    makeObservable(this, {
+      postLogsData: observable,
+      postLogsViewData: observable,
+      getPostLogs: action,
+      getPostLogFileDetail: action,
+    })
   }
 
-  @observable postLogsData = [];
-  @observable postLogsViewData = [];
+  
 
-  @action async getPostLogs() {
+  getPostLogs() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/network/post_log/');
@@ -24,7 +35,7 @@ class PostLogsStore {
     }
   }
 
-  @action async getPostLogFileDetail(id) {
+  getPostLogFileDetail(id) {
     try {
       const res = await API.get(`/network/get_postlog_file_detail/?postlog_file_id=${id}`);
       if (res.status === 200) {
