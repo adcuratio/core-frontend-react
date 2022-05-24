@@ -1,13 +1,22 @@
-import { action } from 'mobx';
+import { action, makeObservable} from 'mobx';
 
 import API from '../api';
 
 class MessagingGroupStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+  constructor() {
+    makeObservable(this, {
+      getAllMessagingGroup: action,
+      deleteMsgGrp: action,
+      getVideoUrl: action,
+      getAllCompanies: action,
+      getAllGroupsByEntity: action,
+      getAdidMetaData: action,
+      saveMessagingGroup: action,
+      editMessagingGroup: action,
+    });
   }
 
-  @action async getAllMessagingGroup() {
+  getAllMessagingGroup() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_messaging_group/');
@@ -21,7 +30,7 @@ class MessagingGroupStore {
     }
   }
 
-  @action async deleteMsgGrp(companyId, segmentId) {
+  deleteMsgGrp(companyId, segmentId) {
     this.rootStore.uiStore.isLoading = true;
     const payload = {
       data: {
@@ -40,7 +49,7 @@ class MessagingGroupStore {
     }
   }
 
-  @action async getVideoUrl(creativeId) {
+  getVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(`/pilot/get_ftp_creative_files/?item_id=${creativeId}`);
@@ -52,7 +61,7 @@ class MessagingGroupStore {
     }
   }
 
-  @action async getAllCompanies(includeAdIds) {
+  getAllCompanies(includeAdIds) {
     this.rootStore.uiStore.isLoading = true;
     try {
       let queryURL = `/advertiser/get_company_list/?include_campaign=${true}`;
@@ -69,7 +78,7 @@ class MessagingGroupStore {
     }
   }
 
-  @action async getAllGroupsByEntity(entityId, entityType) {
+  getAllGroupsByEntity(entityId, entityType) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const isWanted = true;
@@ -95,7 +104,7 @@ class MessagingGroupStore {
   }
 
   // obj structure: {entityId: null, entityType: null, url: null}
-  @action async getAdidMetaData(obj) {
+  getAdidMetaData(obj) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const queryURL = !obj?.url
@@ -110,7 +119,7 @@ class MessagingGroupStore {
     }
   }
 
-  @action async saveMessagingGroup(payload) {
+  saveMessagingGroup(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/advertiser/segment/', payload);
@@ -122,7 +131,7 @@ class MessagingGroupStore {
     }
   }
 
-  @action async editMessagingGroup(payload) {
+  editMessagingGroup(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put('/advertiser/segment/', payload);
