@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import API from '../api';
 import IncomeOptions from '../../reactNg/store/IncomeFilterFile';
 import NetWorthOptions from '../../reactNg/store/NetWorthFilterFile';
@@ -11,21 +11,47 @@ import { ExperianAgeSlider, CommonSlider, ExperianIncomeSlider } from '../../rea
 import { hasProperty } from '../common/utils';
 
 class SegmentStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-  }
 
-  @observable segments = [];
-  @observable liteFilters = [];
-  @observable fullFilters = [];
-  @observable modelYearForVehicleMake = [];
-  @observable experianFilters = []; //JSON.parse(JSON.stringify(ExperianJsonData));
+  segments = null;
+  liteFilters = null;
+  fullFilters = null;
+  modelYearForVehicleMake = null;
+  experianFilters = null; //JSON.parse(JSON.stringify(ExperianJsonData));
 
-  @observable archivedSegments = {
+  archivedSegments = {
     totalPages: 1,
   };
 
-  @action async getAllSegments(groupType, node, entityType) {
+  constructor(
+    segments,
+    liteFilters,
+    fullFilters,
+    modelYearForVehicleMake,
+    experianFilters, 
+    archivedSegments
+  ) {
+    makeObservable(this, {
+      segments: observable,
+      liteFilters: observable,
+      fullFilters: observable,
+      modelYearForVehicleMake: observable,
+      experianFilters: observable, 
+      archivedSegments: observable,
+      getAllSegments: action,
+      getCorrespondingModelYear: action,
+      getAllLiteGroupCompanies: action,
+      getZipCode: action,
+      getAllExperianFilters: action,
+      getAllTspFullGroupCompanies: action,
+      postUserDataForSegmentCreation: action,
+      getAllArchivedSegments: action,
+      getAllArchivedSegmentsPage: action,
+      unarchiveSegments: action,
+      archiveSegments: action,
+    })
+  }
+
+  getAllSegments(groupType, node, entityType) {
     try {
       this.rootStore.uiStore.isLoading = true;
       let isWanted = false;
@@ -60,7 +86,7 @@ class SegmentStore {
     }
   }
 
-  @action async getCorrespondingModelYear(make) {
+  getCorrespondingModelYear(make) {
     try {
       this.rootStore.uiStore.isLoading = true;
       const res = await API.get(`/advertiser/get_vehicle_filters/?vehicle_make=${make}`);
@@ -73,7 +99,7 @@ class SegmentStore {
     }
   }
 
-  @action async getAllLiteGroupCompanies() {
+  getAllLiteGroupCompanies() {
     try {
       this.rootStore.uiStore.isLoading = true;
       const res1 = await API.get('/advertiser/get_vehicle_filters/');
@@ -164,7 +190,7 @@ class SegmentStore {
     }
   }
 
-  @action async getZipCode(zip) {
+  getZipCode(zip) {
     try {
       this.rootStore.uiStore.isLoading = true;
       const zipCode = await API.post('/filter_template/', { type: 'zip_code', search_value: zip });
@@ -176,7 +202,7 @@ class SegmentStore {
     }
   }
 
-  @action async getAllExperianFilters() {
+  getAllExperianFilters() {
     try {
       this.rootStore.isLoading = true;
       const typeData = {};
@@ -267,7 +293,7 @@ class SegmentStore {
     }
   }
 
-  @action async getAllTspFullGroupCompanies() {
+  getAllTspFullGroupCompanies() {
     // let typeData = {};
     // typeData.type = 'tsp_full';
     try {
@@ -378,7 +404,7 @@ class SegmentStore {
     }
   }
 
-  @action async postUserDataForSegmentCreation(data) {
+  postUserDataForSegmentCreation(data) {
     try {
       this.rootStore.uiStore.isLoading = true;
       const res = await API.post('/advertiser/adc_group/', data);
@@ -390,7 +416,7 @@ class SegmentStore {
     }
   }
 
-  @action async getAllArchivedSegments(entityType, entityId) {
+  getAllArchivedSegments(entityType, entityId) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -404,7 +430,7 @@ class SegmentStore {
     }
   }
 
-  @action async getAllArchivedSegmentsPage(url) {
+  getAllArchivedSegmentsPage(url) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -417,7 +443,7 @@ class SegmentStore {
     }
   }
 
-  @action async unarchiveSegments(seg) {
+  unarchiveSegments(seg) {
     this.rootStore.uiStore.isLoading = true;
 
     const payload = {
@@ -446,7 +472,7 @@ class SegmentStore {
     }
   }
 
-  @action async archiveSegments(seg) {
+  archiveSegments(seg) {
     this.rootStore.uiStore.isLoading = true;
 
     const payload = {
