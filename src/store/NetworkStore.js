@@ -1,14 +1,49 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import API from '../api';
 
 class NetworkStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-  }
-  @observable networkData = [];
-  @observable companies = [];
 
-  @action async getListOfDates() {
+  networkData = null;
+  companies = null;
+
+  constructor(
+    networkData,
+    companies
+  ) {
+    makeObservable(this, {
+      networkData: observable,
+      companies: observable,
+      getListOfDates: action,
+      getNetworkAdInventory: action,
+      getAllCompanies: action,
+      createChannel: action,
+      createShow: action,
+      getAllCreatives: action,
+      getVideoUrl: action,
+      approveCreative: action,
+      editApproveCreative: action,
+      declineCreative: action,
+      getLogs: action,
+      getFoxLogs: action,
+      getLogsDetails: action,
+      getFoxLogsDetails: action,
+      searchLogDetails: action,
+      foxSearchLogDetails: action,
+      getTraffickingPlanPage: action,
+      getFoxTraffickingPlanPage: action,
+      approveQA: action,
+      declineQA: action,
+      saveCreative: action,
+      uploadSaveCreative: action,
+      getAllChannels: action,
+      getCreatives: action,
+      getCreativesForReview: action,
+      getAggregateNetworksFilterData: action,
+      getAggregateNetworksTableData: action,
+    })
+  }
+
+  getListOfDates() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/v2/addressable_inventory/');
@@ -20,7 +55,7 @@ class NetworkStore {
     }
   }
 
-  @action async getNetworkAdInventory(activeTab, activeDate, url) {
+  getNetworkAdInventory(activeTab, activeDate, url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? `/admin/v2/addressable_inventory/?inv_type=${activeTab}&week_start=${activeDate}` : url;
     try {
@@ -33,7 +68,7 @@ class NetworkStore {
     }
   }
 
-  @action async getAllCompanies() {
+  getAllCompanies() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_company_list/');
@@ -46,7 +81,7 @@ class NetworkStore {
     }
   }
 
-  @action async createChannel(data) {
+  createChannel(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/admin/channels/', data);
@@ -58,7 +93,7 @@ class NetworkStore {
     }
   }
 
-  @action async createShow(data) {
+  createShow(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/admin/show_list/', data);
@@ -70,7 +105,7 @@ class NetworkStore {
     }
   }
 
-  @action async getAllCreatives() {
+  getAllCreatives() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = '/pilot/get_creative_files/';
@@ -83,7 +118,7 @@ class NetworkStore {
     }
   }
 
-  @action async getVideoUrl(creativeId) {
+  getVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/pilot/get_ftp_creative_files/?item_id=${creativeId}`;
@@ -96,7 +131,7 @@ class NetworkStore {
     }
   }
 
-  @action async approveCreative(data) {
+  approveCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/approve_creative/', data);
@@ -108,7 +143,7 @@ class NetworkStore {
     }
   }
 
-  @action async editApproveCreative(data) {
+  editApproveCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put('/pilot/approve_creative/', data);
@@ -120,7 +155,7 @@ class NetworkStore {
     }
   }
 
-  @action async declineCreative(data) {
+  declineCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/decline_creative/', data);
@@ -132,7 +167,7 @@ class NetworkStore {
     }
   }
 
-  @action async getLogs(month, year) {
+  getLogs(month, year) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/list_logs/?month=${month}&year=${year}`);
@@ -144,7 +179,7 @@ class NetworkStore {
     }
   }
 
-  @action async getFoxLogs(month, year) {
+  getFoxLogs(month, year) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_list/?month=${month}&year=${year}`);
@@ -156,7 +191,7 @@ class NetworkStore {
     }
   }
 
-  @action async getLogsDetails(logId) {
+  getLogsDetails(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_log_details/?log_id=${logId}`);
@@ -168,7 +203,7 @@ class NetworkStore {
     }
   }
 
-  @action async getFoxLogsDetails(logId) {
+  getFoxLogsDetails(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_detail/?fox_log_track_id=${logId}`);
@@ -180,7 +215,7 @@ class NetworkStore {
     }
   }
 
-  @action async searchLogDetails(logId, search) {
+  searchLogDetails(logId, search) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_log_details/?log_id=${logId}&search=${search}`);
@@ -192,7 +227,7 @@ class NetworkStore {
     }
   }
 
-  @action async foxSearchLogDetails(logId, search) {
+  foxSearchLogDetails(logId, search) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_detail/?fox_log_track_id=${logId}&search=${search}`);
@@ -204,7 +239,7 @@ class NetworkStore {
     }
   }
 
-  @action async getTraffickingPlanPage(url) {
+  getTraffickingPlanPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_log_details/?${url.split('?')[1]}`);
@@ -216,7 +251,7 @@ class NetworkStore {
     }
   }
 
-  @action async getFoxTraffickingPlanPage(url) {
+  getFoxTraffickingPlanPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_detail?${url.split('?')[1]}`);
@@ -228,7 +263,7 @@ class NetworkStore {
     }
   }
 
-  async approveQA(data) {
+  approveQA(data) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -241,7 +276,7 @@ class NetworkStore {
     }
   }
 
-  async declineQA(data) {
+  declineQA(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/fox_cbs/decline_qa_creative/', data);
@@ -254,7 +289,7 @@ class NetworkStore {
   }
 
   // [manage creatives module] Upload a new creative.
-  @action async saveCreative(
+  saveCreative(
     isciCreative,
     isciIdentifier,
     isciFile,
@@ -295,7 +330,7 @@ class NetworkStore {
     }
   }
   // [manage creatives module] Upload a new creative.
-  @action async uploadSaveCreative(
+  uploadSaveCreative(
     isciCreative,
     isciIdentifier,
     isciFile,
@@ -341,7 +376,7 @@ class NetworkStore {
   }
 
   // [manage creatives module] Getting list of all the available channels for a network.
-  @action async getAllChannels() {
+  getAllChannels() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/channels/');
@@ -360,7 +395,7 @@ class NetworkStore {
   }
 
   // [manage creatives module] Getting list of creatives. (pagination enabled)
-  @action async getCreatives(url) {
+  getCreatives(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/creative/v1/creatives/' : url;
     try {
@@ -374,7 +409,7 @@ class NetworkStore {
   }
 
   // [review creatives module] Getting list of creatives. (pagination enabled)
-  @action async getCreativesForReview(activeTab, url) {
+  getCreativesForReview(activeTab, url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? `/creative/v1/replacement_creatives/?status_type=${activeTab}` : url;
     try {
@@ -387,7 +422,7 @@ class NetworkStore {
     }
   }
 
-  @action async getAggregateNetworksFilterData() {
+  getAggregateNetworksFilterData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/schedules/v1/aggregation-inventory/');
@@ -398,7 +433,7 @@ class NetworkStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getAggregateNetworksTableData(url, pageUrl) {
+  getAggregateNetworksTableData(url, pageUrl) {
     this.rootStore.uiStore.isLoading = true;
     const getUrl = !pageUrl ? `/schedules/v1/aggregation-inventory/?${url}` : pageUrl;
     try {

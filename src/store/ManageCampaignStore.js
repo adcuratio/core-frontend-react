@@ -1,12 +1,20 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import API from '../api';
 
 class ManageCampaignStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+  constructor() {
+    makeObservable(this, {
+      getCustomTrades: action,
+      getOrderSummary: action,
+      getUnivisionOrderSummary: action,
+      getOrderDetail: action,
+      changeOrderStatus: action,
+      pauseCustomTrade: action,
+      getVideoUrl: action,
+    })
   }
 
-  @action async getCustomTrades() {
+  getCustomTrades() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/pilot/get_order/');
@@ -18,7 +26,7 @@ class ManageCampaignStore {
     }
   }
 
-  @action async getOrderSummary(tradeId) {
+  getOrderSummary(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/ncm/order_summary/?trade_id=${tradeId}`);
@@ -30,7 +38,7 @@ class ManageCampaignStore {
     }
   }
 
-  @action async getUnivisionOrderSummary(tradeId) {
+  getUnivisionOrderSummary(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/create_trade/?trade_id=${tradeId}`);
@@ -42,7 +50,7 @@ class ManageCampaignStore {
     }
   }
 
-  @action async getOrderDetail(orderId) {
+  getOrderDetail(orderId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/ncm/order_detail/?trade_id=${orderId}`);
@@ -54,7 +62,7 @@ class ManageCampaignStore {
     }
   }
 
-  @action async changeOrderStatus(tradeId, actionMode, actionComment) {
+  changeOrderStatus(tradeId, actionMode, actionComment) {
     this.rootStore.uiStore.isLoading = true;
     try {
       let status;
@@ -79,7 +87,7 @@ class ManageCampaignStore {
     }
   }
 
-  @action async pauseCustomTrade(tradeId) {
+  pauseCustomTrade(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/advertiser/pause_trade/', tradeId);
@@ -91,7 +99,7 @@ class ManageCampaignStore {
     }
   }
 
-  @action async getVideoUrl(creativeId) {
+  getVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_ftp_creative_files/?item_id=${creativeId}`);

@@ -1,15 +1,34 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import API from '../api';
 
 class OperatorStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+
+  aneLogData = null;
+  dishLogData = null;
+
+  constructor(
+    aneLogData,
+    dishLogData
+  ) {
+    makeObservable(this, {
+      aneLogData: observable,
+      dishLogData: observable,
+      getAneLogData: action,
+      getDishLogData: action,
+      getAneLog: action,
+      getLogRange: action,
+      getDishRange: action,
+      getAllManageCreatives: action,
+      operAckCreative: action,
+      confirmEncoding: action,
+      getAllCampaignTags: action,
+      addAttributeId: action,
+      confirmTag: action,
+      ApproveDeclineAction: action,
+    })
   }
 
-  @observable aneLogData = [];
-  @observable dishLogData = [];
-
-  @action async getAneLogData(month, year) {
+  getAneLogData(month, year) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = `/operator/get_activity_logs?month=${month}&year=${year}`;
     try {
@@ -28,7 +47,7 @@ class OperatorStore {
     }
   }
 
-  @action async getDishLogData() {
+  getDishLogData() {
     this.rootStore.uiStore.isLoading = true;
     const url = '/operator/list_dish_log';
     try {
@@ -47,7 +66,7 @@ class OperatorStore {
     }
   }
 
-  @action async getAneLog(filename) {
+  getAneLog(filename) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/operator/get_activity_log?filename=${filename}`;
@@ -60,7 +79,7 @@ class OperatorStore {
     }
   }
 
-  @action async getLogRange(startDate, endDate) {
+  getLogRange(startDate, endDate) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/operator/get_log_range?from_date=${startDate}&to_date=${endDate}`;
@@ -73,7 +92,7 @@ class OperatorStore {
     }
   }
 
-  @action async getDishRange(id) {
+  getDishRange(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/operator/get_dish_range_log?dish_range_id=${id}`;
@@ -86,7 +105,7 @@ class OperatorStore {
     }
   }
 
-  @action async getAllManageCreatives() {
+  getAllManageCreatives() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = '/pilot/get_creative_files/';
@@ -99,7 +118,7 @@ class OperatorStore {
     }
   }
 
-  @action async operAckCreative(_data) {
+  operAckCreative(_data) {
     this.rootStore.uiStore.isLoading = true;
     const data = {
       identifier_list: [_data.identifier],
@@ -114,7 +133,7 @@ class OperatorStore {
     }
   }
 
-  @action async confirmEncoding(_data) {
+  confirmEncoding(_data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/encode_creative/', _data);
@@ -127,7 +146,7 @@ class OperatorStore {
   }
 
   //API for manage campaign tags listing
-  @action async getAllCampaignTags() {
+  getAllCampaignTags() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/ncm/get_segment_tags/');
@@ -141,7 +160,7 @@ class OperatorStore {
   }
 
   //API for add attribute ID confirmation button
-  @action async addAttributeId(payload) {
+  addAttributeId(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/ncm/add_attribute_id/', payload);
@@ -154,7 +173,7 @@ class OperatorStore {
   }
 
   //API for confirming campaign tags
-  @action async confirmTag(data) {
+  confirmTag(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/ncm/ack_segment_tag/', data);
@@ -166,7 +185,7 @@ class OperatorStore {
     }
   }
 
-  @action async ApproveDeclineAction(payload, id) {
+  ApproveDeclineAction(payload, id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/audience/v1/custom_audience/${id}/`, payload);

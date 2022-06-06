@@ -1,14 +1,25 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import API from '../api';
 
 class VizioStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+
+  impressionDataListing = null;
+
+  constructor(
+    impressionDataListing
+  ) {
+    makeObservable(this, {
+      impressionDataListing: observable,
+      getTargetSegments: action,
+      getCreativesForReview: action,
+      confirmCreative: action,
+      searchCreativeResult: action,
+    })
   }
 
-  @observable impressionDataListing = [];
+  
 
-  @action async getTargetSegments() {
+  getTargetSegments() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/audience/v1/target_files/');
@@ -21,7 +32,7 @@ class VizioStore {
   }
 
   // [review creatives module] Getting list of creatives. (pagination enabled)
-  @action async getCreativesForReview(url) {
+  getCreativesForReview(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/creative/v1/replacement_creatives/' : url;
     try {
@@ -35,7 +46,7 @@ class VizioStore {
   }
 
   // [review creatives module] Confirming a creative.
-  @action async confirmCreative(data) {
+  confirmCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/ack_creative/', data);
@@ -47,7 +58,7 @@ class VizioStore {
     }
   }
 
-  @action async searchCreativeResult(data) {
+  searchCreativeResult(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/creative/v1/replacement_creatives/?search=${data}`);

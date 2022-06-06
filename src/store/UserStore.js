@@ -1,13 +1,34 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 
 import API from '../api';
 
 class UserStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+  constructor() {
+    makeObservable(this, {
+      getAgencyList: action,
+      getAllAgencyAdmin: action,
+      saveAgency: action,
+      editAgency: action,
+      saveAgencyAdmin: action,
+      editAgencyAdmin: action,
+      getAllOperator: action,
+      getAllOperatorAdmin: action,
+      saveOperator: action,
+      saveOperatorAdmin: action,
+      editOperator: action,
+      editOperatorAdmin: action,
+      getAllNetworks: action,
+      getAllUserNetworks: action,
+      getAllSubChannelsInfo: action,
+      saveNetwork: action,
+      saveNetworkAdmin: action,
+      editNetworkAdmin: action,
+      editNetwork: action,
+      getAllNetworkAdmin: action,
+    });
   }
 
-  @action async getAgencyList() {
+  getAgencyList() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/agency/get_agency_list/');
@@ -19,7 +40,7 @@ class UserStore {
     }
   }
 
-  @action async getAllAgencyAdmin(agencyId) {
+  getAllAgencyAdmin(agencyId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/admin/list_agency_admins/?agency_id=${agencyId}`);
@@ -31,7 +52,7 @@ class UserStore {
     }
   }
 
-  @action async saveAgency(payload) {
+  saveAgency(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/admin/create_agency/`, payload);
@@ -43,7 +64,7 @@ class UserStore {
     }
   }
 
-  @action async editAgency(payload) {
+  editAgency(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/admin/edit_agency/`, payload);
@@ -55,7 +76,7 @@ class UserStore {
     }
   }
 
-  @action async saveAgencyAdmin(payload) {
+  saveAgencyAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/admin/agency_admin/`, payload);
@@ -67,7 +88,7 @@ class UserStore {
     }
   }
 
-  @action async editAgencyAdmin(payload) {
+  editAgencyAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/admin/agency_admin/`, payload);
@@ -79,7 +100,7 @@ class UserStore {
     }
   }
 
-  @action async getAllOperator() {
+  getAllOperator() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/pilot/operator/');
@@ -91,7 +112,7 @@ class UserStore {
     }
   }
 
-  @action async getAllOperatorAdmin(operatorId) {
+  getAllOperatorAdmin(operatorId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/operator_admin/?operator_id=${operatorId}`);
@@ -103,7 +124,7 @@ class UserStore {
     }
   }
 
-  @action async saveOperator(payload) {
+  saveOperator(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/pilot/operator/`, payload);
@@ -115,7 +136,7 @@ class UserStore {
     }
   }
 
-  @action async saveOperatorAdmin(payload) {
+  saveOperatorAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/pilot/operator_admin/`, payload);
@@ -127,7 +148,7 @@ class UserStore {
     }
   }
 
-  @action async editOperator(payload) {
+  editOperator(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/pilot/operator/`, payload);
@@ -139,7 +160,7 @@ class UserStore {
     }
   }
 
-  @action async editOperatorAdmin(payload) {
+  editOperatorAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/pilot/operator_admin/`, payload);
@@ -151,7 +172,7 @@ class UserStore {
     }
   }
 
-  @action async getAllNetworks() {
+  getAllNetworks() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/list_networks/');
@@ -162,7 +183,7 @@ class UserStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getAllUserNetworks() {
+  getAllUserNetworks() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/users/networks/`);
@@ -173,7 +194,7 @@ class UserStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getAllSubChannelsInfo(networkId) {
+  getAllSubChannelsInfo(networkId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/users/networks/?id=${networkId}`);
@@ -185,7 +206,7 @@ class UserStore {
     }
   }
 
-  @action async saveNetwork(payload) {
+  saveNetwork(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/admin/create_network/`, payload);
@@ -197,7 +218,7 @@ class UserStore {
     }
   }
 
-  @action async saveNetworkAdmin(payload) {
+  saveNetworkAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/admin/network_admin/`, payload);
@@ -209,7 +230,7 @@ class UserStore {
     }
   }
 
-  @action async editNetworkAdmin(payload) {
+  editNetworkAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/admin/network_admin/`, payload);
@@ -221,7 +242,7 @@ class UserStore {
     }
   }
 
-  @action async editNetwork(payload) {
+  editNetwork(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/admin/edit_network/`, payload);
@@ -233,7 +254,7 @@ class UserStore {
     }
   }
 
-  @action async getAllNetworkAdmin(networkId) {
+  getAllNetworkAdmin(networkId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/admin/list_network_admins/?network_id=${networkId}`);

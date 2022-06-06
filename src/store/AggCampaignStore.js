@@ -1,19 +1,53 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import API from '../api';
 import moment from 'moment';
 
 class AggCampaignStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-  }
-  @observable dataProviderList = [];
-  @observable creativesListData = [];
-  @observable editCampaignListingData = [];
-  @observable networkList = [];
-  @observable daypartList = [];
-  @observable showNameList = [];
+  
+  dataProviderList = null;
+  creativesListData = null;
+  editCampaignListingData = null;
+  networkList = null;
+  daypartList = null;
+  showNameList = null;
 
-  @action async getAggInventory(payload) {
+  constructor(
+    dataProviderList,
+    creativesListData,
+    editCampaignListingData,
+    networkList,
+    daypartList,
+    showNameList
+  ) {
+    makeObservable(this, {
+      dataProviderList: observable,
+      creativesListData: observable,
+      editCampaignListingData: observable,
+      networkList: observable,
+      daypartList: observable,
+      showNameList: observable,
+      getAggInventory: action,
+      editAggInventory: action,
+      createSavetoDrafts: action,
+      getCampaignDratfs: action,
+      deleteCampaignDraft: action,
+      getCreativesData: action,
+      getEditCampaignData: action,
+      getDataProvider: action,
+      getFilterBasedonDataProvider: action,
+      getNetworksData: action,
+      cancelOrder: action,
+      cancelOrderline: action,
+      addNewAudienceGroup: action,
+      editOrderLine: action,
+      getViewOrderlineData: action,
+      onApproveUCIPending: action,
+      getShowsData: action,
+    })
+  }
+  
+
+  getAggInventory(payload) {
     this.rootStore.uiStore.isLoading = true;
     const res = await API.post(`/campaign/create_trade/`, payload);
     if (res.data.success) {
@@ -26,7 +60,7 @@ class AggCampaignStore {
     }
   }
 
-  @action async editAggInventory(tradeId, payload) {
+  editAggInventory(tradeId, payload) {
     const res = await API.put(`/campaign/create_trade/${tradeId}/`, payload);
     if (res.data.success) {
       this.response = res.data.success;
@@ -36,7 +70,7 @@ class AggCampaignStore {
     }
   }
 
-  @action async createSavetoDrafts(payload) {
+  createSavetoDrafts(payload) {
     const res = await API.post(`/campaign/v1/campaign_draft/`, payload);
     if (res.data.success) {
       this.response = res.data.success;
@@ -44,7 +78,7 @@ class AggCampaignStore {
     }
   }
 
-  @action async getCampaignDratfs() {
+  getCampaignDratfs() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/v1/campaign_draft/`);
@@ -63,7 +97,7 @@ class AggCampaignStore {
     }
   }
 
-  @action async deleteCampaignDraft(payload) {
+  deleteCampaignDraft(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/v1/campaign_draft/${payload}/`);
@@ -83,7 +117,7 @@ class AggCampaignStore {
   }
 
   //Filtering Creatives
-  @action async getCreativesData(entityId, type, duration = null, searchValue = null) {
+  getCreativesData(entityId, type, duration = null, searchValue = null) {
     this.rootStore.uiStore.isLoading = true;
     try {
       let getURL;
@@ -110,7 +144,7 @@ class AggCampaignStore {
     }
   }
 
-  @action async getEditCampaignData(tradeId) {
+  getEditCampaignData(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/create_trade/?trade_id=${tradeId}`);
@@ -128,7 +162,7 @@ class AggCampaignStore {
   }
 
   //Get Data Provider
-  @action async getDataProvider(companyId) {
+  getDataProvider(companyId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/advertiser/adc_group/?is_wanted=true&company_id=${companyId}`);
@@ -144,7 +178,7 @@ class AggCampaignStore {
   }
 
   //Get filtered data after selecting particular data Provider
-  @action async getFilterBasedonDataProvider({ data_provider, entity_id }) {
+  getFilterBasedonDataProvider({ data_provider, entity_id }) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(
@@ -160,7 +194,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getNetworksData() {
+  getNetworksData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/admin/channels`);
@@ -201,7 +235,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async cancelOrder(tradeId, comment) {
+  cancelOrder(tradeId, comment) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/create_trade/${tradeId}/`, { status: 'Canceled', cancel_comment: comment });
@@ -212,7 +246,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async cancelOrderline(tradeId, comment) {
+  cancelOrderline(tradeId, comment) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/univision_orderline/${tradeId}/`, comment);
@@ -223,7 +257,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async addNewAudienceGroup(payload) {
+  addNewAudienceGroup(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/campaign/univision_orderline/`, payload);
@@ -234,7 +268,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async editOrderLine(tradeId, editData) {
+  editOrderLine(tradeId, editData) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/univision_orderline/${tradeId}/`, editData);
@@ -245,7 +279,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getViewOrderlineData(tradeId) {
+  getViewOrderlineData(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/univision_orderline/?orderline_id=${tradeId}`);
@@ -256,7 +290,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async onApproveUCIPending(tradeId) {
+  onApproveUCIPending(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/create_trade/${tradeId}/`, { status: 'Approved' });
@@ -267,7 +301,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async getShowsData() {
+  getShowsData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/schedules/programs/`);

@@ -1,14 +1,22 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import API from '../api';
 
 class CompanyStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+
+  companies = null;
+
+  constructor(
+    companies,
+  ) {
+    makeObservable(this, {
+      companies: observable,
+      getAllCompanies: action,
+      getAllCompaniesWithCampaigns: action,
+      getCompanyMSGTree: action,
+    })
   }
 
-  @observable companies = [];
-
-  @action async getAllCompanies() {
+  getAllCompanies() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_company_list/');
@@ -22,7 +30,7 @@ class CompanyStore {
     }
   }
 
-  @action async getAllCompaniesWithCampaigns() {
+  getAllCompaniesWithCampaigns() {
     this.rootStore.isLoading = true;
 
     const res = await API.get(
@@ -32,7 +40,7 @@ class CompanyStore {
     this.rootStore.isLoading = false;
   }
 
-  @action async getCompanyMSGTree(id) {
+  getCompanyMSGTree(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/admin/get_all_companies/?company_id=${id}`;

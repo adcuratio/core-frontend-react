@@ -1,14 +1,24 @@
-import { action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import API from '../api';
 
 class CreativesStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+  constructor() {
+    makeObservable(this, {
+      getVideoUrl: action,
+      getWatermarkedVideoUrl: action,
+      getWatermarkedVideoDownloadUrl: action,
+      getCreativesForQA: action,
+      watermarkQA: action,
+      editWatermarkID: action,
+      fingerprintWatermarkID: action,
+      DownloadWatermarkID: action,
+      confirmWatermarkID: action,
+    });
   }
 
   // Getting video URL of a creative.
   // Common for vizio-admin, super-admin, network-admin (review), agency-adv creatives
-  @action async getVideoUrl(creativeId) {
+  getVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/pilot/get_ftp_creative_files/?item_id=${creativeId}`;
@@ -23,7 +33,7 @@ class CreativesStore {
 
   // Getting video URL of a watermarked creative.
   // Common for vizio-admin, super-admin, network-admin (manage + watermark) creatives
-  @action async getWatermarkedVideoUrl(creativeId) {
+  getWatermarkedVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/creative/v1/preview_watermark_creative/${creativeId}/`;
@@ -38,7 +48,7 @@ class CreativesStore {
 
   // [watermark creatives module] Getting download url for watermarked creative.
   // Common for vizio-admin, super-admin, network-admin creatives
-  @action async getWatermarkedVideoDownloadUrl(creativeId) {
+  getWatermarkedVideoDownloadUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/creative/v1/download_watermark_creative/${creativeId}/`;
@@ -53,7 +63,7 @@ class CreativesStore {
 
   // [watermark creatives module] Getting list of creatives. (pagination enabled)
   // Common for vizio-admin, super-admin, network-admin creatives
-  @action async getCreativesForQA(activeTab, url) {
+  getCreativesForQA(activeTab, url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? `/creative/v1/watermarked_creatives/?status_type=${activeTab}` : url;
     try {
@@ -68,7 +78,7 @@ class CreativesStore {
 
   // [watermark creatives module] Approve/Decline watermarked creative.
   // Common for vizio-admin, super-admin, network-admin creatives
-  @action async watermarkQA(data, pk) {
+  watermarkQA(data, pk) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/creative/v1/watermarked_creatives/${pk}/`, data);
@@ -80,7 +90,7 @@ class CreativesStore {
     }
   }
 
-  @action async editWatermarkID(id, payload) {
+  editWatermarkID(id, payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/creative/v1/generate_watermark/${id}`, payload);
@@ -92,7 +102,7 @@ class CreativesStore {
     }
   }
 
-  @action async fingerprintWatermarkID(id) {
+  fingerprintWatermarkID(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/creative/v1/preview_mediainfo/${id}/`);
@@ -103,7 +113,7 @@ class CreativesStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  @action async DownloadWatermarkID(id) {
+  DownloadWatermarkID(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/creative/v1/download_mediainfo/${id}/`);
@@ -115,7 +125,7 @@ class CreativesStore {
     }
   }
 
-  @action async confirmWatermarkID(id, payload) {
+  confirmWatermarkID(id, payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.patch(`/creative/v1/univision_creative/${id}/`, payload);

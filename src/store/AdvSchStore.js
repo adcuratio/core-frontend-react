@@ -1,16 +1,32 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import API from '../api';
 
 import { showAckErrorMessage } from './../common/utils';
 
 class AdvSchStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-  }
 
-  @observable adspotsDate = [];
-  @observable networkFeedbackData = [];
-  @observable ADInventory = {};
+  adspotsDate = null;
+  networkFeedbackData = null;
+  ADInventory = null;
+
+  constructor(
+    adspotsDate,
+    networkFeedbackData,
+    ADInventory
+  ) {
+    makeObservable(this, {
+      adspotsDate: observable,
+      networkFeedbackData: observable,
+      ADInventory: observable,
+      resolveDeal: action,
+      getEDI: action,
+      getEDIInfo: action,
+      getEDIPage: action,
+      changeEDIApproval: action,
+      uploadEdiFromAgency: action,
+      resolveEdiFiles: action,
+    });
+  }
 
   handleAPIErrors = (
     res,
@@ -25,7 +41,7 @@ class AdvSchStore {
     }
   };
 
-  @action async resolveDeal(resolveNum) {
+  resolveDeal(resolveNum) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/edi/campaign_resolve_view/?deal_number=${resolveNum}`);
@@ -42,7 +58,7 @@ class AdvSchStore {
     }
   }
 
-  @action async getEDI() {
+  getEDI() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/edi/ediview/');
@@ -60,7 +76,7 @@ class AdvSchStore {
     }
   }
 
-  @action async getEDIInfo(id) {
+  getEDIInfo(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/edi/get_deal_info/?edi_id=${id}`);
@@ -76,9 +92,9 @@ class AdvSchStore {
       }
       return error.response;
     }
-  }
+  }getEDIPage
 
-  @action async getEDIPage(url) {
+  getEDIPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(url);
@@ -96,7 +112,7 @@ class AdvSchStore {
     }
   }
 
-  @action async changeEDIApproval(payload) {
+  changeEDIApproval(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/edi/approve_deal/', payload);
@@ -114,7 +130,7 @@ class AdvSchStore {
     }
   }
 
-  @action async uploadEdiFromAgency(media) {
+  uploadEdiFromAgency(media) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/edi/ediview/', media);
@@ -136,7 +152,7 @@ class AdvSchStore {
     }
   }
 
-  @action async resolveEdiFiles(payload) {
+  resolveEdiFiles(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.put('/edi/campaign_resolve_view/', payload);

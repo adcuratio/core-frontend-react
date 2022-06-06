@@ -1,14 +1,20 @@
-import { action, observable } from 'mobx';
+import { action, observable, makeObservable } from 'mobx';
 import API from '../api';
 
 class FoxVizioStore {
-  constructor(rootStore) {
-    this.rootStore = rootStore;
+
+  impressionDataListing = null;
+
+  constructor(
+    impressionDataListing,
+  ) {
+    makeObservable(this, {
+      impressionDataListing: observable,
+      getImpressionData: action,
+    })
   }
 
-  @observable impressionDataListing = [];
-
-  @action async getImpressionData() {
+  getImpressionData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/vizio_fox/impression_data/');
