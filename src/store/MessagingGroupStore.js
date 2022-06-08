@@ -16,7 +16,7 @@ class MessagingGroupStore {
     });
   }
 
-  getAllMessagingGroup() {
+  async getAllMessagingGroup() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_messaging_group/');
@@ -30,7 +30,7 @@ class MessagingGroupStore {
     }
   }
 
-  deleteMsgGrp(companyId, segmentId) {
+  async deleteMsgGrp(companyId, segmentId) {
     this.rootStore.uiStore.isLoading = true;
     const payload = {
       data: {
@@ -49,7 +49,7 @@ class MessagingGroupStore {
     }
   }
 
-  getVideoUrl(creativeId) {
+  async getVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(`/pilot/get_ftp_creative_files/?item_id=${creativeId}`);
@@ -61,7 +61,7 @@ class MessagingGroupStore {
     }
   }
 
-  getAllCompanies(includeAdIds) {
+  async getAllCompanies(includeAdIds) {
     this.rootStore.uiStore.isLoading = true;
     try {
       let queryURL = `/advertiser/get_company_list/?include_campaign=${true}`;
@@ -78,7 +78,7 @@ class MessagingGroupStore {
     }
   }
 
-  getAllGroupsByEntity(entityId, entityType) {
+  async getAllGroupsByEntity(entityId, entityType) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const isWanted = true;
@@ -104,7 +104,7 @@ class MessagingGroupStore {
   }
 
   // obj structure: {entityId: null, entityType: null, url: null}
-  getAdidMetaData(obj) {
+  async getAdidMetaData(obj) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const queryURL = !obj?.url
@@ -119,7 +119,7 @@ class MessagingGroupStore {
     }
   }
 
-  saveMessagingGroup(payload) {
+  async saveMessagingGroup(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/advertiser/segment/', payload);
@@ -131,7 +131,7 @@ class MessagingGroupStore {
     }
   }
 
-  editMessagingGroup(payload) {
+  async editMessagingGroup(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put('/advertiser/segment/', payload);

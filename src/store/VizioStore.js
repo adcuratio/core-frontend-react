@@ -19,7 +19,7 @@ class VizioStore {
 
   
 
-  getTargetSegments() {
+  async getTargetSegments() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/audience/v1/target_files/');
@@ -32,7 +32,7 @@ class VizioStore {
   }
 
   // [review creatives module] Getting list of creatives. (pagination enabled)
-  getCreativesForReview(url) {
+  async getCreativesForReview(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/creative/v1/replacement_creatives/' : url;
     try {
@@ -46,7 +46,7 @@ class VizioStore {
   }
 
   // [review creatives module] Confirming a creative.
-  confirmCreative(data) {
+  async confirmCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/ack_creative/', data);
@@ -58,7 +58,7 @@ class VizioStore {
     }
   }
 
-  searchCreativeResult(data) {
+  async searchCreativeResult(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/creative/v1/replacement_creatives/?search=${data}`);

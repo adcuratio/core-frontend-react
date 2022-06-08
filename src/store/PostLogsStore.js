@@ -20,7 +20,7 @@ class PostLogsStore {
 
   
 
-  getPostLogs() {
+  async getPostLogs() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/network/post_log/');
@@ -35,7 +35,7 @@ class PostLogsStore {
     }
   }
 
-  getPostLogFileDetail(id) {
+  async getPostLogFileDetail(id) {
     try {
       const res = await API.get(`/network/get_postlog_file_detail/?postlog_file_id=${id}`);
       if (res.status === 200) {

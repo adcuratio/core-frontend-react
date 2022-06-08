@@ -16,7 +16,7 @@ class TradeStore {
     })
   }
 
-  getOrderList() {
+  async getOrderList() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/ncm/get_order/`;
@@ -29,7 +29,7 @@ class TradeStore {
     }
   }
 
-  getOrderlines(order_id) {
+  async getOrderlines(order_id) {
     try {
       const getURL = `/ncm/get_orderlines/?trade_id=${order_id}`;
       const res = await API.get(getURL);
@@ -41,7 +41,7 @@ class TradeStore {
     }
   }
 
-  getOrderDetails(id) {
+  async getOrderDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/ncm/order_detail/?trade_id=${id}`;
@@ -54,7 +54,7 @@ class TradeStore {
     }
   }
 
-  getDishOrderDetails(id) {
+  async getDishOrderDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/campaign/v1/operator_trade_details/?trade_id=${id}`;
@@ -67,7 +67,7 @@ class TradeStore {
     }
   }
 
-  getInventoryDetails(id) {
+  async getInventoryDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/ncm/inventory_detail/?trade_id=${id}`;
@@ -80,7 +80,7 @@ class TradeStore {
     }
   }
 
-  getInventoryPage(url) {
+  async getInventoryPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(url);
@@ -92,7 +92,7 @@ class TradeStore {
     }
   }
 
-  changeOrderState(payload) {
+  async changeOrderState(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/advertiser/approve_trade/`;
@@ -105,7 +105,7 @@ class TradeStore {
     }
   }
 
-  approveOrderline(payload) {
+  async approveOrderline(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/campaign/v1/approve_orderline/`;
@@ -118,7 +118,7 @@ class TradeStore {
     }
   }
 
-  downloadInventory(tradeId) {
+  async downloadInventory(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const url = `/schedules/download_inventory_detail/?trade_id=${tradeId}`;

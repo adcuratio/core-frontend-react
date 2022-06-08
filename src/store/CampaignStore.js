@@ -109,7 +109,7 @@ class CampaignStore {
     this.formDealIds = [];
   }
 
-  getCMTInventory(deals, entityId, entityType, adId) {
+  async getCMTInventory(deals, entityId, entityType, adId) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -139,7 +139,7 @@ class CampaignStore {
     }
   }
 
-  getCreativeDurationForEntity(entityType, entityId) {
+  async getCreativeDurationForEntity(entityType, entityId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_creative_duration_list/', {
@@ -155,7 +155,7 @@ class CampaignStore {
     }
   }
 
-  getDealIds(entityType, entityId, creativeId) {
+  async getDealIds(entityType, entityId, creativeId) {
     this.rootStore.uiStore.isLoading = true;
     const params = {
       entity_type: entityType,
@@ -180,7 +180,7 @@ class CampaignStore {
   processCreatives = (res) => res.data.data.results;
 
   // obj structure: {entityType: null, entityId: null, duration: null, url: null}
-  getAdids(obj) {
+  async getAdids(obj) {
     this.rootStore.uiStore.isLoading = true;
     let queryURL = '';
 
@@ -224,7 +224,7 @@ class CampaignStore {
     this.getAdids({ url: this.nextPageUrl });
   }
 
-  getSegments(strategy, companyId, entityType, entityId, adId) {
+  async getSegments(strategy, companyId, entityType, entityId, adId) {
     try {
       const res = await API.get(
         `/advertiser/get_related_messaging_groups/?type=${strategy}&company_id=${companyId}&${entityType}_id=${entityId}&default_adid=${adId}`
@@ -241,7 +241,7 @@ class CampaignStore {
     }
   }
 
-  getMGDistribution(segArr, mgArr, entityType, entityId) {
+  async getMGDistribution(segArr, mgArr, entityType, entityId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/ncm/segment_distribution/', {
@@ -258,7 +258,7 @@ class CampaignStore {
     }
   }
 
-  saveNCMCampaign(payload) {
+  async saveNCMCampaign(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/advertiser/customized_trade_view/', payload);
@@ -272,7 +272,7 @@ class CampaignStore {
     }
   }
 
-  saveCreative(
+  async saveCreative(
     isciCreative,
     isciIdentifier,
     isciFile,
@@ -320,7 +320,7 @@ class CampaignStore {
     }
   }
 
-  copySegment(selectedEntity, entityType) {
+  async copySegment(selectedEntity, entityType) {
     let reqString = `company_id=${selectedEntity.company}`;
     if (entityType === 'brand') reqString = `${reqString}&brand_id=${selectedEntity.id}`;
     // else {
@@ -339,7 +339,7 @@ class CampaignStore {
     }
   }
 
-  copySelectedSegments(payload) {
+  async copySelectedSegments(payload) {
     const res = await API.post('/advertiser/copy_adc_group/', payload);
     if (res.data.success) {
       this.response = res.data.success;
@@ -347,7 +347,7 @@ class CampaignStore {
     }
   }
 
-  getVideoUrl(creativeId) {
+  async getVideoUrl(creativeId) {
     try {
       const res = await API.get(`/pilot/get_ftp_creative_files/?item_id=${creativeId}`);
       if (res.data.success) {
@@ -357,7 +357,7 @@ class CampaignStore {
       // do something
     }
   }
-  editHouseIdAction(payload) {
+  async editHouseIdAction(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.patch(`/pilot/upload_creative_files/`, payload);

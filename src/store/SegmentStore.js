@@ -51,7 +51,7 @@ class SegmentStore {
     })
   }
 
-  getAllSegments(groupType, node, entityType) {
+  async getAllSegments(groupType, node, entityType) {
     try {
       this.rootStore.uiStore.isLoading = true;
       let isWanted = false;
@@ -86,7 +86,7 @@ class SegmentStore {
     }
   }
 
-  getCorrespondingModelYear(make) {
+  async getCorrespondingModelYear(make) {
     try {
       this.rootStore.uiStore.isLoading = true;
       const res = await API.get(`/advertiser/get_vehicle_filters/?vehicle_make=${make}`);
@@ -99,7 +99,7 @@ class SegmentStore {
     }
   }
 
-  getAllLiteGroupCompanies() {
+  async getAllLiteGroupCompanies() {
     try {
       this.rootStore.uiStore.isLoading = true;
       const res1 = await API.get('/advertiser/get_vehicle_filters/');
@@ -190,7 +190,7 @@ class SegmentStore {
     }
   }
 
-  getZipCode(zip) {
+  async getZipCode(zip) {
     try {
       this.rootStore.uiStore.isLoading = true;
       const zipCode = await API.post('/filter_template/', { type: 'zip_code', search_value: zip });
@@ -202,7 +202,7 @@ class SegmentStore {
     }
   }
 
-  getAllExperianFilters() {
+  async getAllExperianFilters() {
     try {
       this.rootStore.isLoading = true;
       const typeData = {};
@@ -293,7 +293,7 @@ class SegmentStore {
     }
   }
 
-  getAllTspFullGroupCompanies() {
+  async getAllTspFullGroupCompanies() {
     // let typeData = {};
     // typeData.type = 'tsp_full';
     try {
@@ -404,7 +404,7 @@ class SegmentStore {
     }
   }
 
-  postUserDataForSegmentCreation(data) {
+  async postUserDataForSegmentCreation(data) {
     try {
       this.rootStore.uiStore.isLoading = true;
       const res = await API.post('/advertiser/adc_group/', data);
@@ -416,7 +416,7 @@ class SegmentStore {
     }
   }
 
-  getAllArchivedSegments(entityType, entityId) {
+  async getAllArchivedSegments(entityType, entityId) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -430,7 +430,7 @@ class SegmentStore {
     }
   }
 
-  getAllArchivedSegmentsPage(url) {
+  async getAllArchivedSegmentsPage(url) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -443,7 +443,7 @@ class SegmentStore {
     }
   }
 
-  unarchiveSegments(seg) {
+  async unarchiveSegments(seg) {
     this.rootStore.uiStore.isLoading = true;
 
     const payload = {
@@ -472,7 +472,7 @@ class SegmentStore {
     }
   }
 
-  archiveSegments(seg) {
+  async archiveSegments(seg) {
     this.rootStore.uiStore.isLoading = true;
 
     const payload = {

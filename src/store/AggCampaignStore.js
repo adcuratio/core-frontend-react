@@ -47,7 +47,7 @@ class AggCampaignStore {
   }
   
 
-  getAggInventory(payload) {
+  async getAggInventory(payload) {
     this.rootStore.uiStore.isLoading = true;
     const res = await API.post(`/campaign/create_trade/`, payload);
     if (res.data.success) {
@@ -60,7 +60,7 @@ class AggCampaignStore {
     }
   }
 
-  editAggInventory(tradeId, payload) {
+  async editAggInventory(tradeId, payload) {
     const res = await API.put(`/campaign/create_trade/${tradeId}/`, payload);
     if (res.data.success) {
       this.response = res.data.success;
@@ -70,7 +70,7 @@ class AggCampaignStore {
     }
   }
 
-  createSavetoDrafts(payload) {
+  async createSavetoDrafts(payload) {
     const res = await API.post(`/campaign/v1/campaign_draft/`, payload);
     if (res.data.success) {
       this.response = res.data.success;
@@ -78,7 +78,7 @@ class AggCampaignStore {
     }
   }
 
-  getCampaignDratfs() {
+  async getCampaignDratfs() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/v1/campaign_draft/`);
@@ -97,7 +97,7 @@ class AggCampaignStore {
     }
   }
 
-  deleteCampaignDraft(payload) {
+  async deleteCampaignDraft(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/v1/campaign_draft/${payload}/`);
@@ -117,7 +117,7 @@ class AggCampaignStore {
   }
 
   //Filtering Creatives
-  getCreativesData(entityId, type, duration = null, searchValue = null) {
+  async getCreativesData(entityId, type, duration = null, searchValue = null) {
     this.rootStore.uiStore.isLoading = true;
     try {
       let getURL;
@@ -144,7 +144,7 @@ class AggCampaignStore {
     }
   }
 
-  getEditCampaignData(tradeId) {
+  async getEditCampaignData(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/create_trade/?trade_id=${tradeId}`);
@@ -162,7 +162,7 @@ class AggCampaignStore {
   }
 
   //Get Data Provider
-  getDataProvider(companyId) {
+  async getDataProvider(companyId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/advertiser/adc_group/?is_wanted=true&company_id=${companyId}`);
@@ -178,7 +178,7 @@ class AggCampaignStore {
   }
 
   //Get filtered data after selecting particular data Provider
-  getFilterBasedonDataProvider({ data_provider, entity_id }) {
+  async getFilterBasedonDataProvider({ data_provider, entity_id }) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(
@@ -194,7 +194,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  getNetworksData() {
+  async getNetworksData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/admin/channels`);
@@ -235,7 +235,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  cancelOrder(tradeId, comment) {
+  async cancelOrder(tradeId, comment) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/create_trade/${tradeId}/`, { status: 'Canceled', cancel_comment: comment });
@@ -246,7 +246,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  cancelOrderline(tradeId, comment) {
+  async cancelOrderline(tradeId, comment) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/univision_orderline/${tradeId}/`, comment);
@@ -257,7 +257,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  addNewAudienceGroup(payload) {
+  async addNewAudienceGroup(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post(`/campaign/univision_orderline/`, payload);
@@ -268,7 +268,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  editOrderLine(tradeId, editData) {
+  async editOrderLine(tradeId, editData) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/univision_orderline/${tradeId}/`, editData);
@@ -279,7 +279,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  getViewOrderlineData(tradeId) {
+  async getViewOrderlineData(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/campaign/univision_orderline/?orderline_id=${tradeId}`);
@@ -290,7 +290,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  onApproveUCIPending(tradeId) {
+  async onApproveUCIPending(tradeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/campaign/create_trade/${tradeId}/`, { status: 'Approved' });
@@ -301,7 +301,7 @@ class AggCampaignStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  getShowsData() {
+  async getShowsData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/schedules/programs/`);

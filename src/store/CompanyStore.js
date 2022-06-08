@@ -16,7 +16,7 @@ class CompanyStore {
     })
   }
 
-  getAllCompanies() {
+  async getAllCompanies() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_company_list/');
@@ -30,7 +30,7 @@ class CompanyStore {
     }
   }
 
-  getAllCompaniesWithCampaigns() {
+  async getAllCompaniesWithCampaigns() {
     this.rootStore.isLoading = true;
 
     const res = await API.get(
@@ -40,7 +40,7 @@ class CompanyStore {
     this.rootStore.isLoading = false;
   }
 
-  getCompanyMSGTree(id) {
+  async getCompanyMSGTree(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getUrl = `/admin/get_all_companies/?company_id=${id}`;

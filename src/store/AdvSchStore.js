@@ -41,7 +41,7 @@ class AdvSchStore {
     }
   };
 
-  resolveDeal(resolveNum) {
+  async resolveDeal(resolveNum) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/edi/campaign_resolve_view/?deal_number=${resolveNum}`);
@@ -58,7 +58,7 @@ class AdvSchStore {
     }
   }
 
-  getEDI() {
+  async getEDI() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/edi/ediview/');
@@ -76,7 +76,7 @@ class AdvSchStore {
     }
   }
 
-  getEDIInfo(id) {
+  async getEDIInfo(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/edi/get_deal_info/?edi_id=${id}`);
@@ -92,9 +92,9 @@ class AdvSchStore {
       }
       return error.response;
     }
-  }getEDIPage
+  }
 
-  getEDIPage(url) {
+  async getEDIPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(url);
@@ -112,7 +112,7 @@ class AdvSchStore {
     }
   }
 
-  changeEDIApproval(payload) {
+  async changeEDIApproval(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/edi/approve_deal/', payload);
@@ -130,7 +130,7 @@ class AdvSchStore {
     }
   }
 
-  uploadEdiFromAgency(media) {
+  async uploadEdiFromAgency(media) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/edi/ediview/', media);
@@ -152,7 +152,7 @@ class AdvSchStore {
     }
   }
 
-  resolveEdiFiles(payload) {
+  async resolveEdiFiles(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.put('/edi/campaign_resolve_view/', payload);

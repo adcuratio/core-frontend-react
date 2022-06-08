@@ -14,7 +14,7 @@ class FoxVizioStore {
     })
   }
 
-  getImpressionData() {
+  async getImpressionData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/vizio_fox/impression_data/');

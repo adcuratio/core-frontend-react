@@ -43,7 +43,7 @@ class NetworkStore {
     })
   }
 
-  getListOfDates() {
+  async getListOfDates() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/v2/addressable_inventory/');
@@ -55,7 +55,7 @@ class NetworkStore {
     }
   }
 
-  getNetworkAdInventory(activeTab, activeDate, url) {
+  async getNetworkAdInventory(activeTab, activeDate, url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? `/admin/v2/addressable_inventory/?inv_type=${activeTab}&week_start=${activeDate}` : url;
     try {
@@ -68,7 +68,7 @@ class NetworkStore {
     }
   }
 
-  getAllCompanies() {
+  async getAllCompanies() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/advertiser/get_company_list/');
@@ -81,7 +81,7 @@ class NetworkStore {
     }
   }
 
-  createChannel(data) {
+  async createChannel(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/admin/channels/', data);
@@ -93,7 +93,7 @@ class NetworkStore {
     }
   }
 
-  createShow(data) {
+  async createShow(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/admin/show_list/', data);
@@ -105,7 +105,7 @@ class NetworkStore {
     }
   }
 
-  getAllCreatives() {
+  async getAllCreatives() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = '/pilot/get_creative_files/';
@@ -118,7 +118,7 @@ class NetworkStore {
     }
   }
 
-  getVideoUrl(creativeId) {
+  async getVideoUrl(creativeId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const getURL = `/pilot/get_ftp_creative_files/?item_id=${creativeId}`;
@@ -131,7 +131,7 @@ class NetworkStore {
     }
   }
 
-  approveCreative(data) {
+  async approveCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/approve_creative/', data);
@@ -143,7 +143,7 @@ class NetworkStore {
     }
   }
 
-  editApproveCreative(data) {
+  async editApproveCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put('/pilot/approve_creative/', data);
@@ -155,7 +155,7 @@ class NetworkStore {
     }
   }
 
-  declineCreative(data) {
+  async declineCreative(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/pilot/decline_creative/', data);
@@ -167,7 +167,7 @@ class NetworkStore {
     }
   }
 
-  getLogs(month, year) {
+  async getLogs(month, year) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/list_logs/?month=${month}&year=${year}`);
@@ -179,7 +179,7 @@ class NetworkStore {
     }
   }
 
-  getFoxLogs(month, year) {
+  async getFoxLogs(month, year) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_list/?month=${month}&year=${year}`);
@@ -191,7 +191,7 @@ class NetworkStore {
     }
   }
 
-  getLogsDetails(logId) {
+  async getLogsDetails(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_log_details/?log_id=${logId}`);
@@ -203,7 +203,7 @@ class NetworkStore {
     }
   }
 
-  getFoxLogsDetails(logId) {
+  async getFoxLogsDetails(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_detail/?fox_log_track_id=${logId}`);
@@ -215,7 +215,7 @@ class NetworkStore {
     }
   }
 
-  searchLogDetails(logId, search) {
+  async searchLogDetails(logId, search) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_log_details/?log_id=${logId}&search=${search}`);
@@ -227,7 +227,7 @@ class NetworkStore {
     }
   }
 
-  foxSearchLogDetails(logId, search) {
+  async foxSearchLogDetails(logId, search) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_detail/?fox_log_track_id=${logId}&search=${search}`);
@@ -239,7 +239,7 @@ class NetworkStore {
     }
   }
 
-  getTraffickingPlanPage(url) {
+  async getTraffickingPlanPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/get_log_details/?${url.split('?')[1]}`);
@@ -251,7 +251,7 @@ class NetworkStore {
     }
   }
 
-  getFoxTraffickingPlanPage(url) {
+  async getFoxTraffickingPlanPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(`/pilot/fox_log_detail?${url.split('?')[1]}`);
@@ -263,7 +263,7 @@ class NetworkStore {
     }
   }
 
-  approveQA(data) {
+  async approveQA(data) {
     this.rootStore.uiStore.isLoading = true;
 
     try {
@@ -276,7 +276,7 @@ class NetworkStore {
     }
   }
 
-  declineQA(data) {
+  async declineQA(data) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.post('/fox_cbs/decline_qa_creative/', data);
@@ -289,7 +289,7 @@ class NetworkStore {
   }
 
   // [manage creatives module] Upload a new creative.
-  saveCreative(
+  async saveCreative(
     isciCreative,
     isciIdentifier,
     isciFile,
@@ -330,7 +330,7 @@ class NetworkStore {
     }
   }
   // [manage creatives module] Upload a new creative.
-  uploadSaveCreative(
+  async uploadSaveCreative(
     isciCreative,
     isciIdentifier,
     isciFile,
@@ -376,7 +376,7 @@ class NetworkStore {
   }
 
   // [manage creatives module] Getting list of all the available channels for a network.
-  getAllChannels() {
+  async getAllChannels() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/admin/channels/');
@@ -395,7 +395,7 @@ class NetworkStore {
   }
 
   // [manage creatives module] Getting list of creatives. (pagination enabled)
-  getCreatives(url) {
+  async getCreatives(url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? '/creative/v1/creatives/' : url;
     try {
@@ -409,7 +409,7 @@ class NetworkStore {
   }
 
   // [review creatives module] Getting list of creatives. (pagination enabled)
-  getCreativesForReview(activeTab, url) {
+  async getCreativesForReview(activeTab, url) {
     this.rootStore.uiStore.isLoading = true;
     const getURL = !url ? `/creative/v1/replacement_creatives/?status_type=${activeTab}` : url;
     try {
@@ -422,7 +422,7 @@ class NetworkStore {
     }
   }
 
-  getAggregateNetworksFilterData() {
+  async getAggregateNetworksFilterData() {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get('/schedules/v1/aggregation-inventory/');
@@ -433,7 +433,7 @@ class NetworkStore {
       this.rootStore.uiStore.isLoading = false;
     }
   }
-  getAggregateNetworksTableData(url, pageUrl) {
+  async getAggregateNetworksTableData(url, pageUrl) {
     this.rootStore.uiStore.isLoading = true;
     const getUrl = !pageUrl ? `/schedules/v1/aggregation-inventory/?${url}` : pageUrl;
     try {
