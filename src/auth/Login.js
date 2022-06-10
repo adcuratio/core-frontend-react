@@ -25,10 +25,10 @@ const Login = inject("authStore")(
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
 
-    console.log(Logo);
     useEffect(() => {
       authStore.deleteSession();
     }, []);
+
     const onLogin = () => {
       const email = emailRef?.current?.value;
       const password = passwordRef?.current?.value;

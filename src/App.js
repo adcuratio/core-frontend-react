@@ -8,6 +8,7 @@ import Expenses from "./routes/expenses";
 import Login from "./auth/Login";
 import ForgotPassword from "./auth/ForgotPassword";
 import "./styles/master.css";
+import Layout from "./layout/Layout";
 
 import "@fortawesome/fontawesome-free/js/fontawesome";
 import "@fortawesome/fontawesome-free/js/solid";
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/dash.univisionLanding" element={<Layout />} />
         </Routes>
         {/* <div className="App">
           <header className="App-header">

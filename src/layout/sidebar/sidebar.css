@@ -1,0 +1,124 @@
+/* Sidebar */
+.main-sidebar-wrapper {
+  top: 0px;
+  left: 0;
+  width: 212px;
+  height: 100%;
+  min-height: 100%;
+  position: fixed;
+  display: inline-block;
+  background-color: #243643;
+  overflow: auto;
+}
+
+.main-sidebar-wrapper .side-nav {
+  padding-left: 0;
+  margin-bottom: 50px;
+  padding-top: 20px;
+}
+
+.main-sidebar-wrapper .side-nav li > a {
+  padding: 5px;
+  color: #a9a9a9;
+  display: block;
+  font-family: opensans;
+  cursor: pointer;
+}
+
+.main-sidebar-wrapper .side-nav li > a:hover {
+  text-decoration: none;
+  color: #eea32c;
+}
+
+.main-sidebar-wrapper .side-nav li > a:hover img.sidebar-icon {
+  filter: invert(49%) sepia(66%) saturate(521%) hue-rotate(352deg) brightness(103%) contrast(88%);
+}
+
+.sidebar-item-link {
+  background-color: none;
+  border: 0px;
+}
+
+.sidebar-item-link:focus {
+  outline: 0;
+}
+
+.side-nav .collapse-icon {
+  float: right;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.side-nav .submenu {
+  padding-left: 76px;
+  padding-bottom: 15px;
+}
+
+.side-nav .submenu li > a {
+  cursor: pointer;
+}
+
+.side-nav .submenu li > a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.side-nav .submenu li > a.active {
+  color: #eea32c;
+}
+
+.side-nav .ncm-option-symbol {
+  width: 22px !important;
+}
+
+.sidebar-item-title {
+  display: inline-block;
+  width: 110px;
+  overflow: hidden;
+  font-size: 14px;
+  font-family: opensans;
+  padding-left: 20px;
+  background: none;
+  vertical-align: middle;
+}
+
+.side-nav .bolder-title {
+  font-weight: bolder !important;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+.side-nav .active-menu,
+.side-nav .active-menu span {
+  color: #eea32c !important;
+  text-decoration: none !important;
+}
+
+.side-nav .submenu .active-menu {
+  font-weight: bold;
+}
+
+.side-nav .icon-wrapper {
+  width: 40px;
+  display: inline-block;
+}
+
+.side-nav .sidebar-icon {
+  margin-left: 18px;
+  vertical-align: middle;
+}
+
+.low-contrast {
+  filter: contrast(0.5);
+}
+/* Sidebar Footer */
+
+.sidebar-footer {
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  color: #a9a9a9;
+  font-size: 10px;
+  background: inherit;
+  padding-bottom: 7px;
+}
