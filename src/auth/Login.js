@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 import {
   AuthWrapper,
@@ -24,6 +25,7 @@ const Login = inject("authStore")(
     const [errorMessage, setErrorMessage] = useState("");
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
       authStore.deleteSession();
@@ -66,7 +68,8 @@ const Login = inject("authStore")(
             } else if (authStore.isFoxNetworkAdminUser()) {
               navigationService.goToFoxNetworkLanding();
             } else if (authStore.isUnivisionNetworkAdminUser()) {
-              navigationService.goToUnivisionLanding();
+              navigate("/home");
+              //navigationService.goToUnivisionLanding();
             } else {
               navigationService.goToNetworkLanding();
             }

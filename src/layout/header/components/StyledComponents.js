@@ -36,14 +36,14 @@ export const MenuItemWrapper = styled.div`
 `;
 
 export const HeaderWrapper = styled.div`
-  z-index: 99;
+  // z-index: 99;
   height: 67px;
   top: 0;
   background-color: #ffffff;
   border-bottom: 1px solid;
   border-color: #e2e2e3;
-  padding-left: 75px;
-  padding-right: 229px;
+  padding-left: 150px;
+  padding-right: 150px;
   margin-left: 128px;
   position: fixed;
   width: 100%;

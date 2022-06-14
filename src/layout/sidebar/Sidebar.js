@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
+import { useNavigate } from "react-router-dom";
 import { isAuthorized } from "./helper";
 import Menu from "./Menu";
 import SubMenu from "./SubMenu";
@@ -12,7 +12,11 @@ import { inject, observer } from "mobx-react";
 
 const Sidebar = inject("authStore")(
   observer((props) => {
-    const { navigationService, $state, authStore, env, $scope } = props;
+    const { $state, authStore, env } = props;
+
+    const navigate = useNavigate();
+
+    console.log(authStore);
     const isSuperAdminUser = authStore.isSuperAdminUser();
     const isNetworkAdminUser = authStore.isNetworkAdminUser();
     const isOperatorAdminUser = authStore.isOperatorAdminUser();
@@ -30,15 +34,18 @@ const Sidebar = inject("authStore")(
     const [navigationMessage, setNavigationMessage] = useState("");
 
     useEffect(() => {
-      const list = isAuthorized({ navigationService, $state, authStore }) || [];
+      const list =
+        isAuthorized({
+          $state: { current: { name: "univsion" } },
+          authStore,
+        }) || [];
       setMenuList(list);
 
-      // $scope.$on("$locationChangeSuccess", (...locationProps) => {
-      //   const [, next] = locationProps;
-      //   setTimeout(() => {
-      //     setActiveRoute(next);
-      //   }, 100);
-      // });
+      const isLoggedIn = authStore.isAuthenticated();
+
+      if (!isLoggedIn) {
+        navigate("/");
+      }
     }, []);
 
     const navigationCheck = (menu, selectedMenuIndex) => {

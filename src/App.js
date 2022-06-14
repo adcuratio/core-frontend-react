@@ -1,38 +1,37 @@
+import React from "react";
 import "./App.css";
 import { Link } from "react-router-dom";
 import store from "./store";
 import { Provider } from "mobx-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Invoices from "./routes/invoices";
-import Expenses from "./routes/expenses";
-import Login from "./auth/Login";
-import ForgotPassword from "./auth/ForgotPassword";
-import "./styles/master.css";
-import Layout from "./layout/Layout";
 
+import "./styles/master.css";
 import "@fortawesome/fontawesome-free/js/fontawesome";
 import "@fortawesome/fontawesome-free/js/solid";
 import "@fortawesome/fontawesome-free/js/regular";
 import "@fortawesome/fontawesome-free/js/brands";
 
+const Login = React.lazy(() => import("./auth/Login"));
+const ForgotPassword = React.lazy(() => import("./auth/ForgotPassword"));
+const Layout = React.lazy(() => import("./layout/Layout"));
+
 function App() {
   return (
     <Provider {...store}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/dash.univisionLanding" element={<Layout />} />
-        </Routes>
-        {/* <div className="App">
-          <header className="App-header">
-            <h1>Adcuratio Home</h1>
-            <nav>
-              <Link to="/invoices">Invoices</Link> |{" "}
-              <Link to="/expenses">Expenses</Link>
-            </nav>
-          </header>
-        </div> */}
+        <React.Suspense
+          fallback={() => {
+            <div>
+              <h1>LOading.....</h1>
+            </div>;
+          }}
+        >
+          <Routes>
+            <Route exact path="/" name="Login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/home" name=" Home page" element={<Layout />} />
+          </Routes>
+        </React.Suspense>
       </BrowserRouter>
     </Provider>
   );
