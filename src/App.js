@@ -19,17 +19,11 @@ function App() {
   return (
     <Provider {...store}>
       <BrowserRouter>
-        <React.Suspense
-          fallback={() => {
-            <div>
-              <h1>LOading.....</h1>
-            </div>;
-          }}
-        >
+        <React.Suspense>
           <Routes>
             <Route exact path="/" name="Login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/home" name=" Home page" element={<Layout />} />
+            <Route path="/dash/*" name="Home page" element={<Layout />} />
           </Routes>
         </React.Suspense>
       </BrowserRouter>

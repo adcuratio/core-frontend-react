@@ -16,7 +16,6 @@ const Sidebar = inject("authStore")(
 
     const navigate = useNavigate();
 
-    console.log(authStore);
     const isSuperAdminUser = authStore.isSuperAdminUser();
     const isNetworkAdminUser = authStore.isNetworkAdminUser();
     const isOperatorAdminUser = authStore.isOperatorAdminUser();
@@ -71,31 +70,34 @@ const Sidebar = inject("authStore")(
         const menu_list = expandMenuByIndex(menuList, selectedMenuIndex);
         setMenuList(menu_list);
       } else {
-        menu.onClick();
+        navigate(menu.onClick());
       }
     };
 
     const onHandleClick = (menu, selectedMenuIndex) => {
-      if (
-        $state.$current.name === "dash.ncmCreate2" ||
-        $state.$current.name === "dash.createNewSegment" ||
-        $state.$current.name === "dash.defineMessagingGroups"
-      ) {
-        if ($state.$current.name === "dash.ncmCreate2") {
-          setNavigationMessage("NCM creation flow");
-        }
-        if ($state.$current.name === "dash.createNewSegment") {
-          setNavigationMessage("Segment creation flow");
-        }
-        if ($state.$current.name === "dash.defineMessagingGroups") {
-          setNavigationMessage("Messaging group creation flow");
-        }
-        setSidebarMenuData(menu);
-        setSidebarMenuIndex(selectedMenuIndex);
-        navigationCheck(menu, selectedMenuIndex);
-      } else {
-        sidebarNavigate(menu, selectedMenuIndex);
-      }
+      setSidebarMenuData(menu);
+      setSidebarMenuIndex(selectedMenuIndex);
+      sidebarNavigate(menu, selectedMenuIndex);
+      // if (
+      //   $state.$current.name === "dash.ncmCreate2" ||
+      //   $state.$current.name === "dash.createNewSegment" ||
+      //   $state.$current.name === "dash.defineMessagingGroups"
+      // ) {
+      //   if ($state.$current.name === "dash.ncmCreate2") {
+      //     setNavigationMessage("NCM creation flow");
+      //   }
+      //   if ($state.$current.name === "dash.createNewSegment") {
+      //     setNavigationMessage("Segment creation flow");
+      //   }
+      //   if ($state.$current.name === "dash.defineMessagingGroups") {
+      //     setNavigationMessage("Messaging group creation flow");
+      //   }
+      //   setSidebarMenuData(menu);
+      //   setSidebarMenuIndex(selectedMenuIndex);
+      //   navigationCheck(menu, selectedMenuIndex);
+      // } else {
+      //   sidebarNavigate(menu, selectedMenuIndex);
+      // }
     };
 
     const appendClass = (menu) => {

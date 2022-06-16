@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components';
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components";
 
-import DashboardButton from '../components/DashboardButton';
+import DashboardButton from "../components/DashboardButton";
+
+const LandingPageContentWrapper = styled.div`
+  padding: 40px 60px;
+`;
+
+const LandingPageTitle = styled.h3`
+  font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 25px;
+`;
 
 const LandingPage = (props) => {
-  const LandingPageContentWrapper = styled.div`
-    padding: 40px 60px;
-  `;
-
-  const LandingPageTitle = styled.h3`
-    font-weight: bold;
-    font-size: 17px;
-    margin-bottom: 25px;
-  `;
-
   const { landingList } = props;
 
   return (
@@ -24,8 +24,8 @@ const LandingPage = (props) => {
           <LandingPageTitle>{division?.heading}</LandingPageTitle>
           <div className="flex mb20">
             {division.buttons?.length ? (
-              division.buttons.map(
-                (button) =>
+              division.buttons.map((button) => {
+                return (
                   !button.isHidden && (
                     <DashboardButton
                       key={button.id}
@@ -33,7 +33,9 @@ const LandingPage = (props) => {
                       ButtonIcon={button.icon}
                       infoSignClass={button.infoClass}
                       handleButtonClick={() => {
-                        button.onClickFunction ? button.onClickFunction() : {};
+                        button.onClickFunction
+                          ? button.onClickFunction()
+                          : () => {};
                       }}
                       buttonIconClass={button.iconClass}
                       buttonClass={button.class}
@@ -42,7 +44,8 @@ const LandingPage = (props) => {
                       isGreyOut={button.isGreyOut}
                     ></DashboardButton>
                   )
-              )
+                );
+              })
             ) : (
               <>No buttons for this category</>
             )}

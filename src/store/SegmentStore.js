@@ -1,17 +1,20 @@
-import { observable, action, makeObservable } from 'mobx';
-import API from '../api';
-import IncomeOptions from '../../reactNg/store/IncomeFilterFile';
-import NetWorthOptions from '../../reactNg/store/NetWorthFilterFile';
-import ChildrenAgeOptions from '../../reactNg/store/ChildrenAge';
-import ShopperSliderOptions from '../../reactNg/store/ShopperViewSlider';
-import StyleSliderOptions from '../../reactNg/store/ShoppingStyleSlider';
-import { ExperianAgeSlider, CommonSlider, ExperianIncomeSlider } from '../../reactNg/store/experianSlider';
+import { observable, action, makeObservable } from "mobx";
+import API from "../api";
+import IncomeOptions from "../../reactNg/store/IncomeFilterFile";
+import NetWorthOptions from "../../reactNg/store/NetWorthFilterFile";
+import ChildrenAgeOptions from "../../reactNg/store/ChildrenAge";
+import ShopperSliderOptions from "../../reactNg/store/ShopperViewSlider";
+import StyleSliderOptions from "../../reactNg/store/ShoppingStyleSlider";
+import {
+  ExperianAgeSlider,
+  CommonSlider,
+  ExperianIncomeSlider,
+} from "../../reactNg/store/experianSlider";
 
 //import ExperianJsonData from '../../reactNg/segments/containers/ExperianJson';
-import { hasProperty } from '../common/utils';
+import { hasProperty } from "../common/utils";
 
 class SegmentStore {
-
   segments = null;
   liteFilters = null;
   fullFilters = null;
@@ -27,7 +30,7 @@ class SegmentStore {
     liteFilters,
     fullFilters,
     modelYearForVehicleMake,
-    experianFilters, 
+    experianFilters,
     archivedSegments
   ) {
     makeObservable(this, {
@@ -35,7 +38,7 @@ class SegmentStore {
       liteFilters: observable,
       fullFilters: observable,
       modelYearForVehicleMake: observable,
-      experianFilters: observable, 
+      experianFilters: observable,
       archivedSegments: observable,
       getAllSegments: action,
       getCorrespondingModelYear: action,
@@ -48,30 +51,32 @@ class SegmentStore {
       getAllArchivedSegmentsPage: action,
       unarchiveSegments: action,
       archiveSegments: action,
-    })
+    });
   }
 
   async getAllSegments(groupType, node, entityType) {
     try {
       this.rootStore.uiStore.isLoading = true;
       let isWanted = false;
-      if (groupType && groupType === 'wanted') isWanted = true;
+      if (groupType && groupType === "wanted") isWanted = true;
       const queryParam = {
         is_wanted: isWanted,
       };
-      if (entityType === 'brand') {
+      if (entityType === "brand") {
         queryParam.brand_id = node.id;
-      } else if (entityType === 'company') {
+      } else if (entityType === "company") {
         queryParam.company_id = node.id;
       } else {
         queryParam.sub_brand_id = node.id;
       }
 
-      const res = await API.get('/advertiser/adc_group/', { params: queryParam });
+      const res = await API.get("/advertiser/adc_group/", {
+        params: queryParam,
+      });
       const groups = res.data.data;
       if (groups && groups.length) {
         groups.forEach((group) => {
-          if (group.filter_json && typeof group.filter_json !== 'object') {
+          if (group.filter_json && typeof group.filter_json !== "object") {
             group.filter_json = JSON.parse(group.filter_json);
           } else if (!group.filter_json) {
             group.filter_json = {};
@@ -89,7 +94,9 @@ class SegmentStore {
   async getCorrespondingModelYear(make) {
     try {
       this.rootStore.uiStore.isLoading = true;
-      const res = await API.get(`/advertiser/get_vehicle_filters/?vehicle_make=${make}`);
+      const res = await API.get(
+        `/advertiser/get_vehicle_filters/?vehicle_make=${make}`
+      );
       this.modelYearForVehicleMake = res.data;
       return res.data;
     } catch (err) {
@@ -102,63 +109,106 @@ class SegmentStore {
   async getAllLiteGroupCompanies() {
     try {
       this.rootStore.uiStore.isLoading = true;
-      const res1 = await API.get('/advertiser/get_vehicle_filters/');
+      const res1 = await API.get("/advertiser/get_vehicle_filters/");
       const typeData = {};
-      typeData.type = 'tsp_lite';
-      const res = await API.post('/filter_template/', typeData);
+      typeData.type = "tsp_lite";
+      const res = await API.post("/filter_template/", typeData);
       this.liteFilters = res.data;
       this.liteFilters = this.liteFilters.map((lite) => {
         const temp = lite.template.filters.map((filter) => {
-          if (lite.name === 'Lifestyle') {
-            filter.field_type = 'table';
-            return { ...filter, isTabSelected: false, value: 'Yes' };
-          } else if (filter.field_type === 'dropdown' && filter.title === 'Shopping Styles') {
-            return { ...filter, isTabSelected: false, optionsArray: StyleSliderOptions, value: '' };
+          if (lite.name === "Lifestyle") {
+            filter.field_type = "table";
+            return { ...filter, isTabSelected: false, value: "Yes" };
           } else if (
-            filter.field_type === 'dropdown' &&
-            (filter.title === 'Brand Loyalists' || filter.title === 'Whats on Sale Shoppers')
+            filter.field_type === "dropdown" &&
+            filter.title === "Shopping Styles"
           ) {
-            return { ...filter, isTabSelected: false, optionsArray: ShopperSliderOptions, value: '' };
-          } else if (filter.field_type === 'checkbox' && filter.title === 'Personas') {
+            return {
+              ...filter,
+              isTabSelected: false,
+              optionsArray: StyleSliderOptions,
+              value: "",
+            };
+          } else if (
+            filter.field_type === "dropdown" &&
+            (filter.title === "Brand Loyalists" ||
+              filter.title === "Whats on Sale Shoppers")
+          ) {
+            return {
+              ...filter,
+              isTabSelected: false,
+              optionsArray: ShopperSliderOptions,
+              value: "",
+            };
+          } else if (
+            filter.field_type === "checkbox" &&
+            filter.title === "Personas"
+          ) {
             return { ...filter, isTabSelected: true, value: [] };
-          } else if (filter.field_type === 'checkbox' && filter.title === 'Annual Income') {
+          } else if (
+            filter.field_type === "checkbox" &&
+            filter.title === "Annual Income"
+          ) {
             return {
               ...filter,
               isTabSelected: false,
               value: [],
               optionsArray: [IncomeOptions],
-              repeat: '1',
+              repeat: "1",
               userValues: [],
             };
-          } else if (filter.field_type === 'dropdown' && filter.title === 'Estimated Net worth') {
+          } else if (
+            filter.field_type === "dropdown" &&
+            filter.title === "Estimated Net worth"
+          ) {
             return {
               ...filter,
               isTabSelected: false,
               value: [],
               optionsArray: [NetWorthOptions],
-              repeat: '1',
+              repeat: "1",
               userValues: [],
             };
-          } else if (filter.field_type === 'dropdown' && filter.title === 'Individual Age') {
-            return { ...filter, isTabSelected: false, value: '', min: '', max: '' };
-          } else if (filter.field_type === 'combo' && filter.filter_name !== 'Children Age') {
-            filter.handler_field_present.value = '';
+          } else if (
+            filter.field_type === "dropdown" &&
+            filter.title === "Individual Age"
+          ) {
+            return {
+              ...filter,
+              isTabSelected: false,
+              value: "",
+              min: "",
+              max: "",
+            };
+          } else if (
+            filter.field_type === "combo" &&
+            filter.filter_name !== "Children Age"
+          ) {
+            filter.handler_field_present.value = "";
             filter.handler_field_any.forEach((fil) => {
-              fil.value = 'Any';
+              fil.value = "Any";
             });
             filter.key_value_map.forEach((fil) => {
-              fil.value = '';
+              fil.value = "";
             });
             filter.key_value_map.forEach((fil) => {
-              if (fil.title === 'Vehicle Make') {
+              if (fil.title === "Vehicle Make") {
                 fil.options[0].values = res1.data.make_list;
               }
             });
-            return { ...filter, isTabSelected: false, value: '', comboFilters: [] };
-          } else if (filter.field_type === 'combo' && filter.filter_name === 'Children Age') {
-            filter.key_value_map_any.value = '';
-            filter.handler_field.value = '';
-            filter.key_value_map_if_children_present[0].value = '1';
+            return {
+              ...filter,
+              isTabSelected: false,
+              value: "",
+              comboFilters: [],
+            };
+          } else if (
+            filter.field_type === "combo" &&
+            filter.filter_name === "Children Age"
+          ) {
+            filter.key_value_map_any.value = "";
+            filter.handler_field.value = "";
+            filter.key_value_map_if_children_present[0].value = "1";
             filter.key_value_map_if_children_present[0].isSelected = false;
             filter.key_value_map_if_children_present[0].details_of_children_according_to_value_of_number_of_children.details_filter.pop();
             filter.key_value_map_if_children_present[0].details_of_children_according_to_value_of_number_of_children.details_filter.push(
@@ -166,15 +216,15 @@ class SegmentStore {
             );
             filter.key_value_map_if_children_present[0].details_of_children_according_to_value_of_number_of_children.details_filter.forEach(
               (fil) => {
-                if (fil.type !== 'range') {
-                  fil.value = '';
+                if (fil.type !== "range") {
+                  fil.value = "";
                 }
               }
             );
             filter.comboFilters = [];
-            return { ...filter, isTabSelected: false, value: '' };
+            return { ...filter, isTabSelected: false, value: "" };
           } else {
-            return { ...filter, isTabSelected: false, value: '' };
+            return { ...filter, isTabSelected: false, value: "" };
           }
         });
         lite.template.filters = temp;
@@ -193,7 +243,10 @@ class SegmentStore {
   async getZipCode(zip) {
     try {
       this.rootStore.uiStore.isLoading = true;
-      const zipCode = await API.post('/filter_template/', { type: 'zip_code', search_value: zip });
+      const zipCode = await API.post("/filter_template/", {
+        type: "zip_code",
+        search_value: zip,
+      });
       return zipCode;
     } catch (err) {
       return err.response;
@@ -206,12 +259,12 @@ class SegmentStore {
     try {
       this.rootStore.isLoading = true;
       const typeData = {};
-      typeData.type = 'experian_standard';
-      const res = await API.post('/filter_template/', typeData);
+      typeData.type = "experian_standard";
+      const res = await API.post("/filter_template/", typeData);
       this.experianFilters = res.data;
       //this.experianFilters = ExperianJsonData;
       this.experianFilters = this.experianFilters.map((exp) => {
-        if (exp.name === 'Auto') {
+        if (exp.name === "Auto") {
           exp.template.sub_cat.forEach((auto) => {
             auto.isAutoTabSelected = false;
             auto.isAutoHeadingSelected = true;
@@ -220,30 +273,36 @@ class SegmentStore {
               auto_sub_cat.isAutoSubCategoryHeadingSelected = true;
               auto_sub_cat.filters.forEach((filter) => {
                 filter.isFilterSelected = false;
-                filter.value = '';
+                filter.value = "";
               });
             });
             auto.sub_cat[0].isAutoSubCategorySelected = true;
           });
           exp.template.sub_cat[0].isAutoTabSelected = true;
-        } else if (hasProperty(exp.template, 'sub_cat')) {
+        } else if (hasProperty(exp.template, "sub_cat")) {
           exp.template.sub_cat.forEach((cat) => {
             cat[`is${exp.name}TabSelected`] = false;
             cat[`is${exp.name}HeadingSelected`] = true;
             cat.filters.forEach((filter) => {
               filter.isFilterSelected = false;
-              filter.value = '';
-              if (filter.field_type === 'slider' && filter.filter_name === 'age') {
+              filter.value = "";
+              if (
+                filter.field_type === "slider" &&
+                filter.filter_name === "age"
+              ) {
                 filter.optionsArray = ExperianAgeSlider;
-              } else if (filter.field_type === 'slider' && filter.title === 'Household Income Range') {
+              } else if (
+                filter.field_type === "slider" &&
+                filter.title === "Household Income Range"
+              ) {
                 filter.optionsArray = ExperianIncomeSlider;
                 filter.minOption = 1;
                 filter.maxOption = 13;
-              } else if (filter.field_type === 'slider') {
+              } else if (filter.field_type === "slider") {
                 filter.optionsArray = CommonSlider;
                 filter.minOption = 1;
                 filter.maxOption = 10;
-              } else if (filter.field_type === 'table') {
+              } else if (filter.field_type === "table") {
                 filter.isValue = false;
               }
             });
@@ -251,31 +310,34 @@ class SegmentStore {
           exp.template.sub_cat[0][`is${exp.name}TabSelected`] = true;
         } else {
           exp.template.filters.forEach((filter) => {
-            if (filter.field_type === 'slider') {
+            if (filter.field_type === "slider") {
               filter.optionsArray = CommonSlider;
               filter.minOption = 1;
               filter.maxOption = 10;
-              filter.value = '';
+              filter.value = "";
             } else {
-              if (filter.field_type === 'multi-select-dropdown') {
+              if (filter.field_type === "multi-select-dropdown") {
                 filter.value = [];
               }
-              if (filter.filter_name === 'mosaic_global_household') {
-                const filterOptions = filter.options[0].values.map((val) => ({ val, isValueSelected: false }));
+              if (filter.filter_name === "mosaic_global_household") {
+                const filterOptions = filter.options[0].values.map((val) => ({
+                  val,
+                  isValueSelected: false,
+                }));
                 filter.options = filterOptions;
-                filter.value = '';
+                filter.value = "";
               }
-              if (filter.field_type === 'table') {
+              if (filter.field_type === "table") {
                 filter.isValue = false;
               }
               if (
-                exp.name === 'Presence of Child' ||
-                exp.name === 'Social Media' ||
-                exp.name === 'Online Subscriptions' ||
-                exp.name === 'Consumer Behaviours' ||
-                exp.name === 'Geographic'
+                exp.name === "Presence of Child" ||
+                exp.name === "Social Media" ||
+                exp.name === "Online Subscriptions" ||
+                exp.name === "Consumer Behaviours" ||
+                exp.name === "Geographic"
               ) {
-                filter.value = '';
+                filter.value = "";
               }
               filter.isFilterSelected = false;
             }
@@ -284,7 +346,6 @@ class SegmentStore {
         return { ...exp, isSelected: true, isTabSelectedToShow: false };
       });
       this.experianFilters[0].isTabSelectedToShow = true;
-      //console.log(toJS(this.experianFilters));
       return this.experianFilters;
     } catch (error) {
       return error.response;
@@ -298,24 +359,30 @@ class SegmentStore {
     // typeData.type = 'tsp_full';
     try {
       this.rootStore.uiStore.isLoading = true;
-      const res1 = await API.get('/advertiser/get_vehicle_filters/');
-      const res = await API.post('/filter_template/');
+      const res1 = await API.get("/advertiser/get_vehicle_filters/");
+      const res = await API.post("/filter_template/");
       this.fullFilters = res.data;
       this.fullFilters = this.fullFilters.map((lite) => {
         const temp = lite.template.filters.map((filter) => {
-          if (lite.name === 'Lifestyle') {
-            filter.field_type = 'table';
-            return { ...filter, isTabSelected: false, value: 'Yes' };
-          } else if (filter.field_type === 'checkbox' && filter.title !== 'Annual Income') {
-            if (filter.filter_name === 'niches_5_0') {
+          if (lite.name === "Lifestyle") {
+            filter.field_type = "table";
+            return { ...filter, isTabSelected: false, value: "Yes" };
+          } else if (
+            filter.field_type === "checkbox" &&
+            filter.title !== "Annual Income"
+          ) {
+            if (filter.filter_name === "niches_5_0") {
               return { ...filter, isTabSelected: true, value: [] };
             } else {
               return { ...filter, isTabSelected: false, value: [] };
             }
-          } else if (filter.field_type === 'combo' && filter.filter_name === 'Children Age') {
-            filter.key_value_map_any.value = '';
-            filter.handler_field.value = '';
-            filter.key_value_map_if_children_present[0].value = '1';
+          } else if (
+            filter.field_type === "combo" &&
+            filter.filter_name === "Children Age"
+          ) {
+            filter.key_value_map_any.value = "";
+            filter.handler_field.value = "";
+            filter.key_value_map_if_children_present[0].value = "1";
             filter.key_value_map_if_children_present[0].isSelected = false;
             filter.key_value_map_if_children_present[0].details_of_children_according_to_value_of_number_of_children.details_filter.pop();
             filter.key_value_map_if_children_present[0].details_of_children_according_to_value_of_number_of_children.details_filter.push(
@@ -323,56 +390,87 @@ class SegmentStore {
             );
             filter.key_value_map_if_children_present[0].details_of_children_according_to_value_of_number_of_children.details_filter.forEach(
               (fil) => {
-                if (fil.type !== 'range') {
-                  fil.value = '';
+                if (fil.type !== "range") {
+                  fil.value = "";
                 }
               }
             );
             filter.comboFilters = [];
-            return { ...filter, isTabSelected: false, value: '' };
-          } else if (filter.field_type === 'checkbox' && filter.title === 'Personas') {
+            return { ...filter, isTabSelected: false, value: "" };
+          } else if (
+            filter.field_type === "checkbox" &&
+            filter.title === "Personas"
+          ) {
             return { ...filter, isTabSelected: false, value: [] };
-          } else if (filter.field_type === 'checkbox' && filter.title === 'Annual Income') {
+          } else if (
+            filter.field_type === "checkbox" &&
+            filter.title === "Annual Income"
+          ) {
             return {
               ...filter,
               isTabSelected: false,
               value: [],
               optionsArray: [IncomeOptions],
-              repeat: '1',
+              repeat: "1",
               userValues: [],
             };
-          } else if (filter.field_type === 'dropdown' && filter.title === 'Estimated Net worth') {
+          } else if (
+            filter.field_type === "dropdown" &&
+            filter.title === "Estimated Net worth"
+          ) {
             return {
               ...filter,
               isTabSelected: false,
               value: [],
               optionsArray: [NetWorthOptions],
-              repeat: '1',
+              repeat: "1",
               userValues: [],
             };
-          } else if (filter.field_type === 'combo' && filter.filter_name !== 'Children Age') {
-            filter.handler_field_present.value = '';
+          } else if (
+            filter.field_type === "combo" &&
+            filter.filter_name !== "Children Age"
+          ) {
+            filter.handler_field_present.value = "";
             filter.handler_field_any.forEach((fil) => {
-              fil.value = 'Any';
+              fil.value = "Any";
             });
             filter.key_value_map.forEach((fil) => {
-              fil.value = '';
+              fil.value = "";
             });
             filter.key_value_map.forEach((fil) => {
-              if (fil.title === 'Vehicle Make') {
+              if (fil.title === "Vehicle Make") {
                 fil.options[0].values = res1.data.make_list;
               }
             });
-            return { ...filter, isTabSelected: false, value: '', comboFilters: [] };
+            return {
+              ...filter,
+              isTabSelected: false,
+              value: "",
+              comboFilters: [],
+            };
           } else if (
-            filter.field_type === 'dropdown' &&
-            (filter.title === 'Brand Loyalists' || filter.title === 'Whats on Sale Shoppers')
+            filter.field_type === "dropdown" &&
+            (filter.title === "Brand Loyalists" ||
+              filter.title === "Whats on Sale Shoppers")
           ) {
-            return { ...filter, isTabSelected: false, optionsArray: ShopperSliderOptions, value: '' };
-          } else if (filter.field_type === 'dropdown' && filter.title === 'Shopping Styles') {
-            return { ...filter, isTabSelected: false, optionsArray: StyleSliderOptions, value: '' };
+            return {
+              ...filter,
+              isTabSelected: false,
+              optionsArray: ShopperSliderOptions,
+              value: "",
+            };
+          } else if (
+            filter.field_type === "dropdown" &&
+            filter.title === "Shopping Styles"
+          ) {
+            return {
+              ...filter,
+              isTabSelected: false,
+              optionsArray: StyleSliderOptions,
+              value: "",
+            };
           } else {
-            return { ...filter, isTabSelected: false, value: '' };
+            return { ...filter, isTabSelected: false, value: "" };
           }
         });
         lite.template.filters = temp;
@@ -380,7 +478,7 @@ class SegmentStore {
       });
       this.fullFilters[0].isTabSelectedToShow = true;
       this.fullFilters.forEach((title) => {
-        if (title.name === 'Credit') {
+        if (title.name === "Credit") {
           title.template.sub_cat.forEach((cat) => {
             cat.isHeadingSelected = true;
             if (title.template.sub_cat.indexOf(cat) === 0) {
@@ -390,7 +488,10 @@ class SegmentStore {
             }
             cat.filters.forEach((filter) => {
               filter.isFilterSelected = false;
-              const filterOptions = filter.options[0].values.map((val) => ({ val, isValueSelected: false }));
+              const filterOptions = filter.options[0].values.map((val) => ({
+                val,
+                isValueSelected: false,
+              }));
               filter.options = filterOptions;
             });
           });
@@ -407,7 +508,7 @@ class SegmentStore {
   async postUserDataForSegmentCreation(data) {
     try {
       this.rootStore.uiStore.isLoading = true;
-      const res = await API.post('/advertiser/adc_group/', data);
+      const res = await API.post("/advertiser/adc_group/", data);
       return res;
     } catch (error) {
       return error.response;
@@ -420,8 +521,12 @@ class SegmentStore {
     this.rootStore.uiStore.isLoading = true;
 
     try {
-      const res = await API.get(`/advertiser/archive_segment?is_archived=True&${entityType}_id=${entityId}`);
-      const totalPages = res.data.next ? Math.ceil(res.data.count / res.data.results.length) : 1;
+      const res = await API.get(
+        `/advertiser/archive_segment?is_archived=True&${entityType}_id=${entityId}`
+      );
+      const totalPages = res.data.next
+        ? Math.ceil(res.data.count / res.data.results.length)
+        : 1;
       this.archivedSegments = { totalPages, ...res.data };
     } catch (error) {
       return error.response;
@@ -452,11 +557,13 @@ class SegmentStore {
     };
 
     try {
-      const res = await API.put('/advertiser/archive_segment/', payload);
+      const res = await API.put("/advertiser/archive_segment/", payload);
       if (res && res.status === 200 && res?.data?.updated_ids?.length) {
         this.archivedSegments = {
           ...this.archivedSegments,
-          results: this.archivedSegments.results.filter((seg) => !res.data.updated_ids.includes(seg.id)),
+          results: this.archivedSegments.results.filter(
+            (seg) => !res.data.updated_ids.includes(seg.id)
+          ),
         };
         return { status: true };
       } else {
@@ -465,7 +572,10 @@ class SegmentStore {
     } catch (error) {
       return {
         success: false,
-        message: typeof error.response?.data === 'string' ? error.response?.data : error.response?.message,
+        message:
+          typeof error.response?.data === "string"
+            ? error.response?.data
+            : error.response?.message,
       };
     } finally {
       this.rootStore.uiStore.isLoading = false;
@@ -481,9 +591,11 @@ class SegmentStore {
     };
     let res;
     try {
-      res = await API.put('/advertiser/archive_segment/', payload);
+      res = await API.put("/advertiser/archive_segment/", payload);
       if (res && res.status === 200 && res?.data?.updated_ids?.length) {
-        this.segments = this.segments.filter((seg) => !res.data.updated_ids.includes(seg.id));
+        this.segments = this.segments.filter(
+          (seg) => !res.data.updated_ids.includes(seg.id)
+        );
         return { status: true };
       } else {
         return { success: false, message: res?.data || res?.data?.message };
@@ -491,7 +603,10 @@ class SegmentStore {
     } catch (error) {
       return {
         success: false,
-        message: typeof error.response?.data === 'string' ? error.response?.data : error.response?.message,
+        message:
+          typeof error.response?.data === "string"
+            ? error.response?.data
+            : error.response?.message,
       };
     } finally {
       this.rootStore.uiStore.isLoading = false;

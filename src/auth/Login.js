@@ -68,7 +68,7 @@ const Login = inject("authStore")(
             } else if (authStore.isFoxNetworkAdminUser()) {
               navigationService.goToFoxNetworkLanding();
             } else if (authStore.isUnivisionNetworkAdminUser()) {
-              navigate("/home");
+              navigate("/dash");
               //navigationService.goToUnivisionLanding();
             } else {
               navigationService.goToNetworkLanding();

@@ -20,8 +20,6 @@ const axiosInstance = () => {
     },
   };
 
-  console.log(defaultOptions);
-
   const instance = axios.create(defaultOptions);
 
   instance.interceptors.request.use((config) => {

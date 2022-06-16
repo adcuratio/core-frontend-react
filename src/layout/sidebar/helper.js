@@ -1442,7 +1442,7 @@ export const univisionNetworkAdminMenuList = ({
   // };
 
   const goToUnivisionLanding = () => {
-    return "/dash.univisionLanding";
+    return "univision-network-admin/landing"; //need to change this to univisionLanding
   };
   const onUnivisionHome = () => $state.current.name === "dash.univisionLanding";
 

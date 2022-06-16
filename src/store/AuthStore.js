@@ -27,8 +27,7 @@ class AuthStore {
     // login call to server.
     //this.rootStore.uiStore.isLoading = true;
     const authUrl = "login/";
-
-    console.log("apun kaha");
+    
     try {
       const res = await API.post(authUrl, {
         username,
