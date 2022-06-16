@@ -1,7 +1,6 @@
 //import Reports from "../reports/Reports";
-
+import UnivisionLanding from "../dash-univision /UnivisionLanding";
 // Univision-Network-portal
-import UnivisionLanding from "../dash-univision/UnivisionLanding";
 // import UnivisionOrderManagement from "../dash-univision/univsion-agg-campaign/pages/OrderManagementLanding";
 // import UnivisionNetworkLogs from "../dash-univision/univision-network-logs/UnivisionNetworkLogs";
 // import ManageAudienceLanding from "../dash-univision/manage-audience/ManageAudienceLanding";
@@ -9,7 +8,7 @@ import UnivisionLanding from "../dash-univision/UnivisionLanding";
 // import SelectFilters from "../dash-univision/manage-audience/components/SelectFilters";
 // import ViewAudience from "../dash-univision/manage-audience/components/ViewAudience";
 // import ForecastLanding from "../dash-univision/forecasting/ForecastLanding";
-// import ViewSchedulesLanding from "../dash-univision/view-schedules/ViewSchedules";
+import ViewSchedulesLanding from "../dash-univision /view-schedules/ViewSchedules";
 // import UnivisionEdiTable from "../dash-univision/advertiser-schedule/";
 // import UnivisionManageNetwork from "../dash-univision/network-manage-channels/NetworkManageChannels";
 // import UnivisionReviewCreatives from "../dash-univision/creatives/creatives-review/ReviewCreatives";
@@ -73,6 +72,12 @@ const UnivsionAdminRoutes = [
     name: "Univsion Landing page",
     roles: "Network Admin",
     component: UnivisionLanding,
+  },
+  {
+    path: "univision/view-schedules",
+    name: "Univsion View Schedules",
+    roles: "Network Admin",
+    component: ViewSchedulesLanding,
   },
 ];
 

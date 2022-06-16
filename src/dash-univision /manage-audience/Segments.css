@@ -1,0 +1,163 @@
+.form-row {
+  padding-top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+.form-title {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: opensans;
+  padding-bottom: 10px;
+  color: #000;
+}
+
+.dropdown-width {
+  max-width: 300px;
+  display: inline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 0;
+}
+
+.dropdown-width-automobile {
+  max-width: 50px;
+  display: inline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 0;
+}
+
+.icon-color {
+  color: red;
+}
+
+.checkbox-margin {
+  margin-top: 10px;
+}
+.row-margin {
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  cursor: auto !important;
+}
+.lifestyle-table tr td span {
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 18px;
+  display: inline-block;
+  cursor: auto !important;
+  border-top: 0px;
+}
+.lifestyle-table > tbody > tr > td {
+  border-top: 0px;
+}
+.checkbox-width {
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 18px;
+  display: inline-block;
+  cursor: auto !important;
+}
+.dropdownSeg {
+  float: right;
+  font-size: 12px;
+  background-color: #ffffff;
+  padding: 0 23px;
+  height: 35px;
+  min-width: 150px;
+  border: 1px solid #000000;
+}
+
+.segment-filter-display-tr:not(:last-child) {
+  border-bottom: 1px dotted;
+}
+
+.lifestyle-radio-text {
+  padding-right: 10px;
+  padding-left: 26px;
+  margin-top: -16px;
+}
+
+.archived-segment-card-wrapper > .card {
+  min-width: 32%;
+  height: 95px;
+}
+
+.segment-scrollbar {
+  height: 78vh;
+  overflow-y: auto;
+}
+
+.segment-card-column-width {
+  width: 30%;
+}
+
+.segment-filter-container-height {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 60vh;
+}
+
+.experian-filter-container-height {
+  margin-top: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 50vh;
+}
+
+@media (max-height: 800px) {
+  .experian-filter-container-height {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 35vh;
+  }
+}
+
+.segment-form {
+  max-width: 35vw;
+  background-color: #eee;
+  padding: 10px;
+}
+
+.segment-summary-container-height {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 57vh;
+}
+@media (max-height: 800px) {
+  .segment-summary-container-height {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 50vh;
+  }
+}
+
+.segment-credit-container-height {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 52vh;
+  padding-bottom: 50px;
+}
+
+.segment-page-container-height {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  max-height: 90vh;
+  padding-bottom: 30px;
+}
+
+.segement-add-remove-button {
+  padding-bottom: 30px;
+}
+
+.exp-lifestyle-modal-body-height {
+  height: 70%;
+  overflow-y: scroll;
+}

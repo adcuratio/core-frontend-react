@@ -1476,7 +1476,7 @@ export const univisionNetworkAdminMenuList = ({
     $state.current.name === "dash.univisionViewAudience";
 
   const goToUnivisionNetworkLogs = () => {
-    return "/dash.univisionNetworkLogs";
+    return "univision/view-schedules";
   };
   const goToUploadCreative = () => {
     return "/dash.uploadAdPool";

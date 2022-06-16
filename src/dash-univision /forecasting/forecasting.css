@@ -1,0 +1,36 @@
+.test-class {
+  width: 200px;
+}
+
+p.bold-large {
+  font-weight: 600 !important;
+}
+
+p.small-description {
+  font-weight: 200;
+  font-size: 10px;
+  padding-top: 0.3rem;
+}
+
+.grid-container {
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  column-gap: 5px;
+  row-gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+@media (max-width: 1040px) {
+  .test-class {
+    width: auto;
+  }
+}
