@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
-import CustomButton from '../../../components/CustomButton';
+import React from "react";
+import PropTypes from "prop-types";
+import { Modal } from "react-bootstrap";
+import CustomButton from "../../../components/CustomButton";
 
 const ConfirmDeclineStatusModal = (props) => {
   const { showModal, closeModal, actionType, confirmDeclineAudience } = props;
@@ -10,7 +10,9 @@ const ConfirmDeclineStatusModal = (props) => {
     <Modal show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>
         <Modal.Title>
-          <span className="capitalize">{`${actionType}`} audience segment?</span>
+          <span className="capitalize">
+            {`${actionType}`} audience segment?
+          </span>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -23,13 +25,18 @@ const ConfirmDeclineStatusModal = (props) => {
           buttonText={`${actionType}`}
           handleButtonClick={() => confirmDeclineAudience(actionType)}
         />
-        <CustomButton type="secondary" buttonText="Close" buttonClassName="ml10" handleButtonClick={closeModal} />
+        <CustomButton
+          type="secondary"
+          buttonText="Close"
+          buttonClassName="ml10"
+          handleButtonClick={closeModal}
+        />
       </Modal.Footer>
     </Modal>
   );
 };
 
-ConfirmDeclineStatusModal.PropTypes = {
+ConfirmDeclineStatusModal.propTypes = {
   showModal: PropTypes.func,
   closeModal: PropTypes.func,
   actionType: PropTypes.string,
@@ -39,7 +46,7 @@ ConfirmDeclineStatusModal.PropTypes = {
 ConfirmDeclineStatusModal.propTypes = {
   showModal: () => {},
   closeModal: () => {},
-  actionType: '',
+  actionType: "",
   confirmDeclineAudience: () => {},
 };
 

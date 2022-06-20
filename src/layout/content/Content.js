@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+//import React, { useState, useEffect } from "react";
 import { observer, inject } from "mobx-react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { routes } from "../../routes/routes";
 import { Layout } from "antd";
 

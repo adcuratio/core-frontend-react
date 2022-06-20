@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import withStore from '../../../hocs/WithStore';
-import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
-import styled from 'styled-components';
-import { MainContent, PageHeader, PageContent } from '../../../components/PageLayout';
-import { PageTitle, PaneTitle } from '../../../components/Typography';
-import { getEntityType, showAckErrorMessage } from '../../../common/utils';
-import CustomButton from '../../../components/CustomButton';
-import ReactLoader from '../../../components/ReactLoader';
+import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import { ButtonToolbar, DropdownButton, MenuItem } from "react-bootstrap";
+import styled from "styled-components";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../../components/PageLayout";
+import { PageTitle, PaneTitle } from "../../../components/Typography";
+import { getEntityType, showAckErrorMessage } from "../../../common/utils";
+import CustomButton from "../../../components/CustomButton";
+import ReactLoader from "../../../components/ReactLoader";
 
 const SelectWrapper = styled.div`
   width: 150px;
@@ -28,8 +31,8 @@ const NextBtn = styled.div`
 `;
 
 const CreateNewAudience = inject(
-  'univisionStore',
-  'uiStore'
+  "univisionStore",
+  "uiStore"
 )(
   observer((props) => {
     const { univisionStore, navigationService, uiStore } = props;
@@ -43,7 +46,7 @@ const CreateNewAudience = inject(
           if (res && res?.status === 200) {
             setCompaniesData(res?.data?.data);
           } else {
-            showAckErrorMessage({ message: 'Failed to load Advertisers' });
+            showAckErrorMessage({ message: "Failed to load Advertisers" });
           }
         },
         () => {
@@ -67,7 +70,7 @@ const CreateNewAudience = inject(
           selectedCompanyName
         );
       } else {
-        showAckErrorMessage({ message: 'Please select the Advertiser.' });
+        showAckErrorMessage({ message: "Please select the Advertiser." });
       }
     };
 
@@ -80,18 +83,23 @@ const CreateNewAudience = inject(
           <PageContent>
             <div className="main-content-wrapper">
               <div className="mt15 mb15">
-                <PaneTitle>Create New Audience for Univision Addressable</PaneTitle>
+                <PaneTitle>
+                  Create New Audience for Univision Addressable
+                </PaneTitle>
                 <div className="flex-container2">
                   <SelectWrapper>
                     <ButtonToolbar className="segment-dropdown-btn">
                       <DropdownButton
                         className="dropdownSeg"
-                        title={selectedCompanyName || 'Select Advertiser'}
+                        title={selectedCompanyName || "Select Advertiser"}
                         id="company_name"
                       >
                         {companiesData?.length > 0 &&
                           companiesData?.map((c) => (
-                            <MenuItem key={c.company.id} onSelect={() => handleEntitySelection(c)}>
+                            <MenuItem
+                              key={c.company.id}
+                              onSelect={() => handleEntitySelection(c)}
+                            >
                               {c.company.name}
                             </MenuItem>
                           ))}
@@ -117,4 +125,4 @@ const CreateNewAudience = inject(
   })
 );
 
-export default withStore(CreateNewAudience);
+export default CreateNewAudience;

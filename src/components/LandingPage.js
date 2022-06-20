@@ -32,11 +32,11 @@ const LandingPage = (props) => {
                       buttonText={button.name}
                       ButtonIcon={button.icon}
                       infoSignClass={button.infoClass}
-                      handleButtonClick={() => {
+                      handleButtonClick={() =>
                         button.onClickFunction
                           ? button.onClickFunction()
-                          : () => {};
-                      }}
+                          : () => {}
+                      }
                       buttonIconClass={button.iconClass}
                       buttonClass={button.class}
                       tooltipText={button.tooltipText}

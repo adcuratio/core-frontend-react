@@ -1,0 +1,10 @@
+.quick-filter-summary {
+  margin: 15px 0;
+}
+
+.quick-filter-summary-heading {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: opensans;
+  color: #000;
+}

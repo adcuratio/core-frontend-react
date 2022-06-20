@@ -1,9 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Pie } from 'react-chartjs-2';
-import styled from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import { Pie } from "react-chartjs-2";
+import styled from "styled-components";
 
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger, Popover } from "react-bootstrap";
+import CustomLegend from "../../../components/CustomLegend";
+import { formatNumber } from "../../../common/utils";
 
 const OrderSummary = styled.div`
   .mn-order-summary-chart {
@@ -20,9 +22,6 @@ const OrderSummary = styled.div`
   }
 `;
 
-import CustomLegend from '../../../components/CustomLegend';
-import { formatNumber } from '../../../common/utils';
-
 const NcmManageSummary = (props) => {
   const { tradeData, summaryData, impressionsCount } = props;
 
@@ -31,17 +30,17 @@ const NcmManageSummary = (props) => {
   const options = {
     legend: null,
     tooltips: {
-      backgroundColor: '#fff',
-      bodyFontColor: '#000',
-      titleFontColor: '#000',
+      backgroundColor: "#fff",
+      bodyFontColor: "#000",
+      titleFontColor: "#000",
     },
   };
 
   const orderData = {
-    labels: ['Active', 'Canceled', 'Completed', 'Pending Distributor Approval'],
+    labels: ["Active", "Canceled", "Completed", "Pending Distributor Approval"],
     datasets: [
       {
-        backgroundColor: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c'],
+        backgroundColor: ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c"],
         data: [
           tradeData?.tableProgressTradesData?.length,
           tradeData?.tablePausedTradesData?.length,
@@ -54,24 +53,24 @@ const NcmManageSummary = (props) => {
 
   const ordersSummaryData = [
     {
-      name: 'Active Orders',
+      name: "Active Orders",
       y: tradeData?.tableProgressTradesData?.length,
     },
     {
-      name: 'Canceled Orders',
+      name: "Canceled Orders",
       y: tradeData?.tablePausedTradesData?.length,
     },
     {
-      name: 'Completed Orders',
+      name: "Completed Orders",
       y: tradeData?.tableCompletedTradesData?.length,
     },
     {
-      name: 'Pending Distributor approval',
+      name: "Pending Distributor approval",
       y: tradeData?.tablePendingTradesData?.length,
     },
   ];
 
-  const orderSummaryDataColors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c'];
+  const orderSummaryDataColors = ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c"];
 
   const d = new Date();
   d.setDate(d.getDate() - 3);
@@ -97,7 +96,7 @@ const NcmManageSummary = (props) => {
             </div>
           </div>
         ) : (
-          ''
+          ""
         )}
         {impressionsCount?.total_impressions_booked ||
         impressionsCount?.total_delivered_impressions ||
@@ -111,15 +110,20 @@ const NcmManageSummary = (props) => {
                     <OverlayTrigger
                       placement="right"
                       overlay={
-                        <Popover id="popover-positioned-scrolling-left" className="no-text-transform">
+                        <Popover
+                          id="popover-positioned-scrolling-left"
+                          className="no-text-transform"
+                        >
                           Active campaign sum
                         </Popover>
                       }
                     >
-                      <span style={{ fontSize: '16px' }}>
-                        Total Impressions Booked:{' '}
-                        <span style={{ fontWeight: 'normal' }}>
-                          {formatNumber(impressionsCount?.total_impressions_booked)}
+                      <span style={{ fontSize: "16px" }}>
+                        Total Impressions Booked:{" "}
+                        <span style={{ fontWeight: "normal" }}>
+                          {formatNumber(
+                            impressionsCount?.total_impressions_booked
+                          )}
                         </span>
                       </span>
                     </OverlayTrigger>
@@ -132,16 +136,25 @@ const NcmManageSummary = (props) => {
                     <OverlayTrigger
                       placement="right"
                       overlay={
-                        <Popover id="popover-positioned-scrolling-left" className="no-text-transform">
-                          Impressions Delivered on{' '}
-                          {d.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        <Popover
+                          id="popover-positioned-scrolling-left"
+                          className="no-text-transform"
+                        >
+                          Impressions Delivered on{" "}
+                          {d.toLocaleString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
                         </Popover>
                       }
                     >
-                      <span style={{ fontSize: '16px' }}>
-                        Impressions Delivered (T-3) :{' '}
-                        <span style={{ fontWeight: 'normal' }}>
-                          {formatNumber(impressionsCount?.total_daily_impressions_delivered)}
+                      <span style={{ fontSize: "16px" }}>
+                        Impressions Delivered (T-3) :{" "}
+                        <span style={{ fontWeight: "normal" }}>
+                          {formatNumber(
+                            impressionsCount?.total_daily_impressions_delivered
+                          )}
                         </span>
                       </span>
                     </OverlayTrigger>
@@ -154,15 +167,20 @@ const NcmManageSummary = (props) => {
                     <OverlayTrigger
                       placement="right"
                       overlay={
-                        <Popover id="popover-positioned-scrolling-left" className="no-text-transform">
+                        <Popover
+                          id="popover-positioned-scrolling-left"
+                          className="no-text-transform"
+                        >
                           Active and completed
                         </Popover>
                       }
                     >
-                      <span style={{ fontSize: '16px' }}>
-                        Total Delivered Impressions:{' '}
-                        <span style={{ fontWeight: 'normal' }}>
-                          {formatNumber(impressionsCount?.total_delivered_impressions)}
+                      <span style={{ fontSize: "16px" }}>
+                        Total Delivered Impressions:{" "}
+                        <span style={{ fontWeight: "normal" }}>
+                          {formatNumber(
+                            impressionsCount?.total_delivered_impressions
+                          )}
                         </span>
                       </span>
                     </OverlayTrigger>

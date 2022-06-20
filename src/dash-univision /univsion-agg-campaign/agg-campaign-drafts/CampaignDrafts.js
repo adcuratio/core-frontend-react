@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import PropTypes from "prop-types";
+import { Modal } from "react-bootstrap";
 
-import withStore from '../../../hocs/WithStore';
+//import withStore from '../../../hocs/WithStore';
 
-import { MainContent, PageHeader, PageContent } from '../../../components/PageLayout';
-import { PageTitle } from '../../../components/Typography';
-import { showAckMessage, showAckErrorMessage, processUTCtoEST } from '../../../common/utils';
-import ReactLoader from '../../../components/ReactLoader';
-import CustomButton from '../../../components/CustomButton';
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../../components/PageLayout";
+import { PageTitle } from "../../../components/Typography";
+import {
+  showAckMessage,
+  showAckErrorMessage,
+  processUTCtoEST,
+} from "../../../common/utils";
+import ReactLoader from "../../../components/ReactLoader";
+import CustomButton from "../../../components/CustomButton";
 
 const CampaignDrafts = inject(
-  'uiStore',
-  'companyStore',
-  'campaignStore',
-  'aggCampaignStore',
-  'navigationService'
+  "uiStore",
+  "companyStore",
+  "campaignStore",
+  "aggCampaignStore",
+  "navigationService"
 )(
   observer((props) => {
     const { uiStore, aggCampaignStore, navigationService } = props;
@@ -52,12 +60,12 @@ const CampaignDrafts = inject(
       aggCampaignStore.deleteCampaignDraft(deleteCampaignData?.id).then(
         (res) => {
           if (res?.data?.success) {
-            showAckMessage({ message: 'Campaign Deleted successfully' });
+            showAckMessage({ message: "Campaign Deleted successfully" });
             getAllCampaignData();
             setDeleteCampaignData({});
             setToggleModal(false);
           } else {
-            showAckErrorMessage({ message: 'Something went wrong' });
+            showAckErrorMessage({ message: "Something went wrong" });
           }
         },
         () => {
@@ -72,7 +80,7 @@ const CampaignDrafts = inject(
           if (res?.data?.success) {
             setCampaignTableData(res?.data?.message);
           } else {
-            showAckErrorMessage({ message: 'Something went wrong' });
+            showAckErrorMessage({ message: "Something went wrong" });
           }
         },
         () => {
@@ -103,7 +111,11 @@ const CampaignDrafts = inject(
                   <tr key={`draft_table_data_${index}`}>
                     <td>{data?.adv_company?.name}</td>
                     <td>{data?.campaign_data?.name}</td>
-                    <td>{data.created ? `${processUTCtoEST(data?.created)} ET` : 'N/A'}</td>
+                    <td>
+                      {data.created
+                        ? `${processUTCtoEST(data?.created)} ET`
+                        : "N/A"}
+                    </td>
                     <td>{data?.campaign_data?.order_type}</td>
                     <td>
                       <CustomButton
@@ -143,7 +155,12 @@ const CampaignDrafts = inject(
               buttonText={`Yes`}
               handleButtonClick={() => onConfirmDelete()}
             />
-            <CustomButton type="secondary" buttonText="Close" buttonClassName="ml10" handleButtonClick={closeModal} />
+            <CustomButton
+              type="secondary"
+              buttonText="Close"
+              buttonClassName="ml10"
+              handleButtonClick={closeModal}
+            />
           </Modal.Footer>
         </Modal>
         <Modal show={toggleEditModal} onHide={closeModal}>
@@ -156,9 +173,16 @@ const CampaignDrafts = inject(
               buttonClassName="capitalize"
               type="primary"
               buttonText={`Yes`}
-              handleButtonClick={() => navigationService.goToAggCampaign('draft', deleteCampaignData)}
+              handleButtonClick={() =>
+                navigationService.goToAggCampaign("draft", deleteCampaignData)
+              }
             />
-            <CustomButton type="secondary" buttonText="Close" buttonClassName="ml10" handleButtonClick={closeModal} />
+            <CustomButton
+              type="secondary"
+              buttonText="Close"
+              buttonClassName="ml10"
+              handleButtonClick={closeModal}
+            />
           </Modal.Footer>
         </Modal>
         <ReactLoader isLoading={uiStore.isLoading} />
@@ -175,4 +199,4 @@ CampaignDrafts.prototypes = {
   util: PropTypes.object,
 };
 
-export default withStore(CampaignDrafts);
+export default CampaignDrafts;

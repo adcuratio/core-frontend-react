@@ -1,10 +1,9 @@
 import React from "react";
 import "./App.css";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import store from "./store";
 import { Provider } from "mobx-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import "./styles/master.css";
 import "@fortawesome/fontawesome-free/js/fontawesome";
 import "@fortawesome/fontawesome-free/js/solid";

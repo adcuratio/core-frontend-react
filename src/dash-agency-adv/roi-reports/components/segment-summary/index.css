@@ -1,0 +1,14 @@
+.segment-summary {
+  background-color: #eee;
+}
+
+.segment-summary-heading {
+  font-size: 20px;
+  font-family: opensans;
+  border-bottom: 1px solid;
+  padding: 25px 20px 16px 13px;
+}
+
+.segment-summary-content {
+  padding: 0 13px 20px 13px;
+}

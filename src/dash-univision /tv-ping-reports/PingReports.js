@@ -1,14 +1,14 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React from "react";
+import { inject, observer } from "mobx-react";
 
-import { PageTitle } from '../../components/Typography';
-import { MainContent, PageHeader } from '../../components/PageLayout';
-import { MainWrapper } from '../../components/ops-user-flow/UserFlowLayout';
-import ReactLoader from '../../components/ReactLoader';
+import { PageTitle } from "../../components/Typography";
+import { MainContent, PageHeader } from "../../components/PageLayout";
+import { MainWrapper } from "../../components/ops-user-flow/UserFlowLayout";
+import ReactLoader from "../../components/ReactLoader";
 
-import withStore from '../../hocs/WithStore';
+//import withStore from '../../hocs/WithStore';
 
-const PingReports = inject('uiStore')(
+const PingReports = inject("uiStore")(
   observer((props) => {
     const { uiStore } = props;
 
@@ -19,7 +19,7 @@ const PingReports = inject('uiStore')(
         </PageHeader>
         <MainWrapper className="row">
           <iframe
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             id="kibanaPingViz"
             height="100%"
             src="https://kibana.adcuratio.net/univision"
@@ -31,4 +31,4 @@ const PingReports = inject('uiStore')(
   })
 );
 
-export default withStore(PingReports);
+export default PingReports;

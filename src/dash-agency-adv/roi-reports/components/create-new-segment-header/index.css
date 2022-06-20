@@ -1,0 +1,12 @@
+.create-new-seg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #a9a9a9;
+  padding-bottom: 10px;
+  margin-top: 35px;
+}
+.create-new-seg-header-title {
+  font-size: 20px;
+  font-family: opensans;
+}

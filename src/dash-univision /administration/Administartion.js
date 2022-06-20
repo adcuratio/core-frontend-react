@@ -1,24 +1,23 @@
 /* eslint-disable  */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+import { MainContent, PageHeader } from "../../components/PageLayout";
+import { PageTitle } from "../../components/Typography";
+import PageContainer from "./components/PageContainer";
+import {
+  userAdministrationTiles,
+  advertiserAdministrationTiles,
+} from "./components/JsonData";
 
-import withStore from '../../hocs/WithStore';
+import ReactLoader from "../../components/ReactLoader";
 
-import { MainContent, PageHeader } from '../../components/PageLayout';
-import { PageTitle } from '../../components/Typography';
-
-import PageContainer from './components/PageContainer';
-import { userAdministrationTiles, advertiserAdministrationTiles } from './components/JsonData';
-
-import ReactLoader from '../../components/ReactLoader';
-
-import { showAckErrorMessage } from '../../common/utils';
+import { showAckErrorMessage } from "../../common/utils";
 
 const UnivisionAdministration = inject(
-  'accountManagementStore',
-  'uiStore',
-  'univisionStore'
+  "accountManagementStore",
+  "uiStore",
+  "univisionStore"
 )(
   observer((props) => {
     const { accountManagementStore, uiStore, univisionStore } = props;
@@ -32,7 +31,11 @@ const UnivisionAdministration = inject(
           if (response && response.status === 200) {
             setUniUserList(response?.data?.data);
           } else {
-            showAckErrorMessage({ message: response?.data?.message ?? 'Cannot fetch Agency Representative!' });
+            showAckErrorMessage({
+              message:
+                response?.data?.message ??
+                "Cannot fetch Agency Representative!",
+            });
           }
         },
         () => {
@@ -47,7 +50,9 @@ const UnivisionAdministration = inject(
           if (res && res.status === 200) {
             setAddAdvertiser(res?.data?.data);
           } else {
-            showAckErrorMessage({ message: res?.message ?? 'Something went wrong.' });
+            showAckErrorMessage({
+              message: res?.message ?? "Something went wrong.",
+            });
           }
         },
         () => {
@@ -62,7 +67,9 @@ const UnivisionAdministration = inject(
           if (res && res.status === 200) {
             setSubAgencyId(res?.data?.data[0]?.sub_agency[0]?.id);
           } else {
-            showAckErrorMessage({ message: res?.message ?? 'Something went wrong.' });
+            showAckErrorMessage({
+              message: res?.message ?? "Something went wrong.",
+            });
           }
         },
         () => {
@@ -103,4 +110,4 @@ UnivisionAdministration.propTypes = {
   navigationService: PropTypes.object,
 };
 
-export default withStore(UnivisionAdministration);
+export default UnivisionAdministration;

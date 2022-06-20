@@ -1,31 +1,29 @@
-import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { observer, inject } from 'mobx-react';
+import React, { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
+import { observer, inject } from "mobx-react";
+import { showAckErrorMessage } from "../../../common/utils";
+import ReactLoader from "../../../components/ReactLoader";
+import CreativesAdPreviewModal from "../../../components/CreativesAdPreviewModal";
 
-import withStore from '../../../hocs/WithStore';
-import { showAckErrorMessage } from '../../../common/utils';
-import ReactLoader from '../../../components/ReactLoader';
-import CreativesAdPreviewModal from '../../../components/CreativesAdPreviewModal';
+import CreativesTable from "../../../components/network-creatives/creatives-manage/CreativesTable";
+import CreativesHeader from "../../../components/network-creatives/creatives-manage/CreativesHeader";
+import UploadCreativesModal from "../../../components/network-creatives/creatives-manage/UploadCreativesModal";
 
-import CreativesTable from '../../../components/network-creatives/creatives-manage/CreativesTable';
-import CreativesHeader from '../../../components/network-creatives/creatives-manage/CreativesHeader';
-import UploadCreativesModal from '../../../components/network-creatives/creatives-manage/UploadCreativesModal';
-
-import { tableHeaderList } from './JsonData';
+import { tableHeaderList } from "./JsonData";
 
 const NetworkManageCreatives = inject(
-  'networkStore',
-  'creativesStore',
-  'uiStore'
+  "networkStore",
+  "creativesStore",
+  "uiStore"
 )(
   observer((props) => {
     const { uiStore, networkStore, creativesStore } = props;
     const [creativesListingData, setCreativesListingData] = useState([]);
     const [deliveryVendorChoices, setDeliveryVendorChoices] = useState([]);
     const [creativeModalData, setCreativeModalData] = useState();
-    const [activeModal, setActiveModal] = useState('');
+    const [activeModal, setActiveModal] = useState("");
     const tableHeadings = tableHeaderList;
-    const [nextPageUrl, setNextPageUrl] = useState('');
+    const [nextPageUrl, setNextPageUrl] = useState("");
     const tableRef = useRef(null);
     const [channelList, setChannelList] = useState([]);
 
@@ -44,11 +42,20 @@ const NetworkManageCreatives = inject(
               uiStore.isLoading = false;
               let concatenatedArray;
               if (url) {
-                const creativesListingDataCpy = JSON.parse(JSON.stringify(creativesListingData));
-                const processedCreativesCpy = JSON.parse(JSON.stringify(processedCreatives));
-                concatenatedArray = [...creativesListingDataCpy, ...processedCreativesCpy];
+                const creativesListingDataCpy = JSON.parse(
+                  JSON.stringify(creativesListingData)
+                );
+                const processedCreativesCpy = JSON.parse(
+                  JSON.stringify(processedCreatives)
+                );
+                concatenatedArray = [
+                  ...creativesListingDataCpy,
+                  ...processedCreativesCpy,
+                ];
               } else {
-                concatenatedArray = JSON.parse(JSON.stringify(processedCreatives));
+                concatenatedArray = JSON.parse(
+                  JSON.stringify(processedCreatives)
+                );
                 scrollToTop();
               }
               setCreativesListingData(concatenatedArray);
@@ -58,7 +65,9 @@ const NetworkManageCreatives = inject(
           }
         },
         () => {
-          showAckErrorMessage({ message: 'something went wrong with creatives list.' });
+          showAckErrorMessage({
+            message: "something went wrong with creatives list.",
+          });
         }
       );
     };
@@ -80,21 +89,26 @@ const NetworkManageCreatives = inject(
     // Function to get video url
     const getVideoUrl = (adid) => {
       if (adid && adid.adid_meta_file_upload?.[0]?.id) {
-        creativesStore.getWatermarkedVideoUrl(adid.adid_meta_file_upload[0].id).then(
-          (res) => {
-            if (res.data) {
-              if (res.data.success && res.data.data) {
-                setActiveModal('preview');
-                setCreativeModalData(res.data.data);
-              } else showAckErrorMessage({ message: res.data?.message });
-            } else showAckErrorMessage({ message: 'Creative data is not found.' });
-          },
-          () => {
-            showAckErrorMessage({ message: 'Cannot get video file data for the creative.' });
-          }
-        );
+        creativesStore
+          .getWatermarkedVideoUrl(adid.adid_meta_file_upload[0].id)
+          .then(
+            (res) => {
+              if (res.data) {
+                if (res.data.success && res.data.data) {
+                  setActiveModal("preview");
+                  setCreativeModalData(res.data.data);
+                } else showAckErrorMessage({ message: res.data?.message });
+              } else
+                showAckErrorMessage({ message: "Creative data is not found." });
+            },
+            () => {
+              showAckErrorMessage({
+                message: "Cannot get video file data for the creative.",
+              });
+            }
+          );
       } else {
-        showAckErrorMessage({ message: 'No creative data available.' });
+        showAckErrorMessage({ message: "No creative data available." });
       }
     };
 
@@ -107,7 +121,7 @@ const NetworkManageCreatives = inject(
               // Channel data is already filtered by backend based on network.
               setChannelList(res.data.channel_groups[0]);
               // Finally - Show Upload creatives modal.
-              setActiveModal('upload_creatives');
+              setActiveModal("upload_creatives");
             } else showAckErrorMessage({ message: res.data?.message });
           } else showAckErrorMessage();
         },
@@ -124,10 +138,12 @@ const NetworkManageCreatives = inject(
           if (res && res.status === 200 && res.data) {
             // API call 2 -  Populating channel data
             getChannelData();
-          } else showAckErrorMessage({ message: 'No data available.' });
+          } else showAckErrorMessage({ message: "No data available." });
         },
         () => {
-          showAckErrorMessage({ message: 'No advertiser data available. Internal error.' });
+          showAckErrorMessage({
+            message: "No advertiser data available. Internal error.",
+          });
         }
       );
     };
@@ -146,9 +162,9 @@ const NetworkManageCreatives = inject(
     // Function to close the creatives video modal.
     const closeCreativesModalData = () => {
       if (creativeModalData) {
-        setCreativeModalData('');
+        setCreativeModalData("");
       }
-      onSetActiveModal('');
+      onSetActiveModal("");
     };
 
     // Function for refreshing the creatives page
@@ -163,9 +179,12 @@ const NetworkManageCreatives = inject(
 
     return (
       <div className="main-content-wrapper">
-        <CreativesHeader showUploadCreativesModal={showUploadCreativesModal} onPageRefresh={onPageRefresh} />
+        <CreativesHeader
+          showUploadCreativesModal={showUploadCreativesModal}
+          onPageRefresh={onPageRefresh}
+        />
         <UploadCreativesModal
-          showModal={activeModal === 'upload_creatives'}
+          showModal={activeModal === "upload_creatives"}
           closeModal={onCloseUploadCreativeModal}
           deliveryVendorChoices={deliveryVendorChoices}
           getAllCreatives={getCreatives}
@@ -173,7 +192,7 @@ const NetworkManageCreatives = inject(
           setChannelList={setChannelList}
         />
         <CreativesAdPreviewModal
-          showModal={activeModal === 'preview'}
+          showModal={activeModal === "preview"}
           closeModal={closeCreativesModalData}
           creativeModalData={creativeModalData}
         />
@@ -196,4 +215,4 @@ NetworkManageCreatives.propTypes = {
   networkStore: PropTypes.object,
   uiStore: PropTypes.object,
 };
-export default withStore(NetworkManageCreatives);
+export default NetworkManageCreatives;

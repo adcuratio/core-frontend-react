@@ -1,0 +1,22 @@
+.segments-tab {
+  list-style: none;
+}
+
+.segments-tab > li {
+  display: inline-block;
+  padding: 0 10px 3px 10px;
+  cursor: pointer;
+}
+
+.segments-tab > li:first-child {
+  padding-left: 0;
+}
+
+.segments-tab > li:not(:first-child) {
+  border-left: 1px solid #94969a;
+}
+
+.segments-tab-active {
+  color: #000;
+  border-bottom: 4px solid #eea32c;
+}

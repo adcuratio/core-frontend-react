@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { inject, observer } from 'mobx-react';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { inject, observer } from "mobx-react";
 
-import UploadNewDeal from '../../components/advertiser-schedule/containers/UploadNewDealModal';
-import withStore from '../../hocs/WithStore';
+import UploadNewDeal from "../../components/advertiser-schedule/containers/UploadNewDealModal";
 
-import ReactLoader from '../../components/ReactLoader';
-import TabContainer from '../../components/TabContainer';
-import AdvSchHeader from '../../components/advertiser-schedule/AdvSchHeader';
-import AdvSchTable from '../../components/advertiser-schedule/AdvSchTable';
-import DealErrors from '../../components/advertiser-schedule/DealErrorsModal';
-import ViewDealDetailsModal from '../advertiser-schedule/components/ViewDealDetailsModal';
+import ReactLoader from "../../components/ReactLoader";
+import TabContainer from "../../components/TabContainer";
+import AdvSchHeader from "../../components/advertiser-schedule/AdvSchHeader";
+import AdvSchTable from "../../components/advertiser-schedule/AdvSchTable";
+import DealErrors from "../../components/advertiser-schedule/DealErrorsModal";
+import ViewDealDetailsModal from "../advertiser-schedule/components/ViewDealDetailsModal";
 
-import { ViewDealDetailsTableHeadings } from './JsonData';
+import { ViewDealDetailsTableHeadings } from "./JsonData";
 
-import { showAckErrorMessage, applySorting } from './../../common/utils';
+import { showAckErrorMessage, applySorting } from "./../../common/utils";
 
 const AdvertiserSchedule = inject(
-  'advSchStore',
-  'uiStore'
+  "advSchStore",
+  "uiStore"
 )(
   observer((props) => {
     const { auth, navigationService, advSchStore, uiStore } = props;
@@ -35,22 +34,22 @@ const AdvertiserSchedule = inject(
     });
     const AdvSchTabTitles = [
       {
-        id: 'processed',
-        name: 'Processed',
+        id: "processed",
+        name: "Processed",
         count: dealsDataLength?.processedDeals,
       },
       {
-        id: 'incorrect',
-        name: 'Incorrect',
+        id: "incorrect",
+        name: "Incorrect",
         count: dealsDataLength?.incorrectDeals,
       },
       {
-        id: 'pending_processing',
-        name: 'Pending Processing',
+        id: "pending_processing",
+        name: "Pending Processing",
         count: dealsDataLength?.pendingProcessingDeals,
       },
     ];
-    const [activeModal, setActiveModal] = useState('');
+    const [activeModal, setActiveModal] = useState("");
     const [modalData, setModalData] = useState(null);
     const [isAgencyAdminUser] = useState(auth.isAgencyAdminUser());
     const [activeTab, setActiveTab] = useState(AdvSchTabTitles[0]);
@@ -60,49 +59,49 @@ const AdvertiserSchedule = inject(
     const [sortedEdiTableData, setSortedEdiTableData] = useState([]);
     const [ediTableTitles, setEdiTableTitles] = useState([
       {
-        id: 'adv_sch_deal_id',
-        name: 'Deal ID',
+        id: "adv_sch_deal_id",
+        name: "Deal ID",
         sortingType: null,
         isApplySorting: true,
       },
       {
-        id: 'adv_sch_ad_name',
-        name: 'Advertiser name',
+        id: "adv_sch_ad_name",
+        name: "Advertiser name",
         sortingType: null,
         isApplySorting: true,
       },
       {
-        id: 'adv_sch_brand',
-        name: 'Brand',
+        id: "adv_sch_brand",
+        name: "Brand",
         sortingType: null,
         isApplySorting: true,
       },
       {
-        id: 'adv_sch_sub_brand',
-        name: 'Sub-Brand',
+        id: "adv_sch_sub_brand",
+        name: "Sub-Brand",
         sortingType: null,
         isApplySorting: true,
       },
       {
-        id: 'adv_sch_network',
-        name: 'Network',
+        id: "adv_sch_network",
+        name: "Network",
         sortingType: null,
         isApplySorting: true,
       },
       {
-        id: 'adv_sch_last_modified',
-        name: 'Last modified',
+        id: "adv_sch_last_modified",
+        name: "Last modified",
         sortingType: null,
         isApplySorting: true,
       },
       {
-        id: 'adv_sch_status',
-        name: 'Status',
+        id: "adv_sch_status",
+        name: "Status",
         isApplySorting: false,
       },
       {
-        id: 'adv_sch_view_or_download',
-        name: 'View/Download',
+        id: "adv_sch_view_or_download",
+        name: "View/Download",
         isApplySorting: false,
       },
     ]);
@@ -188,7 +187,7 @@ const AdvertiserSchedule = inject(
               if (a.deal_data && a.deal_data.advertiser) {
                 advData.push(a.deal_data.advertiser);
               } else {
-                advData.push('with no advertiser');
+                advData.push("with no advertiser");
               }
             });
             const advFilterdDataCpy = [...new Set(advData)];
@@ -196,7 +195,7 @@ const AdvertiserSchedule = inject(
             setAdvFilterSelectedData(advFilterdDataCpy);
             onSetBrandData(EdiTableCpy);
           } else {
-            showAckErrorMessage({ message: 'Unable to Fetch Data!' });
+            showAckErrorMessage({ message: "Unable to Fetch Data!" });
           }
         },
         () => {
@@ -208,11 +207,11 @@ const AdvertiserSchedule = inject(
     const switchToTab = (dealsDataCpy = dealsData, tabData = activeTab) => {
       if (tabData && dealsDataCpy) {
         let EdiTableDataCpy;
-        if (tabData.id === 'processed') {
+        if (tabData.id === "processed") {
           EdiTableDataCpy = dealsDataCpy.processedDeals;
-        } else if (tabData.id === 'incorrect') {
+        } else if (tabData.id === "incorrect") {
           EdiTableDataCpy = dealsDataCpy.incorrectDeals;
-        } else if (tabData.id === 'pending_processing') {
+        } else if (tabData.id === "pending_processing") {
           EdiTableDataCpy = dealsDataCpy.pendingProcessingDeals;
         }
         setEdiTableData(EdiTableDataCpy);
@@ -226,9 +225,16 @@ const AdvertiserSchedule = inject(
 
     const onFilterAdvData = (filteredData) => {
       const modifiedData = EdiTableConstant.filter((a) => {
-        if (a.deal_data && a.deal_data.advertiser && filteredData.includes(a.deal_data.advertiser)) {
+        if (
+          a.deal_data &&
+          a.deal_data.advertiser &&
+          filteredData.includes(a.deal_data.advertiser)
+        ) {
           return true;
-        } else if (!(a.deal_data && a.deal_data.advertiser) && filteredData.includes('with no advertiser')) {
+        } else if (
+          !(a.deal_data && a.deal_data.advertiser) &&
+          filteredData.includes("with no advertiser")
+        ) {
           return true;
         }
         return false;
@@ -239,14 +245,18 @@ const AdvertiserSchedule = inject(
     const onSetBrandData = (modifiedData) => {
       const brandData = [];
       modifiedData.forEach((data) => {
-        if (data.deal_data && data.deal_data.brand && data.deal_data.brand.length) {
+        if (
+          data.deal_data &&
+          data.deal_data.brand &&
+          data.deal_data.brand.length
+        ) {
           data.deal_data.brand.forEach((bdata) => {
             if (bdata && bdata.brand__name) {
               brandData.push(bdata.brand__name);
             }
           });
         } else {
-          brandData.push('with no brand');
+          brandData.push("with no brand");
         }
       });
       setBrandFilterAllData([...new Set(brandData)]);
@@ -254,17 +264,21 @@ const AdvertiserSchedule = inject(
     };
 
     const applyFilter = (filteredData, id) => {
-      if (id === 'adv_filter') {
+      if (id === "adv_filter") {
         setAdvFilterSelectedData(filteredData);
         const modifiedData = onFilterAdvData(filteredData);
         setEdiTable(modifiedData);
         onSetBrandData(modifiedData);
-      } else if (id === 'brand_filter') {
+      } else if (id === "brand_filter") {
         setBrandFilterSelectedData(filteredData);
         const filteredAdvData = onFilterAdvData(advFilterAllData);
         const modifiedData = [];
         filteredAdvData.forEach((data) => {
-          if (data.deal_data && data.deal_data.brand && data.deal_data.brand.length) {
+          if (
+            data.deal_data &&
+            data.deal_data.brand &&
+            data.deal_data.brand.length
+          ) {
             let count = 0;
             data.deal_data.brand.forEach((bd) => {
               if (filteredData.includes(bd.brand__name)) {
@@ -274,7 +288,7 @@ const AdvertiserSchedule = inject(
             if (count === data.deal_data.brand.length) {
               modifiedData.push(data);
             }
-          } else if (filteredData.includes('with no brand')) {
+          } else if (filteredData.includes("with no brand")) {
             modifiedData.push(data);
           }
         });
@@ -282,9 +296,15 @@ const AdvertiserSchedule = inject(
       }
     };
 
-    const sortMsgGroup = (activeTitleData, value, sortedEdiTableDataCpy = sortedEdiTableData) => {
+    const sortMsgGroup = (
+      activeTitleData,
+      value,
+      sortedEdiTableDataCpy = sortedEdiTableData
+    ) => {
       const ediTableTitlesCpy = JSON.parse(JSON.stringify(ediTableTitles));
-      const index = ediTableTitlesCpy.findIndex((d) => d.id === activeTitleData.id);
+      const index = ediTableTitlesCpy.findIndex(
+        (d) => d.id === activeTitleData.id
+      );
       if (index !== -1) {
         ediTableTitlesCpy[index].sortingType = value;
         ediTableTitlesCpy.forEach((d, dIndex) => {
@@ -316,28 +336,30 @@ const AdvertiserSchedule = inject(
     };
 
     const handleTableButtonAction = (buttonType, mData) => {
-      if (buttonType === 'download') {
+      if (buttonType === "download") {
         if (mData.s3_file_url) {
           axios
             .get(mData.s3_file_url, {
-              responseType: 'arraybuffer',
+              responseType: "arraybuffer",
             })
             .then(
               (res) => {
                 const blob = new Blob([res.data], {
-                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 });
-                const downloadLink = document.createElement('a');
+                const downloadLink = document.createElement("a");
                 downloadLink.href = window.URL.createObjectURL(blob);
                 downloadLink.download = `${mData.edi_filename}.xlsx`;
                 downloadLink.click();
               },
               () => {
-                showAckErrorMessage({ message: 'Error in downloading the file.' });
+                showAckErrorMessage({
+                  message: "Error in downloading the file.",
+                });
               }
             );
-        } else showAckErrorMessage({ message: 'No file found on server.' });
-      } else if (buttonType === 'view') {
+        } else showAckErrorMessage({ message: "No file found on server." });
+      } else if (buttonType === "view") {
         viewEdi(mData);
       } else {
         onSetActiveModal(buttonType);
@@ -351,10 +373,12 @@ const AdvertiserSchedule = inject(
       ediInfoMetadataCpy.nextUrl = data.next;
       ediInfoMetadataCpy.prevUrl = data.previous;
       ediInfoMetadataCpy.currentPage = data.next
-        ? Math.ceil(new URL(data.next).searchParams.get('page') - 1)
+        ? Math.ceil(new URL(data.next).searchParams.get("page") - 1)
         : Math.ceil(data.count / 50);
       if (setTotalPage) {
-        ediInfoMetadataCpy.totalPages = Math.ceil(data.count / data.results.length);
+        ediInfoMetadataCpy.totalPages = Math.ceil(
+          data.count / data.results.length
+        );
       }
       setediInfoMetadata(ediInfoMetadataCpy);
     };
@@ -364,7 +388,7 @@ const AdvertiserSchedule = inject(
         (res) => {
           if (res && res.status === 200) {
             processEdiInfo(res.data, true);
-            onSetActiveModal('view');
+            onSetActiveModal("view");
           }
         },
         () => {}
@@ -400,7 +424,7 @@ const AdvertiserSchedule = inject(
             brandFilterAllData={brandFilterAllData}
             brandFilterSelectedData={brandFilterSelectedData}
             applyFilter={applyFilter}
-            onUploadNewDeal={() => onSetActiveModal('upload_new_deal')}
+            onUploadNewDeal={() => onSetActiveModal("upload_new_deal")}
             onPageRefresh={onPageRefresh}
           />
 
@@ -422,20 +446,20 @@ const AdvertiserSchedule = inject(
           />
 
           <UploadNewDeal
-            showModal={activeModal === 'upload_new_deal'}
-            closeModal={() => onSetActiveModal('')}
+            showModal={activeModal === "upload_new_deal"}
+            closeModal={() => onSetActiveModal("")}
             getListingData={getListingData}
             isUnivisionDash={true}
           />
 
           <DealErrors
-            showModal={activeModal === 'deal_errors'}
-            closeModal={() => onSetActiveModal('')}
+            showModal={activeModal === "deal_errors"}
+            closeModal={() => onSetActiveModal("")}
             errorModalData={modalData}
           />
           <ViewDealDetailsModal
-            showModal={activeModal === 'view'}
-            closeModal={() => onSetActiveModal('')}
+            showModal={activeModal === "view"}
+            closeModal={() => onSetActiveModal("")}
             ediInfoData={ediInfoData}
             ediInfoMetadata={ediInfoMetadata}
             ediInfoChangePage={ediInfoChangePage}
@@ -453,4 +477,4 @@ AdvertiserSchedule.propTypes = {
   navigationService: PropTypes.object,
 };
 
-export default withStore(AdvertiserSchedule);
+export default AdvertiserSchedule;

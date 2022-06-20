@@ -1,0 +1,18 @@
+.acc-management-edit-btn {
+  width: auto !important;
+  text-align: center !important;
+}
+
+.acc-management-phone-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #b4b8bb;
+}
+
+.acc-management-phone-box > span {
+  padding: 0 7px;
+}
+
+.acc-management-phone-box > input {
+  border: none;
+}

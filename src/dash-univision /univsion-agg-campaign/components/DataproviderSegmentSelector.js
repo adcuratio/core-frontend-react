@@ -1,13 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import withStore from '../../../hocs/WithStore';
+import React from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+//import withStore from '../../../hocs/WithStore';
 
-import { Row, Col, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  ButtonToolbar,
+  DropdownButton,
+  MenuItem,
+} from "react-bootstrap";
 
-const DataproviderSegmentSelector = inject('aggCampaignStore')(
+const DataproviderSegmentSelector = inject("aggCampaignStore")(
   observer((props) => {
-    const { segmentData, onChangeSegmentData, selectedCompanyId, aggCampaignStore } = props;
+    const {
+      segmentData,
+      onChangeSegmentData,
+      selectedCompanyId,
+      aggCampaignStore,
+    } = props;
 
     // const segment_obj = {
     //   data_provider: null,
@@ -21,7 +32,10 @@ const DataproviderSegmentSelector = inject('aggCampaignStore')(
         data_provider: value,
         entity_id: selectedCompanyId,
       });
-      sessionStorage.setItem('segmentlist', JSON.stringify(response?.data?.data));
+      sessionStorage.setItem(
+        "segmentlist",
+        JSON.stringify(response?.data?.data)
+      );
       onChangeSegmentData({ data_provider: value });
     };
 
@@ -36,7 +50,7 @@ const DataproviderSegmentSelector = inject('aggCampaignStore')(
     };
 
     const handleDataproviderChange = (value) => onChangeDataprovider(value);
-    const list = JSON.parse(sessionStorage.getItem('segmentlist'));
+    const list = JSON.parse(sessionStorage.getItem("segmentlist"));
 
     return (
       <>
@@ -47,7 +61,7 @@ const DataproviderSegmentSelector = inject('aggCampaignStore')(
           <Col md={3} sm={3}>
             <div>
               <select
-                value={segmentData?.data_provider || ''}
+                value={segmentData?.data_provider || ""}
                 onChange={(e) => handleDataproviderChange(e.target.value)}
                 className="date-picker-length f12"
               >
@@ -72,8 +86,8 @@ const DataproviderSegmentSelector = inject('aggCampaignStore')(
                 <ButtonToolbar>
                   <DropdownButton
                     className="date-picker-length f12 overflow-hidden"
-                    title={segmentData?.segment_name || 'Select Segment'}
-                    id={'segment_drop_sel'}
+                    title={segmentData?.segment_name || "Select Segment"}
+                    id={"segment_drop_sel"}
                   >
                     <MenuItem disabled={true}>Select Segment</MenuItem>
                     {list?.map((val) => (
@@ -82,7 +96,7 @@ const DataproviderSegmentSelector = inject('aggCampaignStore')(
                         key={val?.id}
                         onSelect={() => onChangeSegment(val)}
                       >
-                        {val?.name || '---'}
+                        {val?.name || "---"}
                       </MenuItem>
                     ))}
                   </DropdownButton>
@@ -92,7 +106,11 @@ const DataproviderSegmentSelector = inject('aggCampaignStore')(
                 <p className="f12">Audience Size</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{segmentData?.row_count ? segmentData?.row_count?.toLocaleString() : '-'}</p>
+                <p className="f12">
+                  {segmentData?.row_count
+                    ? segmentData?.row_count?.toLocaleString()
+                    : "-"}
+                </p>
               </Col>
             </Row>
             <Row></Row>
@@ -109,4 +127,4 @@ DataproviderSegmentSelector.propTypes = {
   selectedCompanyId: PropTypes.any,
 };
 
-export default withStore(DataproviderSegmentSelector);
+export default DataproviderSegmentSelector;

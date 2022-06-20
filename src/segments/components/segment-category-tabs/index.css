@@ -1,0 +1,50 @@
+.segments-tab {
+  list-style: none;
+}
+
+.segments-tab > li {
+  display: inline-block;
+  padding: 0 10px 3px 10px;
+  cursor: pointer;
+}
+
+.segments-tab > li:first-child {
+  padding-left: 0;
+}
+
+.segments-tab > li:not(:first-child) {
+  border-left: 1px solid #94969a;
+}
+
+.segments-tab-active {
+  color: #000;
+  border-bottom: 4px solid #eea32c;
+}
+
+.experian-sub-cat-margin {
+  margin-top: 30px;
+}
+
+.experian-sub-cat-heading-name {
+  font-weight: 800;
+  margin-right: 20px;
+  display: inline;
+}
+
+.experian-auto-sub-sub-category-display {
+  display: inline-flex;
+}
+
+.experion-glyphicon-icon-cursor {
+  cursor: pointer;
+}
+
+.experian-slider > div > div:last-child > span {
+  position: absolute;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  color: #999;
+  width: min-content;
+}

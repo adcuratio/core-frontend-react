@@ -1447,7 +1447,7 @@ export const univisionNetworkAdminMenuList = ({
   const onUnivisionHome = () => $state.current.name === "dash.univisionLanding";
 
   const goToManageAudienceLanding = () => {
-    return "/dash.manageAudienceLanding";
+    return "univision-network-admin/manage-audience";
   };
   const onManageAudienceLanding = () =>
     $state.current.name === "/dash.manageAudienceLanding";
@@ -1458,7 +1458,7 @@ export const univisionNetworkAdminMenuList = ({
     onUnivisionViewAudience();
 
   const goToUnivisionCreateAudience = () => {
-    return "/dash.univisionCreateAudience";
+    return "univision-network-admin/manage-audience/create-audience";
   };
   const onUnivisionCreateAudience = () =>
     $state.current.name === "dash.univisionCreateAudience";
@@ -1470,7 +1470,7 @@ export const univisionNetworkAdminMenuList = ({
     onUnivisionCreateAudience() || onUnivisionSelectFilters();
 
   const goToUnivisionViewAudience = () => {
-    return "/dash.univisionViewAudience";
+    return "univision-network-admin/manage-audience/view-audience";
   };
   const onUnivisionViewAudience = () =>
     $state.current.name === "dash.univisionViewAudience";
@@ -1479,10 +1479,10 @@ export const univisionNetworkAdminMenuList = ({
     return "univision/view-schedules";
   };
   const goToUploadCreative = () => {
-    return "/dash.uploadAdPool";
+    return "univision-network-admin/upload-ad-pool";
   };
   const goToViewPool = () => {
-    return "/dash.viewPool";
+    return "univision-network-admin/view-pool";
   };
   const onViewPool = () => $state.current.name === "dash.viewPool";
 
@@ -1497,7 +1497,7 @@ export const univisionNetworkAdminMenuList = ({
   // const onUnivisionNetworkEdiTable = () => $state.current.name === 'dash.univisionEdiTable';
 
   const goToUnivisionAdministration = () => {
-    return "/dash.univisionAdministration";
+    return "univision-network-admin/administration";
   };
 
   const onUnivisionAdministration = () =>
@@ -1506,7 +1506,7 @@ export const univisionNetworkAdminMenuList = ({
   // const onUnivisionManageChannels = () => $state.current.name === 'dash.univisionManageChannels';
 
   const goToUnivisonCampaignLandingPage = () => {
-    return "/dash.univisionCampaignLandingPage";
+    return "univision-network-admin/univsion-build-campaign-landing";
   };
 
   const onUnivisionCampaignLandingPage = () =>
@@ -1543,15 +1543,15 @@ export const univisionNetworkAdminMenuList = ({
   //   $state.current.name === 'dash.univisionCreativesWatermarkApproval';
 
   const goToUnivisionReportsPacing = () => {
-    return "dash.univisionReportsPacing";
+    return "univision-network-admin/reports-pacing";
   };
 
   const goToUnivisionReportsPostCampaign = () => {
-    return "dash.univisionReportsPostCampaign";
+    return "univision-network-admin/reports-post-campaign-isci";
   };
 
   const goToUnivisionPostCampaignDaypartReports = () => {
-    return "dash.univisionPostCampaignDaypartReports";
+    return "univision-network-admin/reports-post-campaign-dma";
   };
 
   // const goToUnivisionReportsCtvLogs = () => {
@@ -1571,7 +1571,7 @@ export const univisionNetworkAdminMenuList = ({
     $state.current.name === "dash.univisionReportsCtvLogs";
 
   const goToManageAdPool = () => {
-    return "dash.managePool";
+    return "manage-ad-pool";
   };
   const isManageAdPool = () => $state.current.name === "dash.managePool";
   // const goToUnivisionInventorySpots = () => {
@@ -1579,7 +1579,7 @@ export const univisionNetworkAdminMenuList = ({
   // };
 
   const goToUnivisionInventorySpot = () => {
-    return "dash.univisionInventorySpot";
+    return "univision/view-addressable-inventory";
   };
   // const onUnivisionInventorySpots = () => $state.current.name === 'dash.univisionInventorySpots';
 
@@ -1590,7 +1590,7 @@ export const univisionNetworkAdminMenuList = ({
     onUnivisionNetworkLogs() || onUnivisionInventorySpot();
 
   const goToUnivisionManageCampaigns = () => {
-    return "dash.univisionManageCampaigns";
+    return "univision-network-admin/manage-campaigns";
   };
   const onUnivisionManageCampaigns = () =>
     $state.current.name === "dash.univisionManageCampaigns";

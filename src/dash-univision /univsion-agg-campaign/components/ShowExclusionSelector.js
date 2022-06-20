@@ -1,10 +1,10 @@
-import React from 'react';
-import Select from 'react-select';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import withStore from '../../../hocs/WithStore';
+import React from "react";
+import Select from "react-select";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+import { toJS } from "mobx";
+//import withStore from '../../../hocs/WithStore';
 
 const SelectWrapper = styled.div`
   border-radius: 0px !important;
@@ -12,16 +12,21 @@ const SelectWrapper = styled.div`
 `;
 
 export const customStyles = {
-  control: (styles) => ({ ...styles, backgroundColor: 'white', borderRadius: 0, height: '30px' }),
+  control: (styles) => ({
+    ...styles,
+    backgroundColor: "white",
+    borderRadius: 0,
+    height: "30px",
+  }),
   valueContainer: (styles) => ({
     ...styles,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "nowrap",
   }),
 };
 
-const ShowExclusionSelector = inject('aggCampaignStore')(
+const ShowExclusionSelector = inject("aggCampaignStore")(
   observer((props) => {
     const { selectedData, onChange, aggCampaignStore } = props;
     const showsList = toJS(aggCampaignStore?.showNameList);
@@ -30,7 +35,11 @@ const ShowExclusionSelector = inject('aggCampaignStore')(
       <SelectWrapper>
         <Select
           styles={customStyles}
-          value={selectedData ? showsList?.filter((data) => selectedData?.includes(data?.id)) : []}
+          value={
+            selectedData
+              ? showsList?.filter((data) => selectedData?.includes(data?.id))
+              : []
+          }
           isMulti
           name="colors"
           options={showsList}
@@ -48,4 +57,4 @@ ShowExclusionSelector.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default withStore(ShowExclusionSelector);
+export default ShowExclusionSelector;

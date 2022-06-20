@@ -1,34 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { toJS } from 'mobx';
-import withStore from '../../../hocs/WithStore';
-import { formatText, getEntityType, showAckErrorMessage, showAckMessage } from '../../../common/utils';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { toJS } from "mobx";
+import {
+  formatText,
+  getEntityType,
+  showAckErrorMessage,
+  showAckMessage,
+} from "../../../common/utils";
 
-import { observer, inject } from 'mobx-react';
-import CustomButton from '../../../components/CustomButton';
-import ReactLoader from '../../../components/ReactLoader';
-import CreativeForm from '../../../components/network-creatives/creatives-manage/CreativeForm';
-import { MainContent, PageContent, PageHeader } from '../../../components/PageLayout';
-import { PageTitle } from '../../../components/Typography';
+import { observer, inject } from "mobx-react";
+import CustomButton from "../../../components/CustomButton";
+import ReactLoader from "../../../components/ReactLoader";
+import CreativeForm from "../../../components/network-creatives/creatives-manage/CreativeForm";
+import {
+  MainContent,
+  PageContent,
+  PageHeader,
+} from "../../../components/PageLayout";
+import { PageTitle } from "../../../components/Typography";
 
 const formInitialState = {
   selectedCompany: 0,
-  isciEntity: '',
-  isciIdentifier: '',
-  isciCreative: '',
+  isciEntity: "",
+  isciIdentifier: "",
+  isciCreative: "",
   fileData: null,
-  selectedDeliveryVendorOption: '',
-  selectedAdOption: '',
+  selectedDeliveryVendorOption: "",
+  selectedAdOption: "",
   selectedNetworkOption: [],
-  deliveryVendorFreeText: '',
+  deliveryVendorFreeText: "",
 
   // selectedChannels: [],
 };
 // const updatedF = Anyfunction("some data")(oldFunction)
 const UploadAdPool = inject(
-  'networkStore',
-  'uiStore',
-  'navigationService'
+  "networkStore",
+  "uiStore",
+  "navigationService"
 )(
   observer((props) => {
     const { networkStore, getAllCreatives, uiStore, navigationService } = props;
@@ -37,7 +45,8 @@ const UploadAdPool = inject(
     const [networkChoices, setNetworkChoices] = useState([]);
     const [adChoices, setAdChoices] = useState([]);
     const [networkSelectedData, setNetworkSelectedData] = useState([]);
-    const [uploadCreativesData, setUploadCreativesData] = useState(formInitialState);
+    const [uploadCreativesData, setUploadCreativesData] =
+      useState(formInitialState);
 
     useEffect(() => {
       getCompanyData();
@@ -48,8 +57,10 @@ const UploadAdPool = inject(
     const handleISCISubmit = () => {
       const uploadCreativesCpy = { ...uploadCreativesData };
       let deliveryVendorVal = uploadCreativesCpy.selectedDeliveryVendorOption;
-      if (uploadCreativesCpy.selectedDeliveryVendorOption === 'other') {
-        deliveryVendorVal = formatText(uploadCreativesCpy.deliveryVendorFreeText);
+      if (uploadCreativesCpy.selectedDeliveryVendorOption === "other") {
+        deliveryVendorVal = formatText(
+          uploadCreativesCpy.deliveryVendorFreeText
+        );
       }
 
       if (
@@ -79,23 +90,33 @@ const UploadAdPool = inject(
             (res) => {
               if (res?.success) {
                 if (res?.data && res?.data?.is_exist) {
-                  showAckErrorMessage({ message: 'ID already exists. Please try again with different Identifier.' });
+                  showAckErrorMessage({
+                    message:
+                      "ID already exists. Please try again with different Identifier.",
+                  });
                 } else {
                   showAckMessage({
-                    message: 'Upload successful.',
+                    message: "Upload successful.",
                   });
                   setUploadCreativesData(formInitialState);
                   // closeUploadModal();
                   getAllCreatives();
                 }
               } else
-                showAckErrorMessage({ message: res?.message ?? 'Something went wrong while Uploading Creative file!' });
+                showAckErrorMessage({
+                  message:
+                    res?.message ??
+                    "Something went wrong while Uploading Creative file!",
+                });
             },
             () => {
               showAckErrorMessage();
             }
           );
-      } else showAckErrorMessage({ message: 'Please select or fill all the required fields.' });
+      } else
+        showAckErrorMessage({
+          message: "Please select or fill all the required fields.",
+        });
     };
 
     // Function to get all the companies data.
@@ -108,10 +129,12 @@ const UploadAdPool = inject(
             // API call 2 -  Populating channel data
             // getChannelData();
             getDelivery();
-          } else showAckErrorMessage({ message: 'No data available.' });
+          } else showAckErrorMessage({ message: "No data available." });
         },
         () => {
-          showAckErrorMessage({ message: 'No advertiser data available. Internal error.' });
+          showAckErrorMessage({
+            message: "No advertiser data available. Internal error.",
+          });
         }
       );
     };
@@ -121,13 +144,19 @@ const UploadAdPool = inject(
       networkChoice?.map((ad, id) => networkList.push(ad[id]));
       setNetworkChoices(networkList);
       setNetworkSelectedData(networkList);
-      setUploadCreativesData({ ...uploadCreativesData, selectedNetworkOption: networkList });
+      setUploadCreativesData({
+        ...uploadCreativesData,
+        selectedNetworkOption: networkList,
+      });
     };
 
     const applyNetworkMultiselect = (filteredData, id) => {
-      if (id === 'network_multiselect') {
+      if (id === "network_multiselect") {
         setNetworkSelectedData(filteredData);
-        setUploadCreativesData({ ...uploadCreativesData, selectedNetworkOption: filteredData });
+        setUploadCreativesData({
+          ...uploadCreativesData,
+          selectedNetworkOption: filteredData,
+        });
       }
     };
 
@@ -146,7 +175,9 @@ const UploadAdPool = inject(
           }
         },
         () => {
-          showAckErrorMessage({ message: 'something went wrong with creatives list.' });
+          showAckErrorMessage({
+            message: "something went wrong with creatives list.",
+          });
         }
       );
     };
@@ -162,7 +193,9 @@ const UploadAdPool = inject(
             <PageTitle> Upload New Creatives</PageTitle>
           </PageHeader>
           <PageContent>
-            <div style={{ width: '50%', marginTop: '50px', paddingLeft: '50px' }}>
+            <div
+              style={{ width: "50%", marginTop: "50px", paddingLeft: "50px" }}
+            >
               <CreativeForm
                 {...props}
                 uploadCreativesData={uploadCreativesData}
@@ -214,4 +247,4 @@ UploadAdPool.defaultProps = {
   deliveryVendorChoices: [],
 };
 
-export default withStore(UploadAdPool);
+export default UploadAdPool;

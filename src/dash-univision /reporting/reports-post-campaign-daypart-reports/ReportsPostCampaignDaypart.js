@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import styled from 'styled-components';
-import { toJS } from 'mobx';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import styled from "styled-components";
+import { toJS } from "mobx";
+import axios from "axios";
 
-import { MainContent, PageHeader } from '../../../components/PageLayout';
-import ReactLoader from '../../../components/ReactLoader';
-import { PageTitle } from '../../../components/Typography';
-import ReactPickyFilter from '../../../components/ReactPickyFilter';
+import { MainContent, PageHeader } from "../../../components/PageLayout";
+import ReactLoader from "../../../components/ReactLoader";
+import { PageTitle } from "../../../components/Typography";
+import ReactPickyFilter from "../../../components/ReactPickyFilter";
 
-import { showAckErrorMessage } from '../../../common/utils';
+import { showAckErrorMessage } from "../../../common/utils";
 
-import withStore from '../../../hocs/WithStore';
+//import withStore from '../../../hocs/WithStore';
 
-import { postCampaignDayPartTitles } from './components/JsonData';
-import TableContainer from './components/TableContainer';
-import CustomButton from '../../../components/CustomButton';
+import { postCampaignDayPartTitles } from "./components/JsonData";
+import TableContainer from "./components/TableContainer";
+import CustomButton from "../../../components/CustomButton";
 
 const SelectWrapper = styled.div`
   width: 200px;
@@ -29,8 +29,8 @@ const SelectWrapper = styled.div`
 `;
 
 const ReportsPostCampaignDaypart = inject(
-  'uiStore',
-  'univisionStore'
+  "uiStore",
+  "univisionStore"
 )(
   observer((props) => {
     const { uiStore, univisionStore } = props;
@@ -38,10 +38,12 @@ const ReportsPostCampaignDaypart = inject(
     const [selectedCompany, setSelectedCompany] = useState(0);
 
     const [campaignFilterAllData, setCampaignFilterAllData] = useState([]);
-    const [campaignFilterSelectedData, setCampaignFilterSelectedData] = useState([]);
+    const [campaignFilterSelectedData, setCampaignFilterSelectedData] =
+      useState([]);
 
     const [creativeFilterAllData, setCreativeFilterAllData] = useState([]);
-    const [creativeFilterSelectedData, setCreativeFilterSelectedData] = useState([]);
+    const [creativeFilterSelectedData, setCreativeFilterSelectedData] =
+      useState([]);
 
     const [filteredEntityList, SetFilteredEntityList] = useState({});
 
@@ -49,7 +51,7 @@ const ReportsPostCampaignDaypart = inject(
 
     const [reportData, setReportData] = useState([]);
 
-    const [nextPageUrl, setNextPageUrl] = useState('');
+    const [nextPageUrl, setNextPageUrl] = useState("");
 
     const getPostCampaignDaypartList = () => {
       univisionStore.getPostCampaignDaypartList().then(
@@ -62,10 +64,12 @@ const ReportsPostCampaignDaypart = inject(
                 return dCpy;
               });
             }
-            const postCampaignNetworkContent = JSON.parse(JSON.stringify(results));
+            const postCampaignNetworkContent = JSON.parse(
+              JSON.stringify(results)
+            );
             setPostCampaignNetworkList(postCampaignNetworkContent);
           } else {
-            showAckErrorMessage({ message: 'No data available.' });
+            showAckErrorMessage({ message: "No data available." });
           }
         },
         () => {
@@ -79,7 +83,9 @@ const ReportsPostCampaignDaypart = inject(
     }, []);
 
     const handleEntitySelection = (e) => {
-      const currentCompanydata = postCampaignNetworkList.find((c) => c.company.id === parseInt(e.target.value));
+      const currentCompanydata = postCampaignNetworkList.find(
+        (c) => c.company.id === parseInt(e.target.value)
+      );
       SetFilteredEntityList(toJS(currentCompanydata));
       setSelectedCompany(e.target.value);
       onSetCampaignData(toJS(currentCompanydata));
@@ -91,7 +97,7 @@ const ReportsPostCampaignDaypart = inject(
         if (b.name) {
           campaignData.push(b.name);
         } else {
-          campaignData.push('with no campaign');
+          campaignData.push("with no campaign");
         }
       });
       const brandFilteredDataCpy = [...new Set(campaignData)];
@@ -101,14 +107,16 @@ const ReportsPostCampaignDaypart = inject(
     };
 
     const onSetCreativeData = (modifiedData) => {
-      const creativeData = filteredEntityList?.company?.campaign?.filter((c) => modifiedData.includes(c.name));
+      const creativeData = filteredEntityList?.company?.campaign?.filter((c) =>
+        modifiedData.includes(c.name)
+      );
       const filteredData = [];
       creativeData?.forEach((a) => {
         a.dma.forEach((c) => {
           if (c.name_code) {
             filteredData.push(c.name_code);
           } else {
-            filteredData.push('with no creative');
+            filteredData.push("with no creative");
           }
         });
       });
@@ -118,10 +126,10 @@ const ReportsPostCampaignDaypart = inject(
     };
 
     const applyFilter = (filteredData, id) => {
-      if (id === 'campaign_filter') {
+      if (id === "campaign_filter") {
         setCampaignFilterSelectedData(filteredData);
         onSetCreativeData(filteredData);
-      } else if (id === 'creative_filter') {
+      } else if (id === "creative_filter") {
         setCreativeFilterSelectedData(filteredData);
       }
     };
@@ -146,8 +154,10 @@ const ReportsPostCampaignDaypart = inject(
     const getAllCampaignDaypartReports = (pageUrl) => {
       const { campaignIds, creativeIds, advId } = selectedCampaignIds();
 
-      let url = '';
-      url += `&company=${advId}&campaign=${campaignIds?.join(',')}&dma=${creativeIds?.join(',')}`;
+      let url = "";
+      url += `&company=${advId}&campaign=${campaignIds?.join(
+        ","
+      )}&dma=${creativeIds?.join(",")}`;
 
       univisionStore.getAllCampaignDaypartReports(url, pageUrl).then(
         (res) => {
@@ -156,7 +166,7 @@ const ReportsPostCampaignDaypart = inject(
             setReportData([...reportData, ...res.data.results]);
             uiStore.isLoading = false;
           } else {
-            showAckErrorMessage({ message: 'No Data Available' });
+            showAckErrorMessage({ message: "No Data Available" });
           }
         },
         () => {
@@ -170,38 +180,40 @@ const ReportsPostCampaignDaypart = inject(
         setToggle(!toggle);
         getAllCampaignDaypartReports();
       } else {
-        showAckErrorMessage({ message: 'Please select all details.' });
+        showAckErrorMessage({ message: "Please select all details." });
       }
     };
 
     const downloadDaypartReport = () => {
       const { campaignIds, creativeIds, advId } = selectedCampaignIds();
-      univisionStore.downloadCampaignDaypartReport(advId, campaignIds, creativeIds).then((res) => {
-        if (res && res.data) {
-          axios.get(res.data.s3_url).then(
-            (res) => {
-              const blob = new Blob([res.data], { type: 'application/json' });
-              const downloadLink = document.createElement('a');
-              downloadLink.href = window.URL.createObjectURL(blob);
-              downloadLink.download = `Report.csv`;
-              downloadLink.click();
-              uiStore.isLoading = false;
-            },
-            () => {
-              uiStore.isLoading = false;
-              showAckErrorMessage({ message: 'Unable to download logs.' });
-            }
-          );
-        } else {
-          showAckErrorMessage({ message: 'No file found on server.' });
-        }
-      });
+      univisionStore
+        .downloadCampaignDaypartReport(advId, campaignIds, creativeIds)
+        .then((res) => {
+          if (res && res.data) {
+            axios.get(res.data.s3_url).then(
+              (res) => {
+                const blob = new Blob([res.data], { type: "application/json" });
+                const downloadLink = document.createElement("a");
+                downloadLink.href = window.URL.createObjectURL(blob);
+                downloadLink.download = `Report.csv`;
+                downloadLink.click();
+                uiStore.isLoading = false;
+              },
+              () => {
+                uiStore.isLoading = false;
+                showAckErrorMessage({ message: "Unable to download logs." });
+              }
+            );
+          } else {
+            showAckErrorMessage({ message: "No file found on server." });
+          }
+        });
     };
 
     const handlePagination = () => {
       if (nextPageUrl) {
         getAllCampaignDaypartReports(nextPageUrl);
-        setNextPageUrl('');
+        setNextPageUrl("");
       }
     };
 
@@ -219,9 +231,15 @@ const ReportsPostCampaignDaypart = inject(
             <div className="flex-container2 mt20 ml20">
               <div className="flex-container1">
                 <SelectWrapper>
-                  <select className="capitalize" value={selectedCompany} onChange={(e) => handleEntitySelection(e)}>
+                  <select
+                    className="capitalize"
+                    value={selectedCompany}
+                    onChange={(e) => handleEntitySelection(e)}
+                  >
                     <option value="0" disabled>
-                      {postCampaignNetworkList?.length > 0 ? 'Select Advertiser' : 'Loading advertiser'}
+                      {postCampaignNetworkList?.length > 0
+                        ? "Select Advertiser"
+                        : "Loading advertiser"}
                     </option>
                     {postCampaignNetworkList?.length > 0 &&
                       postCampaignNetworkList?.map((c) => (
@@ -261,7 +279,9 @@ const ReportsPostCampaignDaypart = inject(
               </div>
             </div>
           ) : (
-            <p className="text-center">No Post campaign daypart reports available for the campaigns.</p>
+            <p className="text-center">
+              No Post campaign daypart reports available for the campaigns.
+            </p>
           )
         ) : (
           <TableContainer
@@ -280,4 +300,4 @@ const ReportsPostCampaignDaypart = inject(
   })
 );
 
-export default withStore(ReportsPostCampaignDaypart);
+export default ReportsPostCampaignDaypart;

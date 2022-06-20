@@ -1,23 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { useState, useEffect, useRef } from "react";
+import { inject, observer } from "mobx-react";
 
-import { MainContent, PageHeader } from '../../../components/PageLayout';
-import ReactLoader from '../../../components/ReactLoader';
-import { PageTitle } from '../../../components/Typography';
+import { MainContent, PageHeader } from "../../../components/PageLayout";
+import ReactLoader from "../../../components/ReactLoader";
+import { PageTitle } from "../../../components/Typography";
 
-import { applySearch, showAckErrorMessage, getMonthArray, stdMonthArray, processUTCtoEST } from '../../../common/utils';
+import {
+  applySearch,
+  showAckErrorMessage,
+  getMonthArray,
+  stdMonthArray,
+  processUTCtoEST,
+} from "../../../common/utils";
 
-import NetworkLogsViewPlan from '../../univision-network-logs/components/NetworkLogsViewPlan';
-import { networkLogsTableTitles } from './components/JsonData';
-import Header from '../../univision-network-logs/components/Header';
-import ModalData from '../../univision-network-logs/components/UploadModal';
-import TableContainerMain from './components/TableContainer';
+import NetworkLogsViewPlan from "../../univision-network-logs/components/NetworkLogsViewPlan";
+import { networkLogsTableTitles } from "./components/JsonData";
+import Header from "../../univision-network-logs/components/Header";
+import ModalData from "../../univision-network-logs/components/UploadModal";
+import TableContainerMain from "./components/TableContainer";
 
-import withStore from '../../../hocs/WithStore';
+//import withStore from '../../../hocs/WithStore';
 
 const UnivisionAddressableInventory = inject(
-  'univisionStore',
-  'uiStore'
+  "univisionStore",
+  "uiStore"
 )(
   observer((props) => {
     const { univisionStore, uiStore } = props;
@@ -26,30 +32,36 @@ const UnivisionAddressableInventory = inject(
       //to get the selected month by default current month
       `${stdMonthArray[new Date().getMonth()]}, ${new Date().getFullYear()}`
     );
-    const [filteredTraffickingPlansData, setFilteredTraffickingPlansData] = useState([]); // to get the all trafficking plans that has been sorted to show in main table
+    const [filteredTraffickingPlansData, setFilteredTraffickingPlansData] =
+      useState([]); // to get the all trafficking plans that has been sorted to show in main table
     const [showModal, setShowModal] = useState(false);
     const [showViewPlanModal, setViewPlanModal] = useState(false); // to show the modal for selected plan
     const [selectedPlanToView, setSelectedPlanToView] = useState([]); //set the plan that have been selected for view with processed data
     const [selectedPlanList, setSelectedPlanList] = useState({}); //selected plan without processing
-    const [searchValue, setSearchValue] = useState(''); //search bar on main page
+    const [searchValue, setSearchValue] = useState(""); //search bar on main page
     const [numOfPages, setNumOfPages] = useState(0); //number of pages on modal
     const [selectedPlan, setSelectedPlan] = useState({});
     const [traffickingPlansData, setDefaultTraffickingPlanData] = useState([]); //table content of main page
-    const [cpyForNetworkSelectTraffickPlanData, setCpyForNetworkSelectTraffickPlanData] = useState([]); // copy of table content without processing
-    const [searchValueForModal, setSearchValueForModal] = useState(''); // search bar in plan modal
+    const [
+      cpyForNetworkSelectTraffickPlanData,
+      setCpyForNetworkSelectTraffickPlanData,
+    ] = useState([]); // copy of table content without processing
+    const [searchValueForModal, setSearchValueForModal] = useState(""); // search bar in plan modal
     const isMountedRef = useRef(null); // to handle memory leak after component unmount
     const [allChannels, setAllChannels] = useState([]); //to get the set of all the used channels
     const [networkFilterData, setNewtorkFilterData] = useState([]); // network filter data for dropdown
-    const [selectedNetworkFilterData, setSelectedNetworkFilterData] = useState([]); //selected network filter that are present in trafficking plan
-    const [buttonId, setButtonId] = useState('');
+    const [selectedNetworkFilterData, setSelectedNetworkFilterData] = useState(
+      []
+    ); //selected network filter that are present in trafficking plan
+    const [buttonId, setButtonId] = useState("");
 
     const setMonth = (month) => {
       // set the selected month
-      const monthIndex = stdMonthArray.indexOf(month.split(', ')[0]) + 1;
-      const selectedYear = month.split(', ')[1];
+      const monthIndex = stdMonthArray.indexOf(month.split(", ")[0]) + 1;
+      const selectedYear = month.split(", ")[1];
       getTraffickingPlans(monthIndex, selectedYear);
       setSelectedMonth(month);
-      setSearchValue('');
+      setSearchValue("");
     };
 
     const updateChannelFilters = (channels = false, plans = []) => {
@@ -87,18 +99,26 @@ const UnivisionAddressableInventory = inject(
       univisionStore.getLogs(month, year).then(
         (res) => {
           if (!(res && res.status === 200)) {
-            showAckErrorMessage({ message: res?.data?.message ?? 'Something went wrong while fetching Logs!' });
+            showAckErrorMessage({
+              message:
+                res?.data?.message ??
+                "Something went wrong while fetching Logs!",
+            });
           } else if (Array.isArray(res.data)) {
             res.data?.forEach((data) => {
               data.date = new Date(data.log_date);
-              const dateSplits = data.log_date.split('-');
-              data.dateString = `${dateSplits[2]} ${stdMonthArray[parseInt(dateSplits[1]) - 1]} ${dateSplits[0]}`;
+              const dateSplits = data.log_date.split("-");
+              data.dateString = `${dateSplits[2]} ${
+                stdMonthArray[parseInt(dateSplits[1]) - 1]
+              } ${dateSplits[0]}`;
               data.created = processUTCtoEST(data.created);
               data.network_name = data?.channel?.name;
             });
             if (isMountedRef.current) {
               updateChannelFilters(channels, res.data);
-              const filteredResponse = sortTable(filterPlanListByChannel(res.data, channels));
+              const filteredResponse = sortTable(
+                filterPlanListByChannel(res.data, channels)
+              );
               setDefaultTraffickingPlanData(filteredResponse);
               setFilteredTraffickingPlansData(filteredResponse);
               setCpyForNetworkSelectTraffickPlanData(filteredResponse);
@@ -117,13 +137,15 @@ const UnivisionAddressableInventory = inject(
         channels = [...allChannels];
       }
       const traffickPlanDataCPy = traffickPlanData?.filter(() => {
-        if (channels?.find((channel) => channel?.isSelected === true)) return true;
+        if (channels?.find((channel) => channel?.isSelected === true))
+          return true;
         else return false;
       });
       return traffickPlanDataCPy;
     };
 
-    const sortTable = (data) => data.sort((a, b) => new Date(b.log_date) - new Date(a.log_date));
+    const sortTable = (data) =>
+      data.sort((a, b) => new Date(b.log_date) - new Date(a.log_date));
 
     const handleModalToggleForUpload = () => {
       // to upload new trafficking plan
@@ -131,25 +153,33 @@ const UnivisionAddressableInventory = inject(
     };
 
     const toggleViewPlanModal = () => {
-      setSearchValueForModal('');
+      setSearchValueForModal("");
       setViewPlanModal(!showViewPlanModal);
     };
 
-    const getAllChannels = (month = new Date().getMonth() + 1, year = new Date().getFullYear()) => {
+    const getAllChannels = (
+      month = new Date().getMonth() + 1,
+      year = new Date().getFullYear()
+    ) => {
       univisionStore.getAllChannels().then(
         //api call to get all channels
         (response) => {
           if (!(response && response.status === 200)) {
-            showAckErrorMessage({ message: response?.data?.message ?? 'Unable to Fetch Network Logs!' });
+            showAckErrorMessage({
+              message:
+                response?.data?.message ?? "Unable to Fetch Network Logs!",
+            });
           } else {
             if (response.data) {
-              const channels = response.data.data[0]?.channels?.map((channel) => ({
-                //processing the data to add more fields
-                name: channel.display_name,
-                id: channel.id,
-                isSelected: true,
-                isVisible: true,
-              }));
+              const channels = response.data.data[0]?.channels?.map(
+                (channel) => ({
+                  //processing the data to add more fields
+                  name: channel.display_name,
+                  id: channel.id,
+                  isSelected: true,
+                  isVisible: true,
+                })
+              );
               if (isMountedRef.current) {
                 getTraffickingPlans(month, year, channels);
               }
@@ -171,11 +201,12 @@ const UnivisionAddressableInventory = inject(
     const onPageRefresh = () => {
       // page refresh button handler
       if (searchValue.length) {
-        setSearchValue('');
+        setSearchValue("");
       }
 
-      const monthIndex = stdMonthArray.indexOf(selectedMonth.split(', ')[0]) + 1;
-      const selectedYear = selectedMonth.split(', ')[1];
+      const monthIndex =
+        stdMonthArray.indexOf(selectedMonth.split(", ")[0]) + 1;
+      const selectedYear = selectedMonth.split(", ")[1];
       getAllChannels(monthIndex, selectedYear);
     };
 
@@ -187,17 +218,21 @@ const UnivisionAddressableInventory = inject(
     const viewDetails = (id, plan, url) => {
       setButtonId(id);
       //view plan api call
-      if (id === 'total_buyback') {
+      if (id === "total_buyback") {
         if (!url) {
           univisionStore.getLogsDetail(plan.id).then(
             (res) => {
               if (!(res && res.status === 200)) {
                 showAckErrorMessage({
-                  message: res?.data?.message ?? 'Something went wrong while fetching Log Details!',
+                  message:
+                    res?.data?.message ??
+                    "Something went wrong while fetching Log Details!",
                 });
               } else {
                 const result = processANEdata(res.data?.results);
-                const pages = Math.ceil(res.data?.count / res.data?.results.length);
+                const pages = Math.ceil(
+                  res.data?.count / res.data?.results.length
+                );
                 setSelectedPlanToView(result);
                 setNumOfPages(pages);
                 setSelectedPlanList(res?.data);
@@ -226,17 +261,21 @@ const UnivisionAddressableInventory = inject(
             }
           );
         }
-      } else if (['total_tp', 'total_units'].includes(id)) {
+      } else if (["total_tp", "total_units"].includes(id)) {
         if (!url) {
           univisionStore.getTotalPromoLogsDetails(plan.id).then(
             (res) => {
               if (!(res && res.status === 200)) {
                 showAckErrorMessage({
-                  message: res?.data?.message ?? 'Something went wrong while fetching Log Details!',
+                  message:
+                    res?.data?.message ??
+                    "Something went wrong while fetching Log Details!",
                 });
               } else {
                 const result = processANEdata(res.data?.results);
-                const pages = Math.ceil(res.data?.count / res.data?.results.length);
+                const pages = Math.ceil(
+                  res.data?.count / res.data?.results.length
+                );
                 setSelectedPlanToView(result);
                 setNumOfPages(pages);
                 setSelectedPlanList(res?.data);
@@ -273,12 +312,14 @@ const UnivisionAddressableInventory = inject(
       const newTableCpy = [];
       allChannels?.forEach((channel) => {
         if (data.includes(channel.name)) {
-          const filteredData = traffickingPlansData?.filter((tdata) => tdata?.channel?.level_1 === channel.name);
+          const filteredData = traffickingPlansData?.filter(
+            (tdata) => tdata?.channel?.level_1 === channel.name
+          );
           newTableCpy.push(...filteredData);
         }
       });
       if (searchValue.length) {
-        setSearchValue('');
+        setSearchValue("");
       }
       setCpyForNetworkSelectTraffickPlanData(sortTable(newTableCpy));
       setFilteredTraffickingPlansData(sortTable(newTableCpy));
@@ -299,7 +340,9 @@ const UnivisionAddressableInventory = inject(
           (res) => {
             if (res && res.status === 200) {
               const result = processANEdata(res.data?.results);
-              const pages = Math.ceil(res.data?.count / res.data?.results.length);
+              const pages = Math.ceil(
+                res.data?.count / res.data?.results.length
+              );
               setNumOfPages(pages);
               setSelectedPlanToView(result);
               setSelectedPlanList(res?.data);
@@ -355,7 +398,10 @@ const UnivisionAddressableInventory = inject(
           uiStore={uiStore}
           viewDetails={viewDetails}
         />
-        <ModalData showModal={showModal} closeModal={handleModalToggleForUpload} />
+        <ModalData
+          showModal={showModal}
+          closeModal={handleModalToggleForUpload}
+        />
         {showViewPlanModal && (
           <NetworkLogsViewPlan
             viewPlanModal={showViewPlanModal}
@@ -378,4 +424,4 @@ const UnivisionAddressableInventory = inject(
   })
 );
 
-export default withStore(UnivisionAddressableInventory);
+export default UnivisionAddressableInventory;

@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import withStore from '../../../hocs/WithStore';
-import { getRotationLable, getRotationAssetKey } from './campaign-helper';
-import { getRotationTooltip, creativePreviewTooltip } from './tool-tips';
+import React from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+//import withStore from '../../../hocs/WithStore';
+import { getRotationLable, getRotationAssetKey } from "./campaign-helper";
+import { getRotationTooltip, creativePreviewTooltip } from "./tool-tips";
 
-import { Row, Col, OverlayTrigger } from 'react-bootstrap';
-import CreativeSelector from './CreativeSelector';
+import { Row, Col, OverlayTrigger } from "react-bootstrap";
+import CreativeSelector from "./CreativeSelector";
 
-const CopyRotationTable = inject('aggCampaignStore')(
+const CopyRotationTable = inject("aggCampaignStore")(
   observer((props) => {
     const {
       rotationType,
@@ -24,7 +24,7 @@ const CopyRotationTable = inject('aggCampaignStore')(
       onChangeRotationDuration,
     } = props;
 
-    const durationArray = ['15', '30'];
+    const durationArray = ["15", "30"];
 
     return (
       <div>
@@ -34,7 +34,7 @@ const CopyRotationTable = inject('aggCampaignStore')(
           </Col>
           <Col md={3} sm={3}>
             <select
-              value={rotationType || ''}
+              value={rotationType || ""}
               onChange={(e) => onChangeRotationType(e.target.value)}
               className="date-picker-length f12"
             >
@@ -52,8 +52,10 @@ const CopyRotationTable = inject('aggCampaignStore')(
           </Col>
           <Col md={3} sm={3}>
             <select
-              value={creativesCount || ''}
-              onChange={(e) => onChangeRotationCreativesCount(e.target.value * 1)}
+              value={creativesCount || ""}
+              onChange={(e) =>
+                onChangeRotationCreativesCount(e.target.value * 1)
+              }
               className="date-picker-length f12"
             >
               <option value="" disabled>
@@ -79,7 +81,7 @@ const CopyRotationTable = inject('aggCampaignStore')(
           </Col>
           <Col md={3} sm={3}>
             <select
-              value={rotationDuration || ''}
+              value={rotationDuration || ""}
               onChange={(e) => onChangeRotationDuration(e.target.value * 1)}
               className="date-picker-length f12"
             >
@@ -102,8 +104,14 @@ const CopyRotationTable = inject('aggCampaignStore')(
                 <th className="f12">Creative Name</th>
                 <th className="f12">
                   AD Copy Rotation {getRotationLable(rotationType)}
-                  <OverlayTrigger placement="bottom" overlay={getRotationTooltip(rotationType)}>
-                    <i className="glyphicon glyphicon-info-sign ml5" aria-hidden="true" />
+                  <OverlayTrigger
+                    placement="bottom"
+                    overlay={getRotationTooltip(rotationType)}
+                  >
+                    <i
+                      className="glyphicon glyphicon-info-sign ml5"
+                      aria-hidden="true"
+                    />
                   </OverlayTrigger>
                 </th>
                 <th className="f12">AD length (Second)</th>
@@ -111,9 +119,19 @@ const CopyRotationTable = inject('aggCampaignStore')(
             </thead>
             <tbody>
               {rotationAssets.map((asset, assetIndex) => (
-                <tr key={`rotation-row-${assetIndex}`} xl={12} className={'mt10'}>
+                <tr
+                  key={`rotation-row-${assetIndex}`}
+                  xl={12}
+                  className={"mt10"}
+                >
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <CreativeSelector
                         orderType="ad_copy_rotation"
                         selectorValueType="name"
@@ -128,10 +146,15 @@ const CopyRotationTable = inject('aggCampaignStore')(
                           duration: asset?.duration,
                           meta_id: asset?.meta_id,
                         }}
-                        onChangeCreative={(creativeObj) => onSelectCreative(creativeObj, assetIndex)}
+                        onChangeCreative={(creativeObj) =>
+                          onSelectCreative(creativeObj, assetIndex)
+                        }
                       />
                       {asset?.meta_id ? (
-                        <OverlayTrigger placement="right" overlay={creativePreviewTooltip}>
+                        <OverlayTrigger
+                          placement="right"
+                          overlay={creativePreviewTooltip}
+                        >
                           <i
                             className="glyphicon glyphicon-info-sign ml5"
                             aria-hidden="true"
@@ -146,11 +169,20 @@ const CopyRotationTable = inject('aggCampaignStore')(
                   <td>
                     <input
                       type="number"
-                      style={{ width: '190px', backgroundColor: '#c6ccc8', height: '30px', marginLeft: '40px' }}
-                      value={asset?.[getRotationAssetKey(rotationType)] || ''}
+                      style={{
+                        width: "190px",
+                        backgroundColor: "#c6ccc8",
+                        height: "30px",
+                        marginLeft: "40px",
+                      }}
+                      value={asset?.[getRotationAssetKey(rotationType)] || ""}
                       min={0}
                       onChange={(e) =>
-                        onChangeRotationValue(e.target.value * 1, getRotationAssetKey(rotationType), assetIndex)
+                        onChangeRotationValue(
+                          e.target.value * 1,
+                          getRotationAssetKey(rotationType),
+                          assetIndex
+                        )
                       }
                     />
                   </td>
@@ -181,4 +213,4 @@ CopyRotationTable.propTypes = {
   onChangeRotationDuration: PropTypes.func,
 };
 
-export default withStore(CopyRotationTable);
+export default CopyRotationTable;

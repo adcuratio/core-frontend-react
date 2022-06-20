@@ -38,7 +38,6 @@ class AccountManagementStore {
       saveAgencyRep: action,
       editAgencyRep: action,
       saveAdvertiserAdmin: action,
-      editAdvertiserAdmin: action,
       saveBrand: action,
       updateBrand: action,
       saveSubBrand: action,

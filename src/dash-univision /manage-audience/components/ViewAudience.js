@@ -1,29 +1,29 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
 
-import { MainContent, PageHeader } from '../../../components/PageLayout';
-import withStore from '../../../hocs/WithStore';
-import ReactLoader from '../../../components/ReactLoader';
-import TabContainer from '../../../components/TabContainer';
+import { MainContent, PageHeader } from "../../../components/PageLayout";
+//import withStore from '../../../hocs/WithStore';
+import ReactLoader from "../../../components/ReactLoader";
+import TabContainer from "../../../components/TabContainer";
 
-import { AudienceTableTitles, declineCodes } from '../JsonData';
-import AudienceTable from './AudienceTable';
+import { AudienceTableTitles, declineCodes } from "../JsonData";
+import AudienceTable from "./AudienceTable";
 
-import { showAckErrorMessage, showAckMessage } from '../../../common/utils';
+import { showAckErrorMessage, showAckMessage } from "../../../common/utils";
 
-import AudienceDetailsModal from './AudienceDetailsModal';
-import ActionModal from './ActionModal';
+import AudienceDetailsModal from "./AudienceDetailsModal";
+import ActionModal from "./ActionModal";
 
-import ReactPickyFilter from '../../../components/ReactPickyFilter';
-import CustomButton from '../../../components/CustomButton';
-import { PageTitle } from '../../../components/Typography';
-import ConfirmDeclineStatusModal from './ConfirmDeclineStatusModal';
+import ReactPickyFilter from "../../../components/ReactPickyFilter";
+import CustomButton from "../../../components/CustomButton";
+import { PageTitle } from "../../../components/Typography";
+import ConfirmDeclineStatusModal from "./ConfirmDeclineStatusModal";
 
 const ViewAudience = inject(
-  'univisionStore',
-  'uiStore'
+  "univisionStore",
+  "uiStore"
 )(
   observer((props) => {
     const { univisionStore, uiStore, $state } = props;
@@ -37,48 +37,54 @@ const ViewAudience = inject(
 
     const AudTabTitles = [
       {
-        id: 'active',
-        name: 'Active',
+        id: "active",
+        name: "Active",
         status: 0,
         count: tabCount.activeCount,
       },
       {
-        id: 'pending',
-        name: 'Pending Approval',
+        id: "pending",
+        name: "Pending Approval",
         status: 3,
         count: tabCount.pendingCount,
       },
       {
-        id: 'pending-processing',
-        name: 'Pending Processing',
+        id: "pending-processing",
+        name: "Pending Processing",
         status: 1,
         count: tabCount.processedCount,
       },
       {
-        id: 'declined',
-        name: 'Declined',
+        id: "declined",
+        name: "Declined",
         status: 4,
         count: tabCount.declineCount,
       },
       {
-        id: 'archive',
-        name: 'Archive',
+        id: "archive",
+        name: "Archive",
         status: 2,
         count: tabCount.archiveCount,
       },
     ];
 
-    const [activeTab, setActiveTab] = useState(AudTabTitles[$state.params.tableState]);
-    const [activeModal, setActiveModal] = useState('');
+    const [activeTab, setActiveTab] = useState(
+      AudTabTitles[$state.params.tableState]
+    );
+    const [activeModal, setActiveModal] = useState("");
 
     const [advFilterAllData, setAdvFilterAllData] = useState([]);
     const [advFilterSelectedData, setAdvFilterSelectedData] = useState([]);
 
-    const [dataProviderData, setDataProviderData] = useState(['custom audience', 'liveRamp', 'uCI first party']);
+    const [dataProviderData, setDataProviderData] = useState([
+      "custom audience",
+      "liveRamp",
+      "uCI first party",
+    ]);
     const [dpFilterSelectedData, setDpFilterSelectedData] = useState([
-      'custom audience',
-      'liveRamp',
-      'UCI First Party',
+      "custom audience",
+      "liveRamp",
+      "UCI First Party",
     ]);
 
     const [segmentData, setSegmentData] = useState([]);
@@ -103,7 +109,7 @@ const ViewAudience = inject(
               if (a.company.name) {
                 advData.push(a.company.name);
               } else {
-                advData.push('with no advertiser');
+                advData.push("with no advertiser");
               }
             });
             const advFilterdDataCpy = [...new Set(advData)];
@@ -115,14 +121,16 @@ const ViewAudience = inject(
                 // var c = d.replace('audience_request_form', 'custom_audience');
                 dpData.push(d);
               } else {
-                dpData.push('with no data provider');
+                dpData.push("with no data provider");
               }
             });
             const dpFilterDataCpy = [...new Set(dpData)];
             setDataProviderData(dpFilterDataCpy);
             setDpFilterSelectedData(dpFilterDataCpy);
           } else {
-            showAckErrorMessage({ message: res?.data?.message ?? 'Unable to fetch Data!' });
+            showAckErrorMessage({
+              message: res?.data?.message ?? "Unable to fetch Data!",
+            });
           }
         },
         () => {
@@ -132,7 +140,9 @@ const ViewAudience = inject(
     };
 
     const getAllSegments = (advData = [], dpData = dataProviderData) => {
-      const advId = advData.filter((a) => a.company?.id).map((c) => c.company?.id);
+      const advId = advData
+        .filter((a) => a.company?.id)
+        .map((c) => c.company?.id);
       const dp = onFilterDpData(dpData);
       univisionStore.getAudienceList(advId, dp).then(
         (res) => {
@@ -140,7 +150,7 @@ const ViewAudience = inject(
             setAudienceData(res?.data?.data);
             getAudienceTableList(res.data.data);
           } else {
-            showAckErrorMessage({ message: 'Unable to fetch data' });
+            showAckErrorMessage({ message: "Unable to fetch data" });
           }
         },
         () => {
@@ -157,7 +167,7 @@ const ViewAudience = inject(
             getAudienceTableList(res.data.data, tabSwitch);
             getCompanyList();
           } else {
-            showAckErrorMessage({ message: 'Unable to fetch data' });
+            showAckErrorMessage({ message: "Unable to fetch data" });
           }
         },
         () => {
@@ -182,7 +192,11 @@ const ViewAudience = inject(
         setTabCount({ ...tabCount, activeCount: segData.length });
       } else if (activeTab.status === 1) {
         audience.forEach((seg) => {
-          if (seg.audience_state === 3 || seg.audience_state === 5 || seg.processed === false) {
+          if (
+            seg.audience_state === 3 ||
+            seg.audience_state === 5 ||
+            seg.processed === false
+          ) {
             segData.push(seg);
           }
         });
@@ -228,7 +242,11 @@ const ViewAudience = inject(
       const modifiedData = companyList.filter((a) => {
         if (a.company.name && filteredData.includes(a.company.name)) {
           return true;
-        } else if (!a && a.company.name && filteredData.includes('with no advertiser')) {
+        } else if (
+          !a &&
+          a.company.name &&
+          filteredData.includes("with no advertiser")
+        ) {
           return true;
         }
         return false;
@@ -240,7 +258,7 @@ const ViewAudience = inject(
       const modifiedData = dataProviderData.filter((a) => {
         if (a && dataProviderData.includes(a)) {
           return true;
-        } else if (!a && filteredData.includes('with no data provider')) {
+        } else if (!a && filteredData.includes("with no data provider")) {
           return true;
         }
         return false;
@@ -248,25 +266,27 @@ const ViewAudience = inject(
 
       const mData = [];
       modifiedData.forEach((dataProvider) => {
-        if (dataProvider === 'liveRamp') {
-          mData.push(dataProvider.replace('eR', 'e_r'));
-        } else if (dataProvider === 'custom audience') {
-          mData.push(dataProvider.replace('custom audience', 'audience_request_form'));
+        if (dataProvider === "liveRamp") {
+          mData.push(dataProvider.replace("eR", "e_r"));
+        } else if (dataProvider === "custom audience") {
+          mData.push(
+            dataProvider.replace("custom audience", "audience_request_form")
+          );
         } else {
-          mData.push(dataProvider.replace('uCI first party', 'first_party'));
+          mData.push(dataProvider.replace("uCI first party", "first_party"));
         }
       });
       return mData;
     };
 
     const applyFilter = (filteredData, id) => {
-      if (id === 'adv_filter' && filteredData.length > 0) {
+      if (id === "adv_filter" && filteredData.length > 0) {
         setAdvFilterSelectedData(filteredData);
         const modifiedData = onFilterAdvData(filteredData);
         const modifiedDPData = onFilterDpData(dpFilterSelectedData);
         SetFilteredEntityList(modifiedData);
         getAllSegments(modifiedData, modifiedDPData);
-      } else if (id === 'dp_filter' && dataProviderData.length > 0) {
+      } else if (id === "dp_filter" && dataProviderData.length > 0) {
         setDpFilterSelectedData(filteredData);
         const modifiedData = onFilterDpData(filteredData);
         const modifiedAdvData = onFilterAdvData(advFilterSelectedData);
@@ -314,14 +334,14 @@ const ViewAudience = inject(
     };
 
     const handleTableButtonAction = (buttonType, seg) => {
-      if (buttonType === 'view') {
-        onSetActiveModal('view');
+      if (buttonType === "view") {
+        onSetActiveModal("view");
         setModalData(seg);
-      } else if (buttonType === 'archive') {
+      } else if (buttonType === "archive") {
         univisionStore.archiveSegments(seg).then(
           (res) => {
             if (res.status) {
-              showAckMessage({ message: 'Audience Sucessfully Archived !' });
+              showAckMessage({ message: "Audience Sucessfully Archived !" });
               getSegments();
             } else {
               showAckErrorMessage({ message: res?.message });
@@ -331,11 +351,11 @@ const ViewAudience = inject(
             showAckErrorMessage();
           }
         );
-      } else if (buttonType === 'unarchive') {
+      } else if (buttonType === "unarchive") {
         univisionStore.unarchiveSegments(seg).then(
           (res) => {
             if (res.status) {
-              showAckMessage({ message: 'Audience Sucessfully Unarchived !' });
+              showAckMessage({ message: "Audience Sucessfully Unarchived !" });
               getSegments();
             } else {
               showAckErrorMessage({ message: res?.message });
@@ -345,15 +365,15 @@ const ViewAudience = inject(
             showAckErrorMessage();
           }
         );
-      } else if (buttonType === 'confirm') {
+      } else if (buttonType === "confirm") {
         const payload = {
           audience_state: 1,
         };
         setAudiencePayload(payload);
         setAudienceId(seg.id);
-        onSetActiveModal('approve');
-      } else if (buttonType === 'decline') {
-        onSetActiveModal('declineReason');
+        onSetActiveModal("approve");
+      } else if (buttonType === "decline") {
+        onSetActiveModal("declineReason");
         setModalData(seg);
       }
     };
@@ -365,12 +385,12 @@ const ViewAudience = inject(
       };
       if (actionData?.reason?.id === undefined) {
         showAckErrorMessage({
-          message: 'Please select a reason before declining',
+          message: "Please select a reason before declining",
         });
         return;
       } else if (!actionData?.reason?.reason?.trim()) {
         showAckErrorMessage({
-          message: 'Decline message should not be empty',
+          message: "Decline message should not be empty",
         });
         return;
       } else {
@@ -378,15 +398,15 @@ const ViewAudience = inject(
       }
       setAudiencePayload(payload);
       setAudienceId(id);
-      onSetActiveModal('decline');
+      onSetActiveModal("decline");
     };
 
     const confirmDeclineAudience = (actionType) => {
-      if (actionType === 'approve') {
+      if (actionType === "approve") {
         univisionStore.confirmDeclineAudience(audiencePayload, audienceId).then(
           (res) => {
             if (res.status) {
-              showAckMessage({ message: 'Audience Approved !' });
+              showAckMessage({ message: "Audience Approved !" });
               getSegments(0);
             } else {
               showAckErrorMessage({ message: res?.message });
@@ -397,11 +417,11 @@ const ViewAudience = inject(
           }
         );
         handleAudienceModalClose();
-      } else if (actionType === 'decline') {
+      } else if (actionType === "decline") {
         univisionStore.confirmDeclineAudience(audiencePayload, audienceId).then(
           (res) => {
             if (res.status) {
-              showAckMessage({ message: 'Audience Declined !' });
+              showAckMessage({ message: "Audience Declined !" });
               getSegments(3);
             } else {
               showAckErrorMessage({ message: res?.message });
@@ -416,15 +436,15 @@ const ViewAudience = inject(
     };
 
     const handleAudienceModalClose = () => {
-      setActiveModal('');
+      setActiveModal("");
       setActionData({});
-      setAudienceId('');
+      setAudienceId("");
       setAudiencePayload({});
     };
 
     const tooltipSelection = (e) => {
       const target = e.target;
-      if (target.id === 'overlay-trigger') {
+      if (target.id === "overlay-trigger") {
         return;
       }
     };
@@ -437,7 +457,9 @@ const ViewAudience = inject(
       <MainContent>
         <PageHeader>
           <div className="flex-container2">
-            <PageTitle className="mt10 ml10">View/Manage Addressable Segments</PageTitle>
+            <PageTitle className="mt10 ml10">
+              View/Manage Addressable Segments
+            </PageTitle>
 
             <div className="flex-container1">
               <ReactPickyFilter
@@ -467,7 +489,12 @@ const ViewAudience = inject(
             </div>
           </div>
         </PageHeader>
-        <TabContainer onTabChange={onTabChange} activeTab={activeTab} tabList={AudTabTitles} showCount={false} />
+        <TabContainer
+          onTabChange={onTabChange}
+          activeTab={activeTab}
+          tabList={AudTabTitles}
+          showCount={false}
+        />
         <AudienceTable
           audienceTableTitles={AudienceTableTitles}
           audienceTableData={segmentData}
@@ -477,13 +504,13 @@ const ViewAudience = inject(
           advFilterSelectedData={advFilterSelectedData}
         />
         <AudienceDetailsModal
-          showModal={activeModal === 'view'}
+          showModal={activeModal === "view"}
           closeModal={() => handleAudienceModalClose()}
           modalData={modalData}
           tooltipSelection={tooltipSelection}
         />
         <ActionModal
-          showModal={activeModal === 'declineReason'}
+          showModal={activeModal === "declineReason"}
           closeModal={() => handleAudienceModalClose()}
           modalData={modalData}
           onHandleConfirm={onHandleConfirm}
@@ -494,7 +521,7 @@ const ViewAudience = inject(
           }}
         />
         <ConfirmDeclineStatusModal
-          showModal={activeModal === 'approve' || activeModal === 'decline'}
+          showModal={activeModal === "approve" || activeModal === "decline"}
           closeModal={() => handleAudienceModalClose()}
           actionType={activeModal}
           confirmDeclineAudience={confirmDeclineAudience}
@@ -509,4 +536,4 @@ ViewAudience.propTypes = {
   state: PropTypes.any,
 };
 
-export default withStore(ViewAudience);
+export default ViewAudience;

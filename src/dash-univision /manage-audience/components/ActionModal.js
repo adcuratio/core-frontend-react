@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
-import CustomButton from '../../../components/CustomButton';
-import RadioButton from '../../../components/RadioButton';
+import React from "react";
+import PropTypes from "prop-types";
+import { Modal } from "react-bootstrap";
+import CustomButton from "../../../components/CustomButton";
+import RadioButton from "../../../components/RadioButton";
 
 const ActionModal = (props) => {
-  const { showModal, closeModal, modalData, onHandleConfirm, actionData } = props;
+  const { showModal, closeModal, modalData, onHandleConfirm, actionData } =
+    props;
   const { selectedValue, reasons, onChangeReason } = actionData;
 
   const renderDeclineBody = () => (
@@ -22,9 +23,9 @@ const ActionModal = (props) => {
       ))}
       <div>
         <RadioButton
-          label={'Other'}
+          label={"Other"}
           isChecked={selectedValue?.id === 4}
-          onChangeFunction={(e) => onChangeReason(e, { id: 4, reason: '' })}
+          onChangeFunction={(e) => onChangeReason(e, { id: 4, reason: "" })}
           value={3}
         ></RadioButton>
         <div className="mt10">
@@ -32,8 +33,10 @@ const ActionModal = (props) => {
             <input
               type="text"
               name="customDeclineCode"
-              onChange={(e) => onChangeReason(e, { id: 4, reason: e.target.value })}
-              value={selectedValue?.reason || ''}
+              onChange={(e) =>
+                onChangeReason(e, { id: 4, reason: e.target.value })
+              }
+              value={selectedValue?.reason || ""}
             />
           ) : null}
         </div>
@@ -57,13 +60,18 @@ const ActionModal = (props) => {
           buttonText="Decline"
           handleButtonClick={(e) => onHandleConfirm(e, modalData.id)}
         />
-        <CustomButton type="secondary" buttonText={'Cancel'} buttonClassName="ml10" handleButtonClick={closeModal} />
+        <CustomButton
+          type="secondary"
+          buttonText={"Cancel"}
+          buttonClassName="ml10"
+          handleButtonClick={closeModal}
+        />
       </Modal.Footer>
     </Modal>
   );
 };
 
-ActionModal.PropTypes = {
+ActionModal.propTypes = {
   showModal: PropTypes.bool,
   closeModal: PropTypes.func,
   modalData: PropTypes.object,

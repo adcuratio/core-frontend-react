@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import { Panel } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import { Panel } from "react-bootstrap";
 
-import { PageTitle } from '../../components/Typography';
-import { MainContent, PageHeader } from '../../components/PageLayout';
-import CustomButton from '../../components/CustomButton';
-import { MainWrapper, LeftWrapper, HeaderWrapper, Title } from '../../components/ops-user-flow/UserFlowLayout';
-import ReactLoader from '../../components/ReactLoader';
+import { PageTitle } from "../../components/Typography";
+import { MainContent, PageHeader } from "../../components/PageLayout";
+import CustomButton from "../../components/CustomButton";
+import {
+  MainWrapper,
+  LeftWrapper,
+  HeaderWrapper,
+  Title,
+} from "../../components/ops-user-flow/UserFlowLayout";
+import ReactLoader from "../../components/ReactLoader";
 
-import { showAckErrorMessage } from '../../common/utils';
+import { showAckErrorMessage } from "../../common/utils";
 
-import AddModal from './containers/AddModal';
+import AddModal from "./containers/AddModal";
 
-import withStore from '../../hocs/WithStore';
+//import withStore from '../../hocs/WithStore';
 
 const UnivisionManageNetwork = inject(
-  'networkStore',
-  'uiStore'
+  "networkStore",
+  "uiStore"
 )(
   observer((props) => {
     const { networkStore, uiStore } = props;
 
     const [selectedChannel, setSelectedChannel] = useState(null);
     const [showList, setShowList] = useState([]);
-    const [activeModal, setActiveModal] = useState('');
+    const [activeModal, setActiveModal] = useState("");
 
     const getAllChannels = () => {
       networkStore.getAllChannels().then(
@@ -49,7 +54,7 @@ const UnivisionManageNetwork = inject(
     };
 
     const closeModal = () => {
-      setActiveModal('');
+      setActiveModal("");
     };
 
     const handleAPIErrors = (res) => {
@@ -61,7 +66,10 @@ const UnivisionManageNetwork = inject(
             showAckErrorMessage();
           }
         }
-      } else showAckErrorMessage({ message: res?.data?.message ?? 'Unable to fetch Networks!' });
+      } else
+        showAckErrorMessage({
+          message: res?.data?.message ?? "Unable to fetch Networks!",
+        });
     };
 
     useEffect(() => {
@@ -80,7 +88,7 @@ const UnivisionManageNetwork = inject(
                 type="primary"
                 buttonClassName="m10 min-width-fit-content"
                 buttonText="Add a network"
-                handleButtonClick={() => setActiveModal('network')}
+                handleButtonClick={() => setActiveModal("network")}
               ></CustomButton>
             </HeaderWrapper>
 
@@ -106,19 +114,25 @@ const UnivisionManageNetwork = inject(
             <HeaderWrapper>
               {selectedChannel ? (
                 <>
-                  <Title className="word-break-break-word m10">Shows for {selectedChannel.display_name}</Title>
+                  <Title className="word-break-break-word m10">
+                    Shows for {selectedChannel.display_name}
+                  </Title>
                   <CustomButton
                     type="primary"
                     buttonClassName="m10 min-width-fit-content align-self-flex-start"
                     buttonText="Add a new show"
-                    handleButtonClick={() => setActiveModal('show')}
+                    handleButtonClick={() => setActiveModal("show")}
                   ></CustomButton>
                 </>
               ) : null}
             </HeaderWrapper>
             {showList?.length
               ? showList.map((show, index) => (
-                  <Panel eventKey={index} key={index} className="mb10 ml10 mr10 mt10 word-break">
+                  <Panel
+                    eventKey={index}
+                    key={index}
+                    className="mb10 ml10 mr10 mt10 word-break"
+                  >
                     <Panel.Heading>
                       <Panel.Title toggle>
                         <span>{show.name}</span>
@@ -126,11 +140,14 @@ const UnivisionManageNetwork = inject(
                     </Panel.Heading>
                   </Panel>
                 ))
-              : !uiStore.isLoading && selectedChannel && <p className="text-align-center">No shows found</p>}
+              : !uiStore.isLoading &&
+                selectedChannel && (
+                  <p className="text-align-center">No shows found</p>
+                )}
           </div>
         </MainWrapper>
 
-        {activeModal === 'network' && (
+        {activeModal === "network" && (
           <AddModal
             showModal={true}
             activeModal={activeModal}
@@ -140,7 +157,7 @@ const UnivisionManageNetwork = inject(
           ></AddModal>
         )}
 
-        {activeModal === 'show' && (
+        {activeModal === "show" && (
           <AddModal
             showModal={true}
             activeModal={activeModal}
@@ -155,4 +172,4 @@ const UnivisionManageNetwork = inject(
   })
 );
 
-export default withStore(UnivisionManageNetwork);
+export default UnivisionManageNetwork;

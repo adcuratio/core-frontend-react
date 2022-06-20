@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import { Modal } from 'react-bootstrap';
-import styled from 'styled-components';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+import { Modal } from "react-bootstrap";
+import styled from "styled-components";
+import axios from "axios";
 
-import withStore from '../../hocs/WithStore';
+//import withStore from '../../hocs/WithStore';
 
-import { PageTitle } from '../../components/Typography';
-import { MainContent, PageHeader } from '../../components/PageLayout';
-import CustomButton from '../../components/CustomButton';
-import ReactLoader from '../../components/ReactLoader';
-import ReactPickyFilter from '../../components/ReactPickyFilter';
-import SearchBox from '../../components/SearchBox';
-import CreativeAdPreviewModal from '../../components/CreativesAdPreviewModal';
-import OrderOrderLineCancelModal from '../univsion-agg-campaign/components/OrderOrderlineCancelModal';
+import { PageTitle } from "../../components/Typography";
+import { MainContent, PageHeader } from "../../components/PageLayout";
+import CustomButton from "../../components/CustomButton";
+import ReactLoader from "../../components/ReactLoader";
+import ReactPickyFilter from "../../components/ReactPickyFilter";
+import SearchBox from "../../components/SearchBox";
+import CreativeAdPreviewModal from "../../components/CreativesAdPreviewModal";
+import OrderOrderLineCancelModal from "../univsion-agg-campaign/components/OrderOrderlineCancelModal";
 
-import { applySearch, formatText, showAckErrorMessage, showAckMessage } from '../../common/utils';
+import {
+  applySearch,
+  formatText,
+  showAckErrorMessage,
+  showAckMessage,
+} from "../../common/utils";
 
-import NcmManageTabs from './components/ManageTabs';
-import NcmManageTable from './components/ManageTable';
+import NcmManageTabs from "./components/ManageTabs";
+import NcmManageTable from "./components/ManageTable";
 import {
   NcmManageTradeTabs,
   activeTradesTableTitle,
@@ -30,31 +35,31 @@ import {
   activeAccordionHeader,
   viewAccordionDetailsTitles,
   completedTradesTableTitle,
-} from './components/JsonData';
-import ViewTradesModal from './components/VIewCampaignDetail';
-import ApprovalStatusModal from '../../dash-agency-adv/view-existing-campaigns/components/ApprovalStatusModal';
-import NcmManageSummary from './components/SummaryPieChart';
-import ViewDetails from './components/ViewReportDetails';
-import ViewGraph from './components/ViewGraph';
-import TableContainer from '../reporting/reports-post-campaign/components/TableContainer';
-import { postCampaignNetworkTitles } from '../reporting/reports-post-campaign/components/JsonData';
-import DayPartTableContainer from '../reporting/reports-post-campaign-daypart-reports/components/TableContainer';
-import { postCampaignDayPartTitles } from '../reporting/reports-post-campaign-daypart-reports/components/JsonData';
-import PacingReportsTableContainer from '../reporting/reports-pacing/components/TableContainer';
-import { pacingReportsTitles } from '../reporting/reports-pacing/components/JsonData';
+} from "./components/JsonData";
+import ViewTradesModal from "./components/VIewCampaignDetail";
+import ApprovalStatusModal from "../../dash-agency-adv/view-existing-campaigns/components/ApprovalStatusModal";
+import NcmManageSummary from "./components/SummaryPieChart";
+import ViewDetails from "./components/ViewReportDetails";
+import ViewGraph from "./components/ViewGraph";
+import TableContainer from "../reporting/reports-post-campaign/components/TableContainer";
+import { postCampaignNetworkTitles } from "../reporting/reports-post-campaign/components/JsonData";
+import DayPartTableContainer from "../reporting/reports-post-campaign-daypart-reports/components/TableContainer";
+import { postCampaignDayPartTitles } from "../reporting/reports-post-campaign-daypart-reports/components/JsonData";
+import PacingReportsTableContainer from "../reporting/reports-pacing/components/TableContainer";
+import { pacingReportsTitles } from "../reporting/reports-pacing/components/JsonData";
 
 const StyledHeader = styled.div`
   width: 54%;
 `;
 
 const UnivisionManageCampaigns = inject(
-  'authStore',
-  'manageCampaignStore',
-  'uiStore',
-  'tradeStore',
-  'univisionStore',
-  'navigationService',
-  'aggCampaignStore'
+  "authStore",
+  "manageCampaignStore",
+  "uiStore",
+  "tradeStore",
+  "univisionStore",
+  "navigationService",
+  "aggCampaignStore"
 )(
   observer((props) => {
     const {
@@ -83,14 +88,17 @@ const UnivisionManageCampaigns = inject(
       tableCompletedTradesData: [],
       tablePendingTradesData: [],
     });
-    const [activeTab, setActiveTab] = useState(NcmManageTradeTabs[$state.params.tableState]);
-    const [activeModal, setActiveModal] = useState('');
+    const [activeTab, setActiveTab] = useState(
+      NcmManageTradeTabs[$state.params.tableState]
+    );
+    const [activeModal, setActiveModal] = useState("");
     const [modalData, setModalData] = useState(null);
     const [orderDetailData, serOrderDetailData] = useState([]);
     const [orderReplacementInfo, setOrderReplacementInfo] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
-    const [activeTrade, setActiveTrade] = useState('');
-    const [advertiserFilterSelectedData, setAdvertiserFilterSelectedData] = useState([]);
+    const [activeTrade, setActiveTrade] = useState("");
+    const [advertiserFilterSelectedData, setAdvertiserFilterSelectedData] =
+      useState([]);
     const [advertiserFilterAllData, setAdvertiserFilterAllData] = useState([]);
     const [searchDataList, setSearchDataList] = useState([]);
     const [filteredTradeData, setFilteredTradeData] = useState({});
@@ -101,13 +109,13 @@ const UnivisionManageCampaigns = inject(
     const [orderLineDetails, setOrderLineDetails] = useState([]);
     const [toggleEditModal, setToggleEditModal] = useState(false);
     const [editCampaignData, setEditCampaignData] = useState({});
-    const [editType, setEditType] = useState('');
+    const [editType, setEditType] = useState("");
     const [showOrderCancelModal, setShowOrderCancelModal] = useState(false);
     const [cancelOrderData, setCancelOrderData] = useState({});
     const [impressionsCount, setImpressionsCount] = useState({});
     const [approveOrderData, setOrderApproveData] = useState({});
     const [showApproveModal, setShowApproveModal] = useState(false);
-    const [id, setId] = useState('');
+    const [id, setId] = useState("");
     const [networkReportData, setNetworkReportData] = useState([]);
     const [dayPartReportsData, setDayPartReportsData] = useState([]);
     const [pacingReportData, setPacingReoprtData] = useState([]);
@@ -123,15 +131,17 @@ const UnivisionManageCampaigns = inject(
 
     const onCancelOrder = (trade, cancelReason) => {
       if (!cancelReason.length) {
-        showAckErrorMessage({ message: ' Please describe the reason to cancel' });
+        showAckErrorMessage({
+          message: " Please describe the reason to cancel",
+        });
         return;
       }
       aggCampaignStore.cancelOrder(trade.id, cancelReason).then(
         (res) => {
           if (res.data.success) {
-            showAckMessage({ message: 'Order cancelled successfully' });
+            showAckMessage({ message: "Order cancelled successfully" });
             setShowOrderCancelModal(!showOrderCancelModal);
-            getCustomTrades('cancel');
+            getCustomTrades("cancel");
           } else {
             showAckErrorMessage({ message: res.data.message });
             setShowOrderCancelModal(!showOrderCancelModal);
@@ -145,9 +155,9 @@ const UnivisionManageCampaigns = inject(
       aggCampaignStore.onApproveUCIPending(trade.id).then(
         (res) => {
           if (res.data.success) {
-            showAckMessage({ message: 'Order Approved successfully' });
+            showAckMessage({ message: "Order Approved successfully" });
             setShowApproveModal(!showApproveModal);
-            getCustomTrades('approve');
+            getCustomTrades("approve");
           } else {
             showAckErrorMessage({ message: res.data.message });
             setShowApproveModal(!showApproveModal);
@@ -186,18 +196,22 @@ const UnivisionManageCampaigns = inject(
               setTrades(JSON.parse(JSON.stringify(results)));
             }
             //AdvFilter
-            const advertiserData = orders.map((a) => a.adv_company_name || 'With no advertisers');
+            const advertiserData = orders.map(
+              (a) => a.adv_company_name || "With no advertisers"
+            );
             const advFilteredDataCopy = [...new Set(advertiserData)];
             setAdvertiserFilterAllData(advFilteredDataCopy);
             setAdvertiserFilterSelectedData(advFilteredDataCopy);
-            if (goToCanelTab === 'cancel') {
+            if (goToCanelTab === "cancel") {
               onTabChange(NcmManageTradeTabs[3], tradeDataCopy);
-            } else if (goToCanelTab === 'approve') {
+            } else if (goToCanelTab === "approve") {
               onTabChange(NcmManageTradeTabs[2], tradeDataCopy);
             }
             getCampaignImpressionsCount();
           } else {
-            showAckErrorMessage({ message: trade?.data?.message || 'Unable to fetch orders' });
+            showAckErrorMessage({
+              message: trade?.data?.message || "Unable to fetch orders",
+            });
           }
         },
         () => showAckErrorMessage()
@@ -216,58 +230,60 @@ const UnivisionManageCampaigns = inject(
 
     const handleModalAction = (id, data) => {
       setId(id);
-      if (id === 'details') {
+      if (id === "details") {
         univisionStore.viewReportsDetails(data.id).then(
           (res) => {
             if (res?.data?.results && res?.data?.results?.length) {
               setViewReportDetailsList(res?.data?.results);
-              setActiveModal('details');
+              setActiveModal("details");
             } else {
-              showAckErrorMessage({ message: 'No Data Found.' });
+              showAckErrorMessage({ message: "No Data Found." });
             }
           },
           () => {
             showAckErrorMessage();
           }
         );
-      } else if (id === 'pacing_details') {
+      } else if (id === "pacing_details") {
         univisionStore.viewReportsDetails(data.id).then(
           (res) => {
             if (res?.data?.results && res?.data?.results?.length) {
               setViewReportDetailsList(res?.data?.results);
-              setActiveModal('pacing_details');
+              setActiveModal("pacing_details");
             } else {
-              showAckErrorMessage({ message: 'No Data Found.' });
+              showAckErrorMessage({ message: "No Data Found." });
             }
           },
           () => {
             showAckErrorMessage();
           }
         );
-      } else if (id === 'graph') {
+      } else if (id === "graph") {
         setModalData(data);
-      } else if (id === 'report') {
-        univisionStore.getPacingReports(data?.adv_id, data?.id, data.status).then(
-          (res) => {
-            if (res && res.data) {
-              setPacingReoprtData(res?.data);
-            } else {
-              showAckErrorMessage({ message: 'No Data Available' });
+      } else if (id === "report") {
+        univisionStore
+          .getPacingReports(data?.adv_id, data?.id, data.status)
+          .then(
+            (res) => {
+              if (res && res.data) {
+                setPacingReoprtData(res?.data);
+              } else {
+                showAckErrorMessage({ message: "No Data Available" });
+              }
+            },
+            () => {
+              showAckErrorMessage();
             }
-          },
-          () => {
-            showAckErrorMessage();
-          }
-        );
+          );
         setToggleGraph(!toggleGraph);
         setModalData(data);
-      } else if (id === 'network_report') {
+      } else if (id === "network_report") {
         univisionStore.getCampaignNetworkReports(data?.adv_id, data?.id).then(
           (res) => {
             if (res && res.results) {
               setNetworkReportData(res?.results);
             } else {
-              showAckErrorMessage({ message: 'No Data Available' });
+              showAckErrorMessage({ message: "No Data Available" });
             }
           },
           () => {
@@ -276,13 +292,13 @@ const UnivisionManageCampaigns = inject(
         );
         setToggleGraph(!toggleGraph);
         setModalData(data);
-      } else if (id === 'daypart_report') {
+      } else if (id === "daypart_report") {
         univisionStore.getCampaignDaypartReports(data?.adv_id, data?.id).then(
           (res) => {
             if (res && res.results) {
               setDayPartReportsData(res?.results);
             } else {
-              showAckErrorMessage({ message: 'No Data Available' });
+              showAckErrorMessage({ message: "No Data Available" });
             }
           },
           () => {
@@ -302,7 +318,7 @@ const UnivisionManageCampaigns = inject(
         setOrderReplacementInfo([]);
         setActiveAccordion(id.id);
         setIsLoadingAccordion(true);
-        if (activeTab.id === 'active') {
+        if (activeTab.id === "active") {
           univisionStore.getCampaignAccordionList(id.adv_id, id.id).then(
             (res) => {
               if (res && res?.data) {
@@ -311,7 +327,7 @@ const UnivisionManageCampaigns = inject(
               } else {
                 setIsLoadingAccordion(false);
                 showAckErrorMessage({
-                  message: 'No orders found',
+                  message: "No orders found",
                 });
               }
             },
@@ -320,7 +336,7 @@ const UnivisionManageCampaigns = inject(
               showAckErrorMessage();
             }
           );
-        } else if (activeTab.id !== 'active') {
+        } else if (activeTab.id !== "active") {
           tradeStore.getDishOrderDetails(id.id).then(
             (response) => {
               if (response && response.data?.data) {
@@ -331,7 +347,7 @@ const UnivisionManageCampaigns = inject(
               } else {
                 setIsLoadingAccordion(false);
                 showAckErrorMessage({
-                  message: 'No orders found',
+                  message: "No orders found",
                 });
               }
             },
@@ -352,25 +368,28 @@ const UnivisionManageCampaigns = inject(
         manageCampaignStore.getVideoUrl(adid?.adid_meta_file_upload[0].id).then(
           (res) => {
             if (res && res.success && res.data !== null) {
-              setActiveModal('accVideo');
+              setActiveModal("accVideo");
               setCreativeModalData(res.data);
             } else {
-              showAckErrorMessage({ message: 'Creative data not found' });
+              showAckErrorMessage({ message: "Creative data not found" });
             }
           },
-          () => showAckErrorMessage({ message: 'Cannot get video file data for the creative.' })
+          () =>
+            showAckErrorMessage({
+              message: "Cannot get video file data for the creative.",
+            })
         );
       } else {
-        showAckErrorMessage({ message: 'No creative data available.' });
+        showAckErrorMessage({ message: "No creative data available." });
       }
-      setCreativeModalData('');
+      setCreativeModalData("");
     };
 
     const onTabChange = (tab, filteredTradeData) => {
       setActiveTab(tab);
       switchToTab(filteredTradeData, tab);
-      setSearchValue('');
-      setActiveAccordion('');
+      setSearchValue("");
+      setActiveAccordion("");
     };
 
     const handleTableButtonAction = (buttonType, mData, e) => {
@@ -388,99 +407,144 @@ const UnivisionManageCampaigns = inject(
     // And shifting/placement of the trade to relevant tabs based on Approval/declination status.
     const confirmTradeApproval = () => {
       const tradeActionComment = formatText(activeTrade);
-      if (activeModal === 'decline') {
-        if (tradeActionComment?.length < 11 || tradeActionComment === undefined || tradeActionComment === null) {
+      if (activeModal === "decline") {
+        if (
+          tradeActionComment?.length < 11 ||
+          tradeActionComment === undefined ||
+          tradeActionComment === null
+        ) {
           showAckErrorMessage({
-            message: 'Decline reason should be longer than 10 characters. Please try again.',
+            message:
+              "Decline reason should be longer than 10 characters. Please try again.",
           });
           return;
         }
-        manageCampaignStore.changeOrderStatus(modalData.id, 'decline', tradeActionComment).then(
-          (response) => {
-            if (response && response.status === 5) {
-              const tradesCpy = JSON.parse(JSON.stringify(filteredTradeData));
-              if (isAgencyAdminUser) {
-                const index = tradesCpy['tableAgencyApprovalTradesData'].findIndex(
-                  (trade) => trade.id === modalData.id
-                );
-                response = addAdvertiserName(tradesCpy['tableAgencyApprovalTradesData'], index, response);
-                tradesCpy['tableAgencyApprovalTradesData'].splice(index, 1);
-                if (index >= 0) {
-                  tradesCpy['tableDeclinedTradesData'].unshift(response); //To move declined trade to Declined tab via splice in Agency portal
-                  setTradeData(tradesCpy);
-                  setFilteredTradeData(tradesCpy);
-                  setActiveTab(NcmManageTradeTabs[7]);
-                  switchToTab(tradesCpy, { id: 'declined' });
-                }
-              } else {
-                const index = tradesCpy['tableAdvertiserApprovalTradesData'].findIndex(
-                  (trade) => trade.id === modalData.id
-                );
-                response = addAdvertiserName(tradesCpy['tableAdvertiserApprovalTradesData'], index, response);
-                tradesCpy['tableAdvertiserApprovalTradesData'].splice(index, 1);
-                if (index >= 0) {
-                  tradesCpy['tableDeclinedTradesData'].unshift(response); //To move declined trade to Declined tab via splice in Advertiser portal
-                  setTradeData(tradesCpy);
-                  setFilteredTradeData(tradesCpy);
-                  setActiveTab(NcmManageTradeTabs[7]);
-                  switchToTab(tradesCpy, { id: 'declined' });
-                }
-              }
-              showAckMessage({
-                message: 'Campaign declined successfully.',
-              });
-              setActiveModal('');
-            } else if (response && response.status && response.message) {
-              showAckErrorMessage({ message: JSON.stringify(response.message) });
-            }
-          },
-          () => showAckErrorMessage()
-        );
-      } else {
-        if (activeModal === 'approve') {
-          manageCampaignStore.changeOrderStatus(modalData.id, 'agencyApproval', tradeActionComment).then(
+        manageCampaignStore
+          .changeOrderStatus(modalData.id, "decline", tradeActionComment)
+          .then(
             (response) => {
-              if (response && response.status === 8) {
+              if (response && response.status === 5) {
                 const tradesCpy = JSON.parse(JSON.stringify(filteredTradeData));
                 if (isAgencyAdminUser) {
-                  const index = tradesCpy['tableAgencyApprovalTradesData'].findIndex(
-                    (trade) => trade.id === modalData.id
+                  const index = tradesCpy[
+                    "tableAgencyApprovalTradesData"
+                  ].findIndex((trade) => trade.id === modalData.id);
+                  response = addAdvertiserName(
+                    tradesCpy["tableAgencyApprovalTradesData"],
+                    index,
+                    response
                   );
-                  response = addAdvertiserName(tradesCpy['tableAgencyApprovalTradesData'], index, response);
-
-                  tradesCpy['tableAgencyApprovalTradesData'].splice(index, 1);
+                  tradesCpy["tableAgencyApprovalTradesData"].splice(index, 1);
                   if (index >= 0) {
-                    tradesCpy['tablePendingProcessingTradesData'].unshift(response); //To move approved trades to Pending Processing tab via splice in Agency portal
+                    tradesCpy["tableDeclinedTradesData"].unshift(response); //To move declined trade to Declined tab via splice in Agency portal
                     setTradeData(tradesCpy);
                     setFilteredTradeData(tradesCpy);
-                    setActiveTab(NcmManageTradeTabs[6]);
-                    switchToTab(tradesCpy, { id: 'pendingProcessing' });
+                    setActiveTab(NcmManageTradeTabs[7]);
+                    switchToTab(tradesCpy, { id: "declined" });
                   }
                 } else {
-                  const index = tradesCpy['tableAdvertiserApprovalTradesData'].findIndex(
-                    (trade) => trade.id === modalData.id
+                  const index = tradesCpy[
+                    "tableAdvertiserApprovalTradesData"
+                  ].findIndex((trade) => trade.id === modalData.id);
+                  response = addAdvertiserName(
+                    tradesCpy["tableAdvertiserApprovalTradesData"],
+                    index,
+                    response
                   );
-                  response = addAdvertiserName(tradesCpy['tableAdvertiserApprovalTradesData'], index, response);
-
-                  tradesCpy['tableAdvertiserApprovalTradesData'].splice(index, 1);
+                  tradesCpy["tableAdvertiserApprovalTradesData"].splice(
+                    index,
+                    1
+                  );
                   if (index >= 0) {
-                    tradesCpy['tablePendingProcessingTradesData'].unshift(response); //To move approved trades to Pending Processing tab via splice in Advertiser portal
+                    tradesCpy["tableDeclinedTradesData"].unshift(response); //To move declined trade to Declined tab via splice in Advertiser portal
                     setTradeData(tradesCpy);
                     setFilteredTradeData(tradesCpy);
-                    setActiveTab(NcmManageTradeTabs[6]);
-                    switchToTab(tradesCpy, { id: 'pendingProcessing' });
+                    setActiveTab(NcmManageTradeTabs[7]);
+                    switchToTab(tradesCpy, { id: "declined" });
                   }
                 }
                 showAckMessage({
-                  message: 'Approved successfully.',
+                  message: "Campaign declined successfully.",
                 });
-                setActiveModal('');
+                setActiveModal("");
               } else if (response && response.status && response.message) {
-                showAckErrorMessage({ message: JSON.stringify(response.message) });
+                showAckErrorMessage({
+                  message: JSON.stringify(response.message),
+                });
               }
             },
             () => showAckErrorMessage()
           );
+      } else {
+        if (activeModal === "approve") {
+          manageCampaignStore
+            .changeOrderStatus(
+              modalData.id,
+              "agencyApproval",
+              tradeActionComment
+            )
+            .then(
+              (response) => {
+                if (response && response.status === 8) {
+                  const tradesCpy = JSON.parse(
+                    JSON.stringify(filteredTradeData)
+                  );
+                  if (isAgencyAdminUser) {
+                    const index = tradesCpy[
+                      "tableAgencyApprovalTradesData"
+                    ].findIndex((trade) => trade.id === modalData.id);
+                    response = addAdvertiserName(
+                      tradesCpy["tableAgencyApprovalTradesData"],
+                      index,
+                      response
+                    );
+
+                    tradesCpy["tableAgencyApprovalTradesData"].splice(index, 1);
+                    if (index >= 0) {
+                      tradesCpy["tablePendingProcessingTradesData"].unshift(
+                        response
+                      ); //To move approved trades to Pending Processing tab via splice in Agency portal
+                      setTradeData(tradesCpy);
+                      setFilteredTradeData(tradesCpy);
+                      setActiveTab(NcmManageTradeTabs[6]);
+                      switchToTab(tradesCpy, { id: "pendingProcessing" });
+                    }
+                  } else {
+                    const index = tradesCpy[
+                      "tableAdvertiserApprovalTradesData"
+                    ].findIndex((trade) => trade.id === modalData.id);
+                    response = addAdvertiserName(
+                      tradesCpy["tableAdvertiserApprovalTradesData"],
+                      index,
+                      response
+                    );
+
+                    tradesCpy["tableAdvertiserApprovalTradesData"].splice(
+                      index,
+                      1
+                    );
+                    if (index >= 0) {
+                      tradesCpy["tablePendingProcessingTradesData"].unshift(
+                        response
+                      ); //To move approved trades to Pending Processing tab via splice in Advertiser portal
+                      setTradeData(tradesCpy);
+                      setFilteredTradeData(tradesCpy);
+                      setActiveTab(NcmManageTradeTabs[6]);
+                      switchToTab(tradesCpy, { id: "pendingProcessing" });
+                    }
+                  }
+                  showAckMessage({
+                    message: "Approved successfully.",
+                  });
+                  setActiveModal("");
+                } else if (response && response.status && response.message) {
+                  showAckErrorMessage({
+                    message: JSON.stringify(response.message),
+                  });
+                }
+              },
+              () => showAckErrorMessage()
+            );
         }
       }
     };
@@ -489,21 +553,45 @@ const UnivisionManageCampaigns = inject(
     const handleSearchTextChange = (value) => {
       const tradeData = filteredTradeData;
       setSearchValue(value);
-      if (activeTab.id === 'active') {
-        const activeTradesDataCopy = JSON.parse(JSON.stringify(tradeData?.tableProgressTradesData));
-        const list = applySearch(value, activeTradesDataCopy, activeTradesTableTitle);
+      if (activeTab.id === "active") {
+        const activeTradesDataCopy = JSON.parse(
+          JSON.stringify(tradeData?.tableProgressTradesData)
+        );
+        const list = applySearch(
+          value,
+          activeTradesDataCopy,
+          activeTradesTableTitle
+        );
         setSearchDataList(list);
-      } else if (activeTab.id === 'cancelled') {
-        const pausedTradesDataCopy = JSON.parse(JSON.stringify(tradeData?.tablePausedTradesData));
-        const list = applySearch(value, pausedTradesDataCopy, pausedTradesTableTitle);
+      } else if (activeTab.id === "cancelled") {
+        const pausedTradesDataCopy = JSON.parse(
+          JSON.stringify(tradeData?.tablePausedTradesData)
+        );
+        const list = applySearch(
+          value,
+          pausedTradesDataCopy,
+          pausedTradesTableTitle
+        );
         setSearchDataList(list);
-      } else if (activeTab.id === 'completed') {
-        const completeTradesDataCopy = JSON.parse(JSON.stringify(tradeData?.tableCompletedTradesData));
-        const list = applySearch(value, completeTradesDataCopy, completedTradesTableTitle);
+      } else if (activeTab.id === "completed") {
+        const completeTradesDataCopy = JSON.parse(
+          JSON.stringify(tradeData?.tableCompletedTradesData)
+        );
+        const list = applySearch(
+          value,
+          completeTradesDataCopy,
+          completedTradesTableTitle
+        );
         setSearchDataList(list);
-      } else if (activeTab.id === 'pendingDistributorApproval') {
-        const pausedTradesDataCopy = JSON.parse(JSON.stringify(tradeData?.tablePendingTradesData));
-        const list = applySearch(value, pausedTradesDataCopy, pendingDistributorTradesTableTitle);
+      } else if (activeTab.id === "pendingDistributorApproval") {
+        const pausedTradesDataCopy = JSON.parse(
+          JSON.stringify(tradeData?.tablePendingTradesData)
+        );
+        const list = applySearch(
+          value,
+          pausedTradesDataCopy,
+          pendingDistributorTradesTableTitle
+        );
         setSearchDataList(list);
       }
     };
@@ -514,16 +602,19 @@ const UnivisionManageCampaigns = inject(
 
     const closeCreativeVideoModal = () => {
       if (creativeModalData) {
-        setCreativeModalData('');
+        setCreativeModalData("");
       }
-      onSetActiveModal('');
+      onSetActiveModal("");
     };
 
     const goToAggOrderDetails = (tradeId, e, comingFromUCIPending) => {
       e.stopPropagation();
       const index = trades.findIndex((a) => a.id === tradeId.id);
       if (index !== -1) {
-        navigationService.goToAggCampaignOrderDetails(tradeId.id, comingFromUCIPending);
+        navigationService.goToAggCampaignOrderDetails(
+          tradeId.id,
+          comingFromUCIPending
+        );
       }
     };
 
@@ -543,14 +634,16 @@ const UnivisionManageCampaigns = inject(
         tradeStore.getDishOrderDetails(tradeId.id).then(
           (res) => {
             if (res && res.data.data) {
-              setModalData('view');
+              setModalData("view");
               setViewTrades(res.data.data);
               setUpgradedAdspot(res?.data?.data?.creative_details);
-              setOrderLineDetails(res?.data?.data?.orderline_details?.orderline_data);
+              setOrderLineDetails(
+                res?.data?.data?.orderline_details?.orderline_data
+              );
               setMgData(res?.data?.data?.options || []);
               setSegmentData(res?.data.data?.orderline_details?.orderline_data);
-              onSetActiveModal('view');
-              setSearchValue('');
+              onSetActiveModal("view");
+              setSearchValue("");
             } else {
               showAckErrorMessage();
             }
@@ -614,9 +707,12 @@ const UnivisionManageCampaigns = inject(
       Object.entries(tradeData).forEach(([key, value]) => {
         filteredTrade[key] = value?.filter((a) => {
           if (filteredData) {
-            if (a.adv_company_name && filteredData.includes(a.adv_company_name)) {
+            if (
+              a.adv_company_name &&
+              filteredData.includes(a.adv_company_name)
+            ) {
               return true;
-            } else if (filteredData.includes('with no advertisers')) {
+            } else if (filteredData.includes("with no advertisers")) {
               return true;
             }
           }
@@ -628,12 +724,12 @@ const UnivisionManageCampaigns = inject(
 
     // To dispaly table data when a particular advertiser is selected from the Advertised dropdown.
     const applyFilter = (filteredData, id) => {
-      if (id === 'adv_filter') {
+      if (id === "adv_filter") {
         setAdvertiserFilterSelectedData(filteredData);
         const modifiedData = onFilterAdvertiserData(filteredData);
         setFilteredTradeData(modifiedData);
         switchToTab(modifiedData);
-        setSearchValue('');
+        setSearchValue("");
       }
     };
 
@@ -644,23 +740,27 @@ const UnivisionManageCampaigns = inject(
         setMgData([]);
         setSegmentData([]);
       }
-      onSetActiveModal('');
+      onSetActiveModal("");
     };
 
     // To show data according to their tabs on tab change.
-    const switchToTab = (tradeDataCopy = filteredTradeData, tabData = activeTab) => {
+    const switchToTab = (
+      tradeDataCopy = filteredTradeData,
+      tabData = activeTab
+    ) => {
       if (tabData && tradeDataCopy) {
         let NcmTradeTableDataCopy;
-        if (tabData.id === 'active') {
+        if (tabData.id === "active") {
           NcmTradeTableDataCopy = tradeDataCopy.tableProgressTradesData;
-        } else if (tabData.id === 'cancelled') {
+        } else if (tabData.id === "cancelled") {
           NcmTradeTableDataCopy = tradeDataCopy.tablePausedTradesData;
-        } else if (tabData.id === 'completed') {
+        } else if (tabData.id === "completed") {
           NcmTradeTableDataCopy = tradeDataCopy.tableCompletedTradesData;
-        } else if (tabData.id === 'pendingDistributorApproval') {
+        } else if (tabData.id === "pendingDistributorApproval") {
           NcmTradeTableDataCopy = tradeDataCopy.tablePendingTradesData;
-        } else if (tabData.id === 'pendingUCIApproval') {
-          NcmTradeTableDataCopy = tradeDataCopy.tablePendingUCIApprovalTardesData;
+        } else if (tabData.id === "pendingUCIApproval") {
+          NcmTradeTableDataCopy =
+            tradeDataCopy.tablePendingUCIApprovalTardesData;
         }
         setSearchDataList(NcmTradeTableDataCopy);
       }
@@ -668,14 +768,15 @@ const UnivisionManageCampaigns = inject(
 
     // Condition the response of pause api.
     const conditionApiResponse = (res) => {
-      if (typeof res.messaging_group !== 'string') {
+      if (typeof res.messaging_group !== "string") {
         res.messaging_group = res.messaging_group.name;
       }
       if (!res.ad_id.adid_id) {
         res.ad_id.adid_id = res.ad_id.adid_meta_file_upload.id;
       }
       if (!res.ad_id.s3_thumbnail_url) {
-        res.ad_id.s3_thumbnail_url = res.ad_id.adid_meta_file_upload.s3_thumbnail_url;
+        res.ad_id.s3_thumbnail_url =
+          res.ad_id.adid_meta_file_upload.s3_thumbnail_url;
       }
       return res;
     };
@@ -691,42 +792,54 @@ const UnivisionManageCampaigns = inject(
           if (response.status === 3) {
             response = conditionApiResponse(response);
             const tradesCpy = JSON.parse(JSON.stringify(filteredTradeData));
-            const index = tradesCpy['tableProgressTradesData'].findIndex((trade) => trade.id === modalData.id);
-            response = addAdvertiserName(tradesCpy['tableProgressTradesData'], index, response);
-            tradesCpy['tableProgressTradesData'].splice(index, 1);
+            const index = tradesCpy["tableProgressTradesData"].findIndex(
+              (trade) => trade.id === modalData.id
+            );
+            response = addAdvertiserName(
+              tradesCpy["tableProgressTradesData"],
+              index,
+              response
+            );
+            tradesCpy["tableProgressTradesData"].splice(index, 1);
             if (index >= 0) {
-              tradesCpy['tablePausedTradesData'].unshift(response); //To move paused trade to the Pause tab via splice
+              tradesCpy["tablePausedTradesData"].unshift(response); //To move paused trade to the Pause tab via splice
               setTradeData(tradesCpy);
               setFilteredTradeData(tradesCpy);
               setActiveTab(NcmManageTradeTabs[1]);
-              switchToTab(tradesCpy, { id: 'paused' });
+              switchToTab(tradesCpy, { id: "paused" });
             }
             showAckMessage({
-              message: 'Campaign paused successfully.',
+              message: "Campaign paused successfully.",
             });
           } else if (response.status === 0) {
             response = conditionApiResponse(response);
             const tradesCpy = JSON.parse(JSON.stringify(filteredTradeData));
-            const index = tradesCpy['tablePausedTradesData'].findIndex((trade) => trade.id === modalData.id);
-            response = addAdvertiserName(tradesCpy['tablePausedTradesData'], index, response);
-            tradesCpy['tablePausedTradesData'].splice(index, 1);
+            const index = tradesCpy["tablePausedTradesData"].findIndex(
+              (trade) => trade.id === modalData.id
+            );
+            response = addAdvertiserName(
+              tradesCpy["tablePausedTradesData"],
+              index,
+              response
+            );
+            tradesCpy["tablePausedTradesData"].splice(index, 1);
             if (index >= 0) {
-              tradesCpy['tableProgressTradesData'].unshift(response); //To move activated trade to the Active tab via splice
+              tradesCpy["tableProgressTradesData"].unshift(response); //To move activated trade to the Active tab via splice
               setTradeData(tradesCpy);
               setFilteredTradeData(tradesCpy);
               setActiveTab(NcmManageTradeTabs[0]);
-              switchToTab(tradesCpy, { id: 'active' });
+              switchToTab(tradesCpy, { id: "active" });
             }
             showAckMessage({
-              message: 'Campaign activated successfully.',
+              message: "Campaign activated successfully.",
             });
           } else if (response && response.status && response.message) {
             showAckErrorMessage({ message: JSON.stringify(response.message) });
           } else {
             showAckErrorMessage();
           }
-          setActiveModal('');
-          setSearchValue('');
+          setActiveModal("");
+          setSearchValue("");
         },
         () => showAckErrorMessage()
       );
@@ -734,8 +847,8 @@ const UnivisionManageCampaigns = inject(
 
     // On click function for Refresh button to load API like it loads when we open this page for the first time.
     const onPageRefresh = () => {
-      setSearchValue('');
-      setActiveAccordion('');
+      setSearchValue("");
+      setActiveAccordion("");
       getCustomTrades();
     };
 
@@ -744,8 +857,8 @@ const UnivisionManageCampaigns = inject(
         if (res && res.data) {
           axios.get(res.data.s3_url).then(
             (res) => {
-              const blob = new Blob([res.data], { type: 'application/json' });
-              const downloadLink = document.createElement('a');
+              const blob = new Blob([res.data], { type: "application/json" });
+              const downloadLink = document.createElement("a");
               downloadLink.href = window.URL.createObjectURL(blob);
               downloadLink.download = `${data?.campaign_name}_${data?.campaign_start_date}_${data?.campaign_end_date}.csv`;
               downloadLink.click();
@@ -753,7 +866,7 @@ const UnivisionManageCampaigns = inject(
             },
             () => {
               uiStore.isLoading = false;
-              showAckErrorMessage({ message: 'Unable to download logs.' });
+              showAckErrorMessage({ message: "Unable to download logs." });
             }
           );
         }
@@ -766,17 +879,17 @@ const UnivisionManageCampaigns = inject(
       setEditType(type);
     };
 
-    const navigateToEditCampaign = (addType = '') => {
+    const navigateToEditCampaign = (addType = "") => {
       aggCampaignStore.getEditCampaignData(editCampaignData?.id).then(
         (res) => {
           if (res?.data?.success) {
             navigationService.goToAggCampaign(
-              'edit',
+              "edit",
               res?.data?.draft_data,
-              addType === 'activeAddType' ? addType : editType
+              addType === "activeAddType" ? addType : editType
             );
           } else {
-            showAckErrorMessage({ message: 'unable to edit' });
+            showAckErrorMessage({ message: "unable to edit" });
           }
         },
         () => {
@@ -787,55 +900,59 @@ const UnivisionManageCampaigns = inject(
 
     const closeModal = () => {
       setToggleEditModal(false);
-      setEditType('');
+      setEditType("");
     };
 
     const downloadManageCampaignNetworkReport = () => {
-      univisionStore.downloadNetworkReport(modalData.adv_id, modalData.id).then((res) => {
-        if (res && res.data) {
-          axios.get(res.data.s3_url).then(
-            (res) => {
-              const blob = new Blob([res.data], { type: 'application/json' });
-              const downloadLink = document.createElement('a');
-              downloadLink.href = window.URL.createObjectURL(blob);
-              downloadLink.download = `Report.csv`;
-              downloadLink.click();
-              uiStore.isLoading = false;
-            },
-            () => {
-              uiStore.isLoading = false;
-              showAckErrorMessage({ message: 'Unable to download logs.' });
-            }
-          );
-        }
-      });
+      univisionStore
+        .downloadNetworkReport(modalData.adv_id, modalData.id)
+        .then((res) => {
+          if (res && res.data) {
+            axios.get(res.data.s3_url).then(
+              (res) => {
+                const blob = new Blob([res.data], { type: "application/json" });
+                const downloadLink = document.createElement("a");
+                downloadLink.href = window.URL.createObjectURL(blob);
+                downloadLink.download = `Report.csv`;
+                downloadLink.click();
+                uiStore.isLoading = false;
+              },
+              () => {
+                uiStore.isLoading = false;
+                showAckErrorMessage({ message: "Unable to download logs." });
+              }
+            );
+          }
+        });
     };
     const downloadManageCampaignDayPartReport = () => {
-      univisionStore.downloadDaypartReport(modalData.adv_id, modalData.id).then((res) => {
-        if (res && res.data) {
-          axios.get(res.data.s3_url).then(
-            (res) => {
-              const blob = new Blob([res.data], { type: 'application/json' });
-              const downloadLink = document.createElement('a');
-              downloadLink.href = window.URL.createObjectURL(blob);
-              downloadLink.download = `Report.csv`;
-              downloadLink.click();
-              uiStore.isLoading = false;
-            },
-            () => {
-              uiStore.isLoading = false;
-              showAckErrorMessage({ message: 'Unable to download logs.' });
-            }
-          );
-        } else {
-          showAckErrorMessage({ message: 'No file found on server.' });
-        }
-      });
+      univisionStore
+        .downloadDaypartReport(modalData.adv_id, modalData.id)
+        .then((res) => {
+          if (res && res.data) {
+            axios.get(res.data.s3_url).then(
+              (res) => {
+                const blob = new Blob([res.data], { type: "application/json" });
+                const downloadLink = document.createElement("a");
+                downloadLink.href = window.URL.createObjectURL(blob);
+                downloadLink.download = `Report.csv`;
+                downloadLink.click();
+                uiStore.isLoading = false;
+              },
+              () => {
+                uiStore.isLoading = false;
+                showAckErrorMessage({ message: "Unable to download logs." });
+              }
+            );
+          } else {
+            showAckErrorMessage({ message: "No file found on server." });
+          }
+        });
     };
 
     return (
       <MainContent>
-        {id === '' && (
+        {id === "" && (
           <>
             <PageHeader className="flex-container2">
               <PageTitle>Manage Linear Addressable Campaigns</PageTitle>
@@ -853,7 +970,10 @@ const UnivisionManageCampaigns = inject(
                   </div>
 
                   <div className="mn-trade-search-bar ml10">
-                    <SearchBox searchValue={searchValue} handleSearchTextChange={handleSearchTextChange} />
+                    <SearchBox
+                      searchValue={searchValue}
+                      handleSearchTextChange={handleSearchTextChange}
+                    />
                   </div>
 
                   <CustomButton
@@ -865,7 +985,11 @@ const UnivisionManageCampaigns = inject(
                 </div>
               </StyledHeader>
             </PageHeader>
-            <NcmManageSummary tradeData={tradeData} summaryData={summaryData} impressionsCount={impressionsCount} />
+            <NcmManageSummary
+              tradeData={tradeData}
+              summaryData={summaryData}
+              impressionsCount={impressionsCount}
+            />
             <div className="nav nav-tabs">
               <NcmManageTabs
                 onTabChange={onTabChange}
@@ -881,7 +1005,9 @@ const UnivisionManageCampaigns = inject(
               activeTradesTableTitle={activeTradesTableTitle}
               completedTradesTableTitle={completedTradesTableTitle}
               pausedTradesTableTitle={pausedTradesTableTitle}
-              pendingDistributorTradesTableTitle={pendingDistributorTradesTableTitle}
+              pendingDistributorTradesTableTitle={
+                pendingDistributorTradesTableTitle
+              }
               pendingUCITradesTableTitle={pendingUCITradesTableTitle}
               handleTableButtonAction={handleTableButtonAction}
               toggle={toggle}
@@ -910,12 +1036,12 @@ const UnivisionManageCampaigns = inject(
             />
             <ApprovalStatusModal
               showModal={
-                activeModal === 'approve' ||
-                activeModal === 'decline' ||
-                activeModal === 'paused' ||
-                activeModal === 'active'
+                activeModal === "approve" ||
+                activeModal === "decline" ||
+                activeModal === "paused" ||
+                activeModal === "active"
               }
-              closeModal={() => onSetActiveModal('')}
+              closeModal={() => onSetActiveModal("")}
               activeModal={activeModal}
               confirmTradeApproval={confirmTradeApproval}
               pauseCustomTrade={pauseCustomTrade}
@@ -923,7 +1049,7 @@ const UnivisionManageCampaigns = inject(
               activeTrade={activeTrade}
             />
             <ViewTradesModal
-              showModal={activeModal === 'view'}
+              showModal={activeModal === "view"}
               closeModal={closeViewModal}
               activeModal={activeModal}
               viewTrades={viewTrades}
@@ -933,13 +1059,15 @@ const UnivisionManageCampaigns = inject(
               orderLineDetails={orderLineDetails}
             />
             <CreativeAdPreviewModal
-              showModal={activeModal === 'preview' || activeModal === 'accVideo'}
+              showModal={
+                activeModal === "preview" || activeModal === "accVideo"
+              }
               closeModal={closeCreativeVideoModal}
               creativeModalData={creativeModalData}
             />
             <ViewDetails
-              showModal={activeModal === 'details'}
-              closeModal={() => onSetActiveModal('')}
+              showModal={activeModal === "details"}
+              closeModal={() => onSetActiveModal("")}
               viewDetailsList={viewReportsDetailsList}
               viewDetailsTitles={viewAccordionDetailsTitles}
             />
@@ -948,8 +1076,8 @@ const UnivisionManageCampaigns = inject(
         )}
 
         <>
-          {id === 'graph' && <ViewGraph modalData={modalData} id={id} />}
-          {(id === 'report' || id === 'pacing_details') && (
+          {id === "graph" && <ViewGraph modalData={modalData} id={id} />}
+          {(id === "report" || id === "pacing_details") && (
             <>
               <PacingReportsTableContainer
                 modalData={modalData}
@@ -963,14 +1091,14 @@ const UnivisionManageCampaigns = inject(
                 aggCampaignStore={aggCampaignStore}
               />
               <ViewDetails
-                showModal={activeModal === 'pacing_details'}
-                closeModal={() => onSetActiveModal('')}
+                showModal={activeModal === "pacing_details"}
+                closeModal={() => onSetActiveModal("")}
                 viewDetailsList={viewReportsDetailsList}
                 viewDetailsTitles={viewAccordionDetailsTitles}
               />
             </>
           )}
-          {id === 'network_report' && (
+          {id === "network_report" && (
             <TableContainer
               postCampaignNetworkTitles={postCampaignNetworkTitles}
               postCampaignNetworkList={networkReportData}
@@ -979,7 +1107,7 @@ const UnivisionManageCampaigns = inject(
               setId={setId}
             />
           )}
-          {id === 'daypart_report' && (
+          {id === "daypart_report" && (
             <DayPartTableContainer
               postCampaignDayPartTitles={postCampaignDayPartTitles}
               postCampaignNetworkList={dayPartReportsData}
@@ -990,16 +1118,18 @@ const UnivisionManageCampaigns = inject(
           )}
         </>
         <Modal show={toggleEditModal} onHide={closeModal}>
-          <Modal.Header closeButton>{`Edit campaign ${editCampaignData?.name}`}</Modal.Header>
+          <Modal.Header
+            closeButton
+          >{`Edit campaign ${editCampaignData?.name}`}</Modal.Header>
           <Modal.Body>
-            {editType !== 'active' ? (
+            {editType !== "active" ? (
               <div className="mt10 mb10">{`Are you sure you want to edit campaign ${editCampaignData?.name} ?`}</div>
             ) : (
               <div>Do you want to?</div>
             )}
           </Modal.Body>
           <Modal.Footer>
-            {editType !== 'active' ? (
+            {editType !== "active" ? (
               <CustomButton
                 buttonClassName="capitalize"
                 type="primary"
@@ -1012,7 +1142,9 @@ const UnivisionManageCampaigns = inject(
                   buttonClassName="capitalize mr10"
                   type="primary"
                   buttonText={`Add new Audience(in existing campaign)`}
-                  handleButtonClick={() => navigateToEditCampaign('activeAddType')}
+                  handleButtonClick={() =>
+                    navigateToEditCampaign("activeAddType")
+                  }
                 />
                 <CustomButton
                   buttonClassName="capitalize"
@@ -1023,7 +1155,12 @@ const UnivisionManageCampaigns = inject(
               </>
             )}
 
-            <CustomButton type="secondary" buttonText="Close" buttonClassName="ml10" handleButtonClick={closeModal} />
+            <CustomButton
+              type="secondary"
+              buttonText="Close"
+              buttonClassName="ml10"
+              handleButtonClick={closeModal}
+            />
           </Modal.Footer>
         </Modal>
         <OrderOrderLineCancelModal
@@ -1031,13 +1168,20 @@ const UnivisionManageCampaigns = inject(
           toggleModal={toggleOrderCancelModal}
           orderData={cancelOrderData}
           onSubmit={onCancelOrder}
-          type={'Order'}
+          type={"Order"}
         />
-        <Modal show={showApproveModal} onHide={toggleApproveModal} className="network-logs-modal-scroll">
+        <Modal
+          show={showApproveModal}
+          onHide={toggleApproveModal}
+          className="network-logs-modal-scroll"
+        >
           <Modal.Header closeButton>Approve Order</Modal.Header>
           <Modal.Body>
             <div className="flex-container1 mb20">
-              <p>Are you sure you want to approve order {approveOrderData?.name} ? </p>
+              <p>
+                Are you sure you want to approve order {approveOrderData?.name}{" "}
+                ?{" "}
+              </p>
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -1069,4 +1213,4 @@ UnivisionManageCampaigns.propTypes = {
   uiStore: PropTypes.object,
   navigationService: PropTypes.object,
 };
-export default withStore(UnivisionManageCampaigns);
+export default UnivisionManageCampaigns;

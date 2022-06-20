@@ -1,8 +1,7 @@
-import { observable, action, makeObservable } from 'mobx';
-import API from '../api';
+import { observable, action, makeObservable } from "mobx";
+import API from "../api";
 
 class UnivisionStore {
-
   segments = null;
   liteFilters = null;
   fullFilters = null;
@@ -21,7 +20,7 @@ class UnivisionStore {
     modelYearForVehicleMake,
     experianFilters,
     manageAudiences,
-    archivedSegments,
+    archivedSegments
   ) {
     makeObservable(this, {
       segments: observable,
@@ -84,7 +83,9 @@ class UnivisionStore {
   async getLogs(month, year) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/univision_log_list/?year=${year}&month=${month}`);
+      const res = await API.get(
+        `/pilot/univision_log_list/?year=${year}&month=${month}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -95,7 +96,9 @@ class UnivisionStore {
   async getLogsDetails(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/univision_log_detail/?univision_log_track_id=${logId}`);
+      const res = await API.get(
+        `/pilot/univision_log_detail/?univision_log_track_id=${logId}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -107,7 +110,9 @@ class UnivisionStore {
   async getLogsDetail(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/univision_log_detail/?univision_log_track_id=${logId}&type=${'BuyBack'}`);
+      const res = await API.get(
+        `/pilot/univision_log_detail/?univision_log_track_id=${logId}&type=${"BuyBack"}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -119,7 +124,9 @@ class UnivisionStore {
   async getTotalPromoLogsDetails(logId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/univision_log_detail/?univision_log_track_id=${logId}&type=${'Promo'}`);
+      const res = await API.get(
+        `/pilot/univision_log_detail/?univision_log_track_id=${logId}&type=${"Promo"}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -131,7 +138,9 @@ class UnivisionStore {
   async searchLogDetails(logId, search) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/univision_log_detail/?univision_log_track_id=${logId}&search=${search}`);
+      const res = await API.get(
+        `/pilot/univision_log_detail/?univision_log_track_id=${logId}&search=${search}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -143,7 +152,9 @@ class UnivisionStore {
   async getTraffickingPlanPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/univision_log_detail/?${url.split('?')[1]}`);
+      const res = await API.get(
+        `/pilot/univision_log_detail/?${url.split("?")[1]}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -156,7 +167,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(
-        `/pilot/univision_log_detail/?type=${'Promo'}&univision_log_track_id=${logId}&${url.split('?')[1]}`
+        `/pilot/univision_log_detail/?type=${"Promo"}&univision_log_track_id=${logId}&${
+          url.split("?")[1]
+        }`
       );
       return res;
     } catch (error) {
@@ -169,7 +182,7 @@ class UnivisionStore {
   async getAllChannels() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get('/admin/channels/');
+      const res = await API.get("/admin/channels/");
       if (res.data.success === true) {
         this.networkData = res.data.data[0];
       } else {
@@ -188,7 +201,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(
-        `/advertiser/adc_group/?is_wanted=${true}&companies=${advId.join(',')}&brands=${brandId.join(',')}`
+        `/advertiser/adc_group/?is_wanted=${true}&companies=${advId.join(
+          ","
+        )}&brands=${brandId.join(",")}`
       );
       return response.data;
     } catch (err) {
@@ -202,7 +217,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(
-        `/audience/v1/custom_audience/?is_wanted=true&data_provider=${dataProvider.join(',')}`
+        `/audience/v1/custom_audience/?is_wanted=true&data_provider=${dataProvider.join(
+          ","
+        )}`
       );
       return response.data;
     } catch (err) {
@@ -225,10 +242,12 @@ class UnivisionStore {
     }
   }
 
-  async getCTVlogs(month = '', year = '') {
+  async getCTVlogs(month = "", year = "") {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/reports/vizio_ctv_logs/?year=${year}&month=${month}`);
+      const res = await API.get(
+        `/reports/vizio_ctv_logs/?year=${year}&month=${month}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -240,7 +259,9 @@ class UnivisionStore {
   async getPacingReportsList() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/reports/get_company_campaign_list/?report_type=${'pacing'}`);
+      const res = await API.get(
+        `/reports/get_company_campaign_list/?report_type=${"pacing"}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -253,9 +274,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(
-        `/reports/pacing_reports/?&company=${companyId?.join(',')}&status=${status?.join(
-          ','
-        )}&campaign=${campaignId?.join(',')}`
+        `/reports/pacing_reports/?&company=${companyId?.join(
+          ","
+        )}&status=${status?.join(",")}&campaign=${campaignId?.join(",")}`
       );
       return response.data;
     } catch (err) {
@@ -268,7 +289,9 @@ class UnivisionStore {
   async viewReportsDetails(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/reports/pacing_reports_details/?pacing_obj_id=${id}`);
+      const res = await API.get(
+        `/reports/pacing_reports_details/?pacing_obj_id=${id}`
+      );
       return res;
     } catch (error) {
       return error;
@@ -280,7 +303,7 @@ class UnivisionStore {
   async viewReportsDetailsPage(url) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(url.split('.net/')[1]);
+      const res = await API.get(url.split(".net/")[1]);
       return res;
     } catch (error) {
       return error;
@@ -310,7 +333,9 @@ class UnivisionStore {
   async getPostCampaignDaypartList() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get('/reports/get_company_campaign_list/?report_type=dma');
+      const res = await API.get(
+        "/reports/get_company_campaign_list/?report_type=dma"
+      );
       return res;
     } catch (error) {
       return error;
@@ -350,8 +375,8 @@ class UnivisionStore {
     try {
       const response = await API.get(
         `/reports/download_isci_report/?&company=${companyId}&campaign=${campaignId?.join(
-          ','
-        )}&creative=${creativeId?.join(',')}`
+          ","
+        )}&creative=${creativeId?.join(",")}`
       );
       return response.data;
     } catch (err) {
@@ -365,9 +390,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(
-        `/reports/download_dma_report/?&company=${companyId}&campaign=${campaignId?.join(',')}&dma=${creativeId?.join(
-          ','
-        )}`
+        `/reports/download_dma_report/?&company=${companyId}&campaign=${campaignId?.join(
+          ","
+        )}&dma=${creativeId?.join(",")}`
       );
       return response.data;
     } catch (err) {
@@ -381,9 +406,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const response = await API.get(
-        `/reports/download_combine_pacing_report/?&company=${companyId?.join(',')}&status=${status?.join(
-          ','
-        )}&campaign=${campaignId?.join(',')}`
+        `/reports/download_combine_pacing_report/?&company=${companyId?.join(
+          ","
+        )}&status=${status?.join(",")}&campaign=${campaignId?.join(",")}`
       );
       return response.data;
     } catch (err) {
@@ -414,7 +439,9 @@ class UnivisionStore {
   async getPostCampaignNetworkList() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/reports/get_company_campaign_list/?report_type=isci`);
+      const res = await API.get(
+        `/reports/get_company_campaign_list/?report_type=isci`
+      );
       return res;
     } catch (error) {
       return error;
@@ -439,7 +466,9 @@ class UnivisionStore {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(
-        `audience/v1/custom_audience/?is_wanted=true&companies=${advId.join(',')}&data_provider=${dp.join(',')}`
+        `audience/v1/custom_audience/?is_wanted=true&companies=${advId.join(
+          ","
+        )}&data_provider=${dp.join(",")}`
       );
       return res;
     } catch (error) {
@@ -463,7 +492,7 @@ class UnivisionStore {
   async saveAudience(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.post('/audience/v1/custom_audience/', payload);
+      const res = await API.post("/audience/v1/custom_audience/", payload);
       return res;
     } catch (error) {
       return error.response;
@@ -500,7 +529,11 @@ class UnivisionStore {
   async getManageAudienceData(advId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/audience/v1/custom_audience/?is_wanted=true&companies=${advId.join(',')}`);
+      const response = await API.get(
+        `/audience/v1/custom_audience/?is_wanted=true&companies=${advId.join(
+          ","
+        )}`
+      );
       return response;
     } catch (err) {
       return err;
@@ -524,7 +557,9 @@ class UnivisionStore {
   async getCampaignAccordionList(companyId, campaignId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/reports/pacing_reports/?&company=${companyId}&campaign=${campaignId}`);
+      const response = await API.get(
+        `/reports/pacing_reports/?&company=${companyId}&campaign=${campaignId}`
+      );
       return response.data;
     } catch (err) {
       return err;
@@ -548,7 +583,9 @@ class UnivisionStore {
   async downloadCampaignReport(id) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/reports/download_pacing_report/?pacing_obj_id=${id}`);
+      const response = await API.get(
+        `/reports/download_pacing_report/?pacing_obj_id=${id}`
+      );
       return response.data;
     } catch (err) {
       return err;
@@ -559,7 +596,9 @@ class UnivisionStore {
   async getAdvertiserLists() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/advertiser/get_company_list/?include_campaign=true`);
+      const response = await API.get(
+        `/advertiser/get_company_list/?include_campaign=true`
+      );
       return response;
     } catch (err) {
       return err;
@@ -582,7 +621,10 @@ class UnivisionStore {
   async addUserAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.post(`/network/create_univision_network/`, payload);
+      const response = await API.post(
+        `/network/create_univision_network/`,
+        payload
+      );
       return response;
     } catch (err) {
       return err;
@@ -593,7 +635,10 @@ class UnivisionStore {
   async updateUserAdmin(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.put(`/network/create_univision_network/`, payload);
+      const response = await API.put(
+        `/network/create_univision_network/`,
+        payload
+      );
       return response;
     } catch (err) {
       return err;
@@ -604,7 +649,7 @@ class UnivisionStore {
   async getSubAgencyId() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get('/agency/get_agency_list/');
+      const response = await API.get("/agency/get_agency_list/");
       return response;
     } catch (err) {
       return err;
@@ -628,7 +673,9 @@ class UnivisionStore {
   async getCampaignDaypartReports(companyId, campaignId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/reports/post_campaign_daypart/?&company=${companyId}&campaign=${campaignId}`);
+      const response = await API.get(
+        `/reports/post_campaign_daypart/?&company=${companyId}&campaign=${campaignId}`
+      );
       return response.data;
     } catch (err) {
       return err;
@@ -639,7 +686,9 @@ class UnivisionStore {
   async getCampaignNetworkReports(companyId, campaignId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/reports/post_campaign_network/?&company=${companyId}&campaign=${campaignId}`);
+      const response = await API.get(
+        `/reports/post_campaign_network/?&company=${companyId}&campaign=${campaignId}`
+      );
       return response.data;
     } catch (err) {
       return err;
@@ -663,7 +712,9 @@ class UnivisionStore {
   async downloadNetworkReport(companyId, campaignId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/reports/download_network_report/?&company=${companyId}&campaign=${campaignId}`);
+      const response = await API.get(
+        `/reports/download_network_report/?&company=${companyId}&campaign=${campaignId}`
+      );
       return response.data;
     } catch (err) {
       return err;
@@ -674,7 +725,9 @@ class UnivisionStore {
   async downloadDaypartReport(companyId, campaignId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const response = await API.get(`/reports/download_daypart_report/?&company=${companyId}&campaign=${campaignId}`);
+      const response = await API.get(
+        `/reports/download_daypart_report/?&company=${companyId}&campaign=${campaignId}`
+      );
       return response.data;
     } catch (err) {
       return err;

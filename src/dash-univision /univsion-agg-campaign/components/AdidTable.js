@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import withStore from '../../../hocs/WithStore';
+import React from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+//import withStore from '../../../hocs/WithStore';
 
-import { Row, Col, OverlayTrigger } from 'react-bootstrap';
-import { creativePreviewTooltip } from './tool-tips';
-import CreativeSelector from './CreativeSelector';
+import { Row, Col, OverlayTrigger } from "react-bootstrap";
+import { creativePreviewTooltip } from "./tool-tips";
+import CreativeSelector from "./CreativeSelector";
 
-const AdidTable = inject('aggCampaignStore')(
+const AdidTable = inject("aggCampaignStore")(
   observer((props) => {
     const {
       adid,
@@ -27,7 +27,7 @@ const AdidTable = inject('aggCampaignStore')(
             <p className="f12">Creative Name</p>
           </Col>
           <Col md={3} sm={3}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <CreativeSelector
                 orderType="adid"
                 selectorValueType="name"
@@ -42,10 +42,15 @@ const AdidTable = inject('aggCampaignStore')(
                   duration,
                   meta_id: metaId,
                 }}
-                onChangeCreative={(creativeObj) => onChangeAdidCreative(creativeObj)}
+                onChangeCreative={(creativeObj) =>
+                  onChangeAdidCreative(creativeObj)
+                }
               />
               {metaId ? (
-                <OverlayTrigger placement="right" overlay={creativePreviewTooltip}>
+                <OverlayTrigger
+                  placement="right"
+                  overlay={creativePreviewTooltip}
+                >
                   <i
                     className="glyphicon glyphicon-info-sign ml5"
                     aria-hidden="true"
@@ -75,7 +80,9 @@ const AdidTable = inject('aggCampaignStore')(
                 duration,
                 meta_id: metaId,
               }}
-              onChangeCreative={(creativeObj) => onChangeAdidCreative(creativeObj)}
+              onChangeCreative={(creativeObj) =>
+                onChangeAdidCreative(creativeObj)
+              }
             />
           </Col>
         </Row>
@@ -103,4 +110,4 @@ AdidTable.propTypes = {
   selectedCompanyId: PropTypes.any,
 };
 
-export default withStore(AdidTable);
+export default AdidTable;

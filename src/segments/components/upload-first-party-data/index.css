@@ -1,0 +1,12 @@
+.segments-fu-title {
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.segments-download-sample-file {
+  color: #3366cc;
+  font-weight: bold;
+  font-family: opensans;
+  cursor: pointer;
+  font-size: 13px;
+}

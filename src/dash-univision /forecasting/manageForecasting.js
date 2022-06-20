@@ -1,22 +1,21 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from "react";
 //import PropTypes from 'prop-types';
-import { observer, inject } from 'mobx-react';
+import { observer, inject } from "mobx-react";
 
-import withStore from '../../hocs/WithStore';
-import { MainContent } from '../../components/PageLayout';
-import { PageHeader } from 'antd';
-import { PageTitle } from '../../components/Typography';
-import TabContainer from '../../components/TabContainer';
-import ForecastTable from './components/ForecastTable';
-import { ForecastTableTitles } from './JsonData';
-import ForecastDetail from './components/ForecastDetail';
-import ReactLoader from '../../components/ReactLoader';
-import { showAckErrorMessage, showAckMessage } from '../../common/utils';
-import CustomButton from '../../components/CustomButton';
+import { MainContent } from "../../components/PageLayout";
+import { PageHeader } from "antd";
+import { PageTitle } from "../../components/Typography";
+import TabContainer from "../../components/TabContainer";
+import ForecastTable from "./components/ForecastTable";
+import { ForecastTableTitles } from "./JsonData";
+import ForecastDetail from "./components/ForecastDetail";
+import ReactLoader from "../../components/ReactLoader";
+import { showAckErrorMessage, showAckMessage } from "../../common/utils";
+import CustomButton from "../../components/CustomButton";
 
 const ManageForecast = inject(
-  'univisionStore',
-  'uiStore'
+  "univisionStore",
+  "uiStore"
 )(
   observer((props) => {
     const { univisionStore, uiStore, $state } = props;
@@ -24,30 +23,32 @@ const ManageForecast = inject(
 
     const ForcastTabTitles = [
       {
-        id: 'pending-processing',
-        apiStatus: 'Pending',
-        name: 'Pending Processing',
+        id: "pending-processing",
+        apiStatus: "Pending",
+        name: "Pending Processing",
         status: 0,
       },
       {
-        id: 'complete',
-        apiStatus: 'Complete',
-        name: 'Complete',
+        id: "complete",
+        apiStatus: "Complete",
+        name: "Complete",
         status: 1,
       },
       {
-        id: 'archive',
-        apiStatus: 'Archive',
-        name: 'Archive',
+        id: "archive",
+        apiStatus: "Archive",
+        name: "Archive",
         status: 2,
       },
     ];
 
-    const [activeTab, setActiveTab] = useState(ForcastTabTitles[$state.params.tableState]);
+    const [activeTab, setActiveTab] = useState(
+      ForcastTabTitles[$state.params.tableState]
+    );
     const [forecastData, setForecastData] = useState([]);
     const [forecastDetail, setForecastDetail] = useState({});
-    const [activeModal, setActiveModal] = useState('');
-    const [nextPageUrl, setNextPageUrl] = useState('');
+    const [activeModal, setActiveModal] = useState("");
+    const [nextPageUrl, setNextPageUrl] = useState("");
 
     useEffect(() => {
       getForecastData(null, activeTab.apiStatus);
@@ -59,7 +60,11 @@ const ManageForecast = inject(
       }
     };
 
-    const getForecastData = (url = null, status = activeTab.apiStatus, archive = false) => {
+    const getForecastData = (
+      url = null,
+      status = activeTab.apiStatus,
+      archive = false
+    ) => {
       univisionStore.getForecastData(url, status, archive).then(
         (res) => {
           if (res && res.success) {
@@ -76,7 +81,9 @@ const ManageForecast = inject(
             }
             setForecastData(concatenatedArray);
           } else {
-            showAckErrorMessage({ message: 'Something went wrong while fetching forecast data' });
+            showAckErrorMessage({
+              message: "Something went wrong while fetching forecast data",
+            });
           }
         },
         () => {
@@ -100,7 +107,7 @@ const ManageForecast = inject(
             showAckMessage({ message: res?.data?.message });
             getForecastData(null, activeTab?.apiStatus);
           } else {
-            showAckErrorMessage({ message: 'Something went wrong!' });
+            showAckErrorMessage({ message: "Something went wrong!" });
           }
         },
         () => {
@@ -111,23 +118,23 @@ const ManageForecast = inject(
 
     const onTabChange = (tab) => {
       setActiveTab(tab);
-      if (tab?.apiStatus === 'Archive') {
-        getForecastData(null, 'Complete', true);
+      if (tab?.apiStatus === "Archive") {
+        getForecastData(null, "Complete", true);
       } else {
         getForecastData(null, tab?.apiStatus);
       }
     };
 
     const onRefresh = () => {
-      if (activeTab?.apiStatus === 'Archive') {
-        getForecastData(null, 'Complete', true);
+      if (activeTab?.apiStatus === "Archive") {
+        getForecastData(null, "Complete", true);
       } else {
         getForecastData(null, activeTab?.apiStatus);
       }
     };
 
     const handleTableButtonAction = (buttonType, data) => {
-      if (buttonType === 'details') {
+      if (buttonType === "details") {
         getForecastDetail(data.id);
         setActiveModal(buttonType);
       } else {
@@ -143,7 +150,7 @@ const ManageForecast = inject(
     };
 
     const handleModalClose = () => {
-      setActiveModal('');
+      setActiveModal("");
       setForecastDetail({});
     };
 
@@ -155,7 +162,12 @@ const ManageForecast = inject(
           </div>
         </PageHeader>
         <div className="flex-container2">
-          <TabContainer onTabChange={onTabChange} activeTab={activeTab} tabList={ForcastTabTitles} showCount={false} />
+          <TabContainer
+            onTabChange={onTabChange}
+            activeTab={activeTab}
+            tabList={ForcastTabTitles}
+            showCount={false}
+          />
           <CustomButton
             type="primary"
             buttonText="Refresh"
@@ -174,7 +186,7 @@ const ManageForecast = inject(
           tableRef={tableRef}
         />
         <ForecastDetail
-          showModal={activeModal === 'details'}
+          showModal={activeModal === "details"}
           closeModal={() => handleModalClose()}
           forecastDetailData={forecastDetail}
         />
@@ -184,4 +196,4 @@ const ManageForecast = inject(
   })
 );
 
-export default withStore(ManageForecast);
+export default ManageForecast;

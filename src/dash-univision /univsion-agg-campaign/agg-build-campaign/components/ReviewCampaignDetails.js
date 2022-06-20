@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Col, Row } from 'react-bootstrap';
-import CustomButton from '../../../../components/CustomButton';
-import AggAccordian from './AggAccordian';
-import { inject, observer } from 'mobx-react';
-import withStore from '../../../../hocs/WithStore';
-import { toJS } from 'mobx';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Col, Row } from "react-bootstrap";
+import CustomButton from "../../../../components/CustomButton";
+import AggAccordian from "./AggAccordian";
+import { inject, observer } from "mobx-react";
+//import withStore from '../../../../hocs/WithStore';
+import { toJS } from "mobx";
 
-const ReviewCampaignDetails = inject('aggCampaignStore')(
+const ReviewCampaignDetails = inject("aggCampaignStore")(
   observer((props) => {
-    const { levelData, selectedCompanyData, onSubmit, onSaveTodrafts, backHandler, aggCampaignStore } = props;
+    const {
+      levelData,
+      selectedCompanyData,
+      onSubmit,
+      onSaveTodrafts,
+      backHandler,
+      aggCampaignStore,
+    } = props;
 
-    const [toggleCampaignAccordian, setToggleCampaignAccordian] = useState(true);
+    const [toggleCampaignAccordian, setToggleCampaignAccordian] =
+      useState(true);
     const [toggleOrder, setToggleOrder] = useState(0);
 
     const creativesListData = toJS(aggCampaignStore.creativesListData);
@@ -20,13 +28,18 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
     const showsList = toJS(aggCampaignStore?.showNameList);
 
     const renderCampaignDetails = () => (
-      <div className="ex-agg-padding" style={{ paddingBottom: '0px', paddingTop: '0px' }}>
+      <div
+        className="ex-agg-padding"
+        style={{ paddingBottom: "0px", paddingTop: "0px" }}
+      >
         <Row className="row justify-content-center">
           <Col md={3} sm={3}>
             <p className="mr20 f12">Advertiser</p>
           </Col>
           <Col md={3} sm={3}>
-            <p className="f12">{selectedCompanyData?.companyName?.company?.name || '---'}</p>
+            <p className="f12">
+              {selectedCompanyData?.companyName?.company?.name || "---"}
+            </p>
           </Col>
           <Col md={3} sm={3}>
             <p className="mr20 f12">Campaign Name </p>
@@ -72,7 +85,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
     const renderAudienceDetails = (data, creativesListData) => {
       const daysOfWeek = [];
 
-      if (Object.prototype.hasOwnProperty.call(data, 'days_of_week')) {
+      if (Object.prototype.hasOwnProperty.call(data, "days_of_week")) {
         Object.entries(data?.days_of_week)?.forEach(([key, value]) => {
           if (value) {
             daysOfWeek.push(key);
@@ -88,12 +101,12 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Order Type</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12" style={{ textTransform: 'capitalize' }}>
+                <p className="f12" style={{ textTransform: "capitalize" }}>
                   {data?.creative_selection_type}
                 </p>
               </Col>
             </Row>
-            {data?.creative_selection_type !== 'adid' ? (
+            {data?.creative_selection_type !== "adid" ? (
               <div>
                 <Row className="mt10">
                   <Col md={3} sm={3}>
@@ -106,7 +119,9 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                     <p className="f12">Number of Creatives</p>
                   </Col>
                   <Col md={3} sm={3}>
-                    <p className="f12">{data?.ad_copy_rotation?.assets.length}</p>
+                    <p className="f12">
+                      {data?.ad_copy_rotation?.assets.length}
+                    </p>
                   </Col>
                 </Row>
                 <table className="table table-striped table-wrapper mt20 wrapped-table table-elem-center">
@@ -129,7 +144,9 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                             ) : null
                           )}
                         </td>
-                        <td className="f12">{c?.weight || c?.weighted_percentage || c?.index}</td>
+                        <td className="f12">
+                          {c?.weight || c?.weighted_percentage || c?.index}
+                        </td>
                         <td className="f12">
                           {creativesListData?.map((cx, id) =>
                             cx.id === c?.adid ? (
@@ -179,7 +196,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Data Provider</p>
               </Col>
               <Col md={3}>
-                <p className="f12" style={{ textTransform: 'capitalize' }}>
+                <p className="f12" style={{ textTransform: "capitalize" }}>
                   {data?.segment?.data_provider}
                 </p>
               </Col>
@@ -189,7 +206,13 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Segment Name</p>
               </Col>
               <Col md={3}>
-                <p className="f12" style={{ textTransform: 'capitalize', wordBreak: 'break-word' }}>
+                <p
+                  className="f12"
+                  style={{
+                    textTransform: "capitalize",
+                    wordBreak: "break-word",
+                  }}
+                >
                   {data?.segment?.segment_name}
                 </p>
               </Col>
@@ -197,7 +220,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Audience Size</p>
               </Col>
               <Col md={3}>
-                <p className="f12" style={{ textTransform: 'capitalize' }}>
+                <p className="f12" style={{ textTransform: "capitalize" }}>
                   {data?.segment?.row_count?.toLocaleString()}
                 </p>
               </Col>
@@ -209,7 +232,9 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12"> Desired Impressions for Campaign</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{data?.desired_impression?.toLocaleString()}</p>
+                <p className="f12">
+                  {data?.desired_impression?.toLocaleString()}
+                </p>
               </Col>
               <Col md={3} sm={3}>
                 <p className="f12">CPM</p>
@@ -222,7 +247,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
           <div className="column-border mt10">
             <Row>
               <Col md={3} sm={3}>
-                <p style={{ textDecorationLine: 'underline' }}>OPTIONAL</p>
+                <p style={{ textDecorationLine: "underline" }}>OPTIONAL</p>
               </Col>
             </Row>
             <Row className="mt10">
@@ -230,13 +255,13 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12"> Frequency cap/Minimum Viewings</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{data?.maximum_viewings?.period || '---'}</p>
+                <p className="f12">{data?.maximum_viewings?.period || "---"}</p>
               </Col>
               <Col md={3} sm={3}>
                 <p className="f12">Count</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{data?.maximum_viewings?.count || '---'}</p>
+                <p className="f12">{data?.maximum_viewings?.count || "---"}</p>
               </Col>
             </Row>
             <Row className="mt10">
@@ -244,7 +269,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Separation (minute)</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{data?.separation || '---'}</p>
+                <p className="f12">{data?.separation || "---"}</p>
               </Col>
             </Row>
             <Row className="mt10">
@@ -252,12 +277,12 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Priority</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{data?.priority || '1'}</p>
+                <p className="f12">{data?.priority || "1"}</p>
               </Col>
             </Row>
             <Row className="mt30">
               <Col md={3} sm={3}>
-                <p style={{ textDecorationLine: 'underline' }} className="f12">
+                <p style={{ textDecorationLine: "underline" }} className="f12">
                   Exclusions
                 </p>
               </Col>
@@ -267,7 +292,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Days of week</p>
               </Col>
               <Col md={3} sm={3}>
-                {Object.prototype.hasOwnProperty.call(data, 'days_of_week') ? (
+                {Object.prototype.hasOwnProperty.call(data, "days_of_week") ? (
                   daysOfWeek?.map((key, keyidx) => (
                     <p className="f12" key={`id_of_key_${keyidx}`}>
                       {key},
@@ -281,10 +306,10 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Dayparts</p>
               </Col>
               <Col md={3} sm={3}>
-                {Object.prototype.hasOwnProperty.call(data, 'day_parts') ? (
+                {Object.prototype.hasOwnProperty.call(data, "day_parts") ? (
                   data?.day_parts?.map((daypart, ix) => (
                     <p className="f12" key={ix}>
-                      {dayParts.find((dDay) => dDay.id === daypart).name},{' '}
+                      {dayParts.find((dDay) => dDay.id === daypart).name},{" "}
                     </p>
                   ))
                 ) : (
@@ -297,10 +322,10 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Networks</p>
               </Col>
               <Col md={3} sm={3}>
-                {Object.prototype.hasOwnProperty.call(data, 'networks') ? (
+                {Object.prototype.hasOwnProperty.call(data, "networks") ? (
                   data?.networks?.map((net, ixb) => (
                     <p className="f12" key={`${ixb}_net_work`}>
-                      {networkList.find((dDay) => dDay.id === net).name},{' '}
+                      {networkList.find((dDay) => dDay.id === net).name},{" "}
                     </p>
                   ))
                 ) : (
@@ -311,7 +336,7 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Skip week</p>
               </Col>
               <Col md={3} sm={3}>
-                <p className="f12">{data?.skip_weeks_off || '---'}</p>
+                <p className="f12">{data?.skip_weeks_off || "---"}</p>
               </Col>
             </Row>
             <Row className="mt10">
@@ -319,10 +344,10 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                 <p className="f12">Show Name Exclusions</p>
               </Col>
               <Col md={3} sm={3}>
-                {Object.prototype.hasOwnProperty.call(data, 'programs') ? (
+                {Object.prototype.hasOwnProperty.call(data, "programs") ? (
                   data?.programs?.map((showName, ixb) => (
                     <p className="f12" key={`${ixb}_programs`}>
-                      {showsList?.find((dDay) => dDay?.id === showName)?.label},{' '}
+                      {showsList?.find((dDay) => dDay?.id === showName)?.label},{" "}
                     </p>
                   ))
                 ) : (
@@ -364,14 +389,19 @@ const ReviewCampaignDetails = inject('aggCampaignStore')(
                   isActive={toggleOrder === idx + 1 ? true : false}
                   title={`Orderline ${idx + 1}`}
                   index={idx + 1}
-                  content={() => renderAudienceDetails(cdata, creativesListData, idx)}
+                  content={() =>
+                    renderAudienceDetails(cdata, creativesListData, idx)
+                  }
                   onClickAccordion={() => toggleOrderDetail(idx)}
                 />
               </div>
             ))}
         </div>
 
-        <div className="mt10" style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <div
+          className="mt10"
+          style={{ display: "flex", flexDirection: "row-reverse" }}
+        >
           <CustomButton
             type="secondary"
             buttonText="Back"
@@ -406,4 +436,4 @@ ReviewCampaignDetails.propTypes = {
   backHandler: PropTypes.func,
 };
 
-export default withStore(ReviewCampaignDetails);
+export default ReviewCampaignDetails;

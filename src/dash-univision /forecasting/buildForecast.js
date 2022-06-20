@@ -1,31 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { observer, inject } from 'mobx-react';
-import { ButtonToolbar, DropdownButton, MenuItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { observer, inject } from "mobx-react";
+import {
+  ButtonToolbar,
+  DropdownButton,
+  MenuItem,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../components/PageLayout";
+import { PageTitle } from "../../components/Typography";
+import CustomButton from "../../components/CustomButton";
+import AggPickyFilter from "../univsion-agg-campaign/components/PickyAgg";
+import { showAckErrorMessage, showAckMessage } from "../../common/utils";
+import ReactLoader from "../../components/ReactLoader";
 
-import withStore from '../../hocs/WithStore';
-import { MainContent, PageHeader, PageContent } from '../../components/PageLayout';
-import { PageTitle } from '../../components/Typography';
-import CustomButton from '../../components/CustomButton';
-import AggPickyFilter from '../univsion-agg-campaign/components/PickyAgg';
-import { showAckErrorMessage, showAckMessage } from '../../common/utils';
-import ReactLoader from '../../components/ReactLoader';
-
-import './forecasting.css';
-import { toJS } from 'mobx';
+import "./forecasting.css";
+import { toJS } from "mobx";
 
 const Forecast = inject(
-  'uiStore',
-  'companyStore',
-  'aggCampaignStore'
+  "uiStore",
+  "companyStore",
+  "aggCampaignStore"
 )(
   observer((props) => {
-    const { navigationService, uiStore, companyStore, aggCampaignStore } = props;
+    const { navigationService, uiStore, companyStore, aggCampaignStore } =
+      props;
 
     const [advertiser, SetAdvertiser] = useState({});
     const [allCompanyData, setCompanyList] = useState([]);
-    const [forecastName, setForecastName] = useState('');
+    const [forecastName, setForecastName] = useState("");
     const [startDate, setStartDate] = useState(() => {
       const temp = new Date();
       temp.setDate(temp.getDate() + 1);
@@ -37,18 +46,18 @@ const Forecast = inject(
       return new Date(temp);
     });
     const [frequencyCap, setFrequencyCap] = useState(10);
-    const [orderType, setOrderType] = useState('');
+    const [orderType, setOrderType] = useState("");
     const [allNetworkList, setAllNetworkList] = useState([]);
     const [includedNetworks, setIncludedNetWorks] = useState([]);
-    const [dataProvider, setDataProvider] = useState('');
+    const [dataProvider, setDataProvider] = useState("");
     const [dataProviderSegment, setDataProviderSegment] = useState([]);
     const [selectedSegment, setSelectedSegment] = useState({});
-    const [frequencyPeriod, setFrequencyPeriod] = useState('Weekly');
+    const [frequencyPeriod, setFrequencyPeriod] = useState("Weekly");
 
     const dataproviderKey = {
-      'Custom Audience': 'audience_request_form',
-      LiveRamp: 'live_ramp',
-      'First Party': 'first_party',
+      "Custom Audience": "audience_request_form",
+      LiveRamp: "live_ramp",
+      "First Party": "first_party",
     };
 
     useEffect(() => {
@@ -56,7 +65,7 @@ const Forecast = inject(
         (res) => {
           setCompanyList(res?.data?.data);
         },
-        () => showAckErrorMessage({ message: 'Something went wrong!' })
+        () => showAckErrorMessage({ message: "Something went wrong!" })
       );
       aggCampaignStore.getNetworksData().then(() => {
         setAllNetworkList(toJS(aggCampaignStore.networkList));
@@ -73,14 +82,20 @@ const Forecast = inject(
         </div>
         <div>
           <input
-            style={{ width: '200px' }}
+            style={{ width: "200px" }}
             type="text"
             value={value}
             placeholder={name}
-            min={type === 'number' ? '0' : null}
+            min={type === "number" ? "0" : null}
             onChange={(e) => {
-              if (type === 'number' && (e.target.value < 0 || e.target.value.match('^[0-9]*$') === null)) {
-                showAckErrorMessage({ message: 'frequency should be positive integer value' });
+              if (
+                type === "number" &&
+                (e.target.value < 0 ||
+                  e.target.value.match("^[0-9]*$") === null)
+              ) {
+                showAckErrorMessage({
+                  message: "frequency should be positive integer value",
+                });
                 return;
               }
               setValue(e.target.value);
@@ -94,7 +109,7 @@ const Forecast = inject(
       <DatePicker
         selected={dateValue}
         minDate={
-          type === 'end'
+          type === "end"
             ? startDate
             : (() => {
                 const temp = new Date();
@@ -108,7 +123,7 @@ const Forecast = inject(
           return new Date(temp);
         })()}
         onChange={(date) => {
-          if (type !== 'end') setEndDate(date);
+          if (type !== "end") setEndDate(date);
           setValue(date);
         }}
         wrapperClassName="test-class"
@@ -117,7 +132,7 @@ const Forecast = inject(
 
     const handleDataProviderList = async (value) => {
       if (!advertiser?.company) {
-        showAckErrorMessage({ message: 'Please select advertiser first!' });
+        showAckErrorMessage({ message: "Please select advertiser first!" });
         return;
       }
       const response = await aggCampaignStore.getFilterBasedonDataProvider({
@@ -129,29 +144,29 @@ const Forecast = inject(
       if (response?.data?.success) {
         setDataProviderSegment(response?.data?.data);
       } else {
-        showAckErrorMessage({ message: 'Something Went Wrong!' });
+        showAckErrorMessage({ message: "Something Went Wrong!" });
       }
     };
 
     const onSubmit = () => {
       if (!orderType.length) {
-        showAckErrorMessage({ message: 'Please select order type!' });
+        showAckErrorMessage({ message: "Please select order type!" });
         return;
       }
       if (!forecastName.length) {
-        showAckErrorMessage({ message: 'Please select Forecast name!' });
+        showAckErrorMessage({ message: "Please select Forecast name!" });
         return;
       }
       if (!advertiser?.company) {
-        showAckErrorMessage({ message: 'Please select advertiser!' });
+        showAckErrorMessage({ message: "Please select advertiser!" });
         return;
       }
       if (!dataProvider) {
-        showAckErrorMessage({ message: 'Please select data provider!' });
+        showAckErrorMessage({ message: "Please select data provider!" });
         return;
       }
       if (!selectedSegment?.name) {
-        showAckErrorMessage({ message: 'Please select segment!' });
+        showAckErrorMessage({ message: "Please select segment!" });
         return;
       }
 
@@ -167,11 +182,15 @@ const Forecast = inject(
         allNetworkList.forEach((d) => includeId.push(d.id));
       }
       const payload = {
-        adv_id: advertiser?.company?.id || '',
+        adv_id: advertiser?.company?.id || "",
         forecast_name: forecastName,
         segment_id: selectedSegment?.id,
-        start_date: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`,
-        end_date: `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`,
+        start_date: `${startDate.getFullYear()}-${
+          startDate.getMonth() + 1
+        }-${startDate.getDate()}`,
+        end_date: `${endDate.getFullYear()}-${
+          endDate.getMonth() + 1
+        }-${endDate.getDate()}`,
         included_networks: [...includeId],
         excluded_networks: [...excludeID],
         frequency_count: frequencyCap.length ? frequencyCap : 10,
@@ -206,17 +225,31 @@ const Forecast = inject(
               </div>
               <div>
                 <ButtonToolbar>
-                  <DropdownButton className="test-class f12 overflow-hidden" title={orderType || 'Select Order Type'}>
-                    <MenuItem onSelect={() => setOrderType('Pre')}>Pre</MenuItem>
-                    <MenuItem onSelect={() => setOrderType('Post')}>Post</MenuItem>
+                  <DropdownButton
+                    className="test-class f12 overflow-hidden"
+                    title={orderType || "Select Order Type"}
+                  >
+                    <MenuItem onSelect={() => setOrderType("Pre")}>
+                      Pre
+                    </MenuItem>
+                    <MenuItem onSelect={() => setOrderType("Post")}>
+                      Post
+                    </MenuItem>
                   </DropdownButton>
                 </ButtonToolbar>
               </div>
-              <>{getInputContent('Forecast Name', forecastName, setForecastName, 'text')}</>
+              <>
+                {getInputContent(
+                  "Forecast Name",
+                  forecastName,
+                  setForecastName,
+                  "text"
+                )}
+              </>
               <p className="mr20 f12 bold-large">Start Date</p>
-              {getDatePickerInput(startDate, setStartDate, 'start')}
+              {getDatePickerInput(startDate, setStartDate, "start")}
               <p className="mr20 f12 bold-large">End Date</p>
-              {getDatePickerInput(endDate, setEndDate, 'end')}
+              {getDatePickerInput(endDate, setEndDate, "end")}
             </div>
             <div className="grid-container mt20 column-border">
               <div>
@@ -226,7 +259,7 @@ const Forecast = inject(
                 <ButtonToolbar>
                   <DropdownButton
                     className="test-class f12 overflow-hidden"
-                    title={advertiser?.company?.name || 'select Advertiser'}
+                    title={advertiser?.company?.name || "select Advertiser"}
                   >
                     {allCompanyData &&
                       allCompanyData.length &&
@@ -234,7 +267,7 @@ const Forecast = inject(
                         <MenuItem
                           key={`${id}_drop_adv`}
                           onSelect={() => {
-                            setDataProvider('');
+                            setDataProvider("");
                             setSelectedSegment({});
                             setDataProviderSegment([]);
                             SetAdvertiser(data);
@@ -253,11 +286,23 @@ const Forecast = inject(
                 <ButtonToolbar>
                   <DropdownButton
                     className="test-class f12 overflow-hidden"
-                    title={dataProvider || 'Select Data Provider'}
+                    title={dataProvider || "Select Data Provider"}
                   >
-                    <MenuItem onSelect={() => handleDataProviderList('LiveRamp')}>LiveRamp</MenuItem>
-                    <MenuItem onSelect={() => handleDataProviderList('Custom Audience')}>Custom Audience</MenuItem>
-                    <MenuItem onSelect={() => handleDataProviderList('First Party')}>First Party</MenuItem>
+                    <MenuItem
+                      onSelect={() => handleDataProviderList("LiveRamp")}
+                    >
+                      LiveRamp
+                    </MenuItem>
+                    <MenuItem
+                      onSelect={() => handleDataProviderList("Custom Audience")}
+                    >
+                      Custom Audience
+                    </MenuItem>
+                    <MenuItem
+                      onSelect={() => handleDataProviderList("First Party")}
+                    >
+                      First Party
+                    </MenuItem>
                   </DropdownButton>
                 </ButtonToolbar>
               </div>
@@ -266,12 +311,15 @@ const Forecast = inject(
               <ButtonToolbar>
                 <DropdownButton
                   className="test-class f12 overflow-hidden"
-                  title={selectedSegment?.name || 'Select Segment'}
+                  title={selectedSegment?.name || "Select Segment"}
                   disabled={dataProviderSegment?.length === 0}
                 >
                   {dataProviderSegment.length &&
                     dataProviderSegment?.map((data, idx) => (
-                      <MenuItem key={`data_seg_name_${idx}`} onSelect={() => setSelectedSegment(data)}>
+                      <MenuItem
+                        key={`data_seg_name_${idx}`}
+                        onSelect={() => setSelectedSegment(data)}
+                      >
                         {data?.name}
                       </MenuItem>
                     ))}
@@ -279,26 +327,32 @@ const Forecast = inject(
               </ButtonToolbar>
               <p className="f12 bold-large">Audience Count</p>
               <p className="f12 bold-large">
-                {selectedSegment?.name ? selectedSegment?.row_count?.toLocaleString() : '---'}
+                {selectedSegment?.name
+                  ? selectedSegment?.row_count?.toLocaleString()
+                  : "---"}
               </p>
             </div>
             <div className="grid-container mt20 column-border">
               <>
                 <p className="f12 bold-large">
-                  Included Networks{' '}
+                  Included Networks{" "}
                   <OverlayTrigger
                     placement="right"
                     overlay={
                       <Tooltip id="standard-campaign-tooltip">
-                        All the networks are included by default if nothing is selected
+                        All the networks are included by default if nothing is
+                        selected
                       </Tooltip>
                     }
                   >
-                    <i className="glyphicon glyphicon-info-sign ml5" aria-hidden="true" />
+                    <i
+                      className="glyphicon glyphicon-info-sign ml5"
+                      aria-hidden="true"
+                    />
                   </OverlayTrigger>
                   <p className="small-description">
-                    *The selected networks from the list will be Included and the rest will be treated as excluded
-                    networks
+                    *The selected networks from the list will be Included and
+                    the rest will be treated as excluded networks
                   </p>
                 </p>
                 <AggPickyFilter
@@ -342,26 +396,41 @@ const Forecast = inject(
               <div>
                 <p className="f12 bold-large">
                   Frequency Period
-                  <p className="small-description">*By default frequency will be 10/Week</p>
+                  <p className="small-description">
+                    *By default frequency will be 10/Week
+                  </p>
                 </p>
               </div>
               <div>
                 <ButtonToolbar>
                   <DropdownButton
                     className="test-class f12 overflow-hidden"
-                    title={frequencyPeriod || 'Select Data Provider'}
+                    title={frequencyPeriod || "Select Data Provider"}
                   >
-                    <MenuItem onSelect={() => setFrequencyPeriod('Weekly')}>Weekly</MenuItem>
-                    <MenuItem onSelect={() => setFrequencyPeriod('Daily')}>Daily</MenuItem>
+                    <MenuItem onSelect={() => setFrequencyPeriod("Weekly")}>
+                      Weekly
+                    </MenuItem>
+                    <MenuItem onSelect={() => setFrequencyPeriod("Daily")}>
+                      Daily
+                    </MenuItem>
                     {/* <MenuItem onSelect={() => setFrequencyPeriod('PerFlight')}>PerFlight</MenuItem> */}
                   </DropdownButton>
                 </ButtonToolbar>
               </div>
-              {getInputContent('Frequency Count', frequencyCap, setFrequencyCap, 'number')}
+              {getInputContent(
+                "Frequency Count",
+                frequencyCap,
+                setFrequencyCap,
+                "number"
+              )}
             </div>
           </div>
           <div className="mt20 float-right-imp">
-            <CustomButton buttonText="Submit" type="primary" handleButtonClick={onSubmit} />
+            <CustomButton
+              buttonText="Submit"
+              type="primary"
+              handleButtonClick={onSubmit}
+            />
           </div>
         </PageContent>
         <ReactLoader isLoading={uiStore.isLoading} />
@@ -377,4 +446,4 @@ Forecast.propTypes = {
   aggCampaignStore: PropTypes.object,
 };
 
-export default withStore(Forecast);
+export default Forecast;

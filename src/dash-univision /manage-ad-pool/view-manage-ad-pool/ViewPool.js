@@ -1,34 +1,32 @@
 /* eslint-disable */
-import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { observer, inject } from 'mobx-react';
-
-import withStore from '../../../hocs/WithStore';
-import { showAckErrorMessage, showAckMessage } from '../../../common/utils';
-import ReactLoader from '../../../components/ReactLoader';
-import CreativesAdPreviewModal from '../../../components/CreativesAdPreviewModal';
+import React, { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
+import { observer, inject } from "mobx-react";
+import { showAckErrorMessage, showAckMessage } from "../../../common/utils";
+import ReactLoader from "../../../components/ReactLoader";
+import CreativesAdPreviewModal from "../../../components/CreativesAdPreviewModal";
 // import QAModal from '../../components/network-creatives/creatives-watermark-approval/QAModal';
 
-import CreativesTable from './components/CreativesTable';
-import CreativesHeader from './components/CreativesHeader';
+import CreativesTable from "./components/CreativesTable";
+import CreativesHeader from "./components/CreativesHeader";
 //import UploadCreativesModal from '../../../components/network-creatives/creatives-manage/UploadCreativesModal';
-import axios from 'axios';
+import axios from "axios";
 
-import { tableHeaderList } from './components/PoolJsonData';
+import { tableHeaderList } from "./components/PoolJsonData";
 
 const ViewPool = inject(
-  'networkStore',
-  'creativesStore',
-  'uiStore'
+  "networkStore",
+  "creativesStore",
+  "uiStore"
 )(
   observer((props) => {
     const { uiStore, networkStore, creativesStore, navigationService } = props;
     const [creativesListingData, setCreativesListingData] = useState([]);
     const [deliveryVendorChoices, setDeliveryVendorChoices] = useState([]);
     const [creativeModalData, setCreativeModalData] = useState();
-    const [activeModal, setActiveModal] = useState('');
+    const [activeModal, setActiveModal] = useState("");
     const tableHeadings = tableHeaderList;
-    const [nextPageUrl, setNextPageUrl] = useState('');
+    const [nextPageUrl, setNextPageUrl] = useState("");
     const tableRef = useRef(null);
     const [channelList, setChannelList] = useState([]);
     const [advList, setAdvList] = useState([]);
@@ -49,7 +47,9 @@ const ViewPool = inject(
               results.forEach((item) => {
                 allAdvList.push(item.adid_meta_file_upload[0]?.company_name);
               });
-              const uniqueAdvList = allAdvList.filter((item, i, ar) => ar.indexOf(item) === i);
+              const uniqueAdvList = allAdvList.filter(
+                (item, i, ar) => ar.indexOf(item) === i
+              );
               setAdvList(uniqueAdvList);
               setSelectedAdv(uniqueAdvList);
               setNextPageUrl(res.data?.data?.next);
@@ -59,11 +59,20 @@ const ViewPool = inject(
               uiStore.isLoading = false;
               let concatenatedArray;
               if (url) {
-                const creativesListingDataCpy = JSON.parse(JSON.stringify(creativesListingData));
-                const processedCreativesCpy = JSON.parse(JSON.stringify(processedCreatives));
-                concatenatedArray = [...creativesListingDataCpy, ...processedCreativesCpy];
+                const creativesListingDataCpy = JSON.parse(
+                  JSON.stringify(creativesListingData)
+                );
+                const processedCreativesCpy = JSON.parse(
+                  JSON.stringify(processedCreatives)
+                );
+                concatenatedArray = [
+                  ...creativesListingDataCpy,
+                  ...processedCreativesCpy,
+                ];
               } else {
-                concatenatedArray = JSON.parse(JSON.stringify(processedCreatives));
+                concatenatedArray = JSON.parse(
+                  JSON.stringify(processedCreatives)
+                );
                 scrollToTop();
               }
               setCreativesListingData(concatenatedArray);
@@ -74,7 +83,9 @@ const ViewPool = inject(
           }
         },
         () => {
-          showAckErrorMessage({ message: 'something went wrong with creatives list.' });
+          showAckErrorMessage({
+            message: "something went wrong with creatives list.",
+          });
         }
       );
     };
@@ -84,27 +95,35 @@ const ViewPool = inject(
         (res) => {
           axios({
             url: res.data.data,
-            method: 'GET',
-            responseType: 'blob',
+            method: "GET",
+            responseType: "blob",
           }).then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data])); //
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = url;
-            link.setAttribute('download', 'file.xlsx');
+            link.setAttribute("download", "file.xlsx");
             document.body.appendChild(link);
             link.click();
           });
 
-          if (res && res?.data?.success === false && res?.data?.message === 'id must be a integer field') {
-            showAckErrorMessage({ message: 'Creative Watermark does not exist.' });
+          if (
+            res &&
+            res?.data?.success === false &&
+            res?.data?.message === "id must be a integer field"
+          ) {
+            showAckErrorMessage({
+              message: "Creative Watermark does not exist.",
+            });
           } else if (res && res?.data?.success === false) {
             showAckErrorMessage({ message: res.data.message });
           } else {
-            showAckMessage({ message: 'Downloaded successfully.' });
+            showAckMessage({ message: "Downloaded successfully." });
           }
         },
         () => {
-          showAckErrorMessage({ message: 'No Preview data available. Internal error.' });
+          showAckErrorMessage({
+            message: "No Preview data available. Internal error.",
+          });
         }
       );
     };
@@ -115,7 +134,7 @@ const ViewPool = inject(
 
     const handlePagination = () => {
       getCreatives(nextPageUrl);
-      setNextPageUrl('');
+      setNextPageUrl("");
     };
 
     const scrollToTop = () => {
@@ -127,21 +146,26 @@ const ViewPool = inject(
     // Function to get video url
     const getVideoUrl = (adid) => {
       if (adid && adid.adid_meta_file_upload?.[0]?.id) {
-        creativesStore.getWatermarkedVideoUrl(adid.adid_meta_file_upload[0].id).then(
-          (res) => {
-            if (res.data) {
-              if (res?.data?.success && res?.data?.data) {
-                setActiveModal('preview');
-                setCreativeModalData(res?.data?.data);
-              } else showAckErrorMessage({ message: res?.data?.message });
-            } else showAckErrorMessage({ message: 'Creative data is not found.' });
-          },
-          () => {
-            showAckErrorMessage({ message: 'Cannot get video file data for the creative.' });
-          }
-        );
+        creativesStore
+          .getWatermarkedVideoUrl(adid.adid_meta_file_upload[0].id)
+          .then(
+            (res) => {
+              if (res.data) {
+                if (res?.data?.success && res?.data?.data) {
+                  setActiveModal("preview");
+                  setCreativeModalData(res?.data?.data);
+                } else showAckErrorMessage({ message: res?.data?.message });
+              } else
+                showAckErrorMessage({ message: "Creative data is not found." });
+            },
+            () => {
+              showAckErrorMessage({
+                message: "Cannot get video file data for the creative.",
+              });
+            }
+          );
       } else {
-        showAckErrorMessage({ message: 'No creative data available.' });
+        showAckErrorMessage({ message: "No creative data available." });
       }
     };
 
@@ -154,7 +178,7 @@ const ViewPool = inject(
               // Channel data is already filtered by backend based on network.
               setChannelList(res?.data?.channel_groups[0]);
               // Finally - Show Upload creatives modal.
-              setActiveModal('upload_creatives');
+              setActiveModal("upload_creatives");
             } else showAckErrorMessage({ message: res.data?.message });
           } else showAckErrorMessage();
         },
@@ -171,10 +195,12 @@ const ViewPool = inject(
           if (res && res?.status === 200 && res?.data) {
             // API call 2 -  Populating channel data
             getChannelData();
-          } else showAckErrorMessage({ message: 'No data available.' });
+          } else showAckErrorMessage({ message: "No data available." });
         },
         () => {
-          showAckErrorMessage({ message: 'No advertiser data available. Internal error.' });
+          showAckErrorMessage({
+            message: "No advertiser data available. Internal error.",
+          });
         }
       );
     };
@@ -193,9 +219,9 @@ const ViewPool = inject(
     // Function to close the creatives video modal.
     const closeCreativesModalData = () => {
       if (creativeModalData) {
-        setCreativeModalData('');
+        setCreativeModalData("");
       }
-      onSetActiveModal('');
+      onSetActiveModal("");
     };
 
     // Function for refreshing the creatives page
@@ -212,7 +238,9 @@ const ViewPool = inject(
       let filterCreativeListingData = [];
       selectedAdv.forEach((value) => {
         filterCreativeListingData = filterCreativeListingData.concat(
-          creativeTableData.filter((item) => item.adid_meta_file_upload[0]?.company_name === value)
+          creativeTableData.filter(
+            (item) => item.adid_meta_file_upload[0]?.company_name === value
+          )
         );
       });
 
@@ -239,7 +267,7 @@ const ViewPool = inject(
           setChannelList={setChannelList}
         /> */}
         <CreativesAdPreviewModal
-          showModal={activeModal === 'preview'}
+          showModal={activeModal === "preview"}
           closeModal={closeCreativesModalData}
           creativeModalData={creativeModalData}
         />
@@ -265,4 +293,4 @@ ViewPool.propTypes = {
   uiStore: PropTypes.object,
   navigationService: PropTypes.object,
 };
-export default withStore(ViewPool);
+export default ViewPool;

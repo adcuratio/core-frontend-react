@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import axios from 'axios';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import axios from "axios";
+import styled from "styled-components";
 
-import { MainContent, PageHeader } from '../../../components/PageLayout';
-import ReactLoader from '../../../components/ReactLoader';
-import { PageTitle } from '../../../components/Typography';
-import ReactPickyFilter from '../../../components/ReactPickyFilter';
-import CustomButton from '../../../components/CustomButton';
-import { showAckErrorMessage, showAckMessage } from '../../../common/utils';
+import { MainContent, PageHeader } from "../../../components/PageLayout";
+import ReactLoader from "../../../components/ReactLoader";
+import { PageTitle } from "../../../components/Typography";
+import ReactPickyFilter from "../../../components/ReactPickyFilter";
+import CustomButton from "../../../components/CustomButton";
+import { showAckErrorMessage, showAckMessage } from "../../../common/utils";
 
-import withStore from '../../../hocs/WithStore';
+//import withStore from '../../../hocs/WithStore';
 
-import { pacingReportsTitles, viewDetailsTitles } from './components/JsonData';
-import TableContainer from './components/TableContainer';
-import ViewDetails from './components/ViewDetails';
-import ViewPacingGraph from './components/ViewPacingGraph';
+import { pacingReportsTitles, viewDetailsTitles } from "./components/JsonData";
+import TableContainer from "./components/TableContainer";
+import ViewDetails from "./components/ViewDetails";
+import ViewPacingGraph from "./components/ViewPacingGraph";
 
-import Select from 'react-select';
+import Select from "react-select";
 
 const SelectWrapper = styled.div`
   width: auto;
@@ -26,25 +26,29 @@ const SelectWrapper = styled.div`
 `;
 
 const ReportsPacing = inject(
-  'uiStore',
-  'univisionStore',
-  'aggCampaignStore'
+  "uiStore",
+  "univisionStore",
+  "aggCampaignStore"
 )(
   observer((props) => {
     const { uiStore, univisionStore, aggCampaignStore } = props;
     const [postCampaignNetworkList, setPostCampaignNetworkList] = useState([]);
 
     const [advertiserFilterAllData, setAdvertiserFilterAllData] = useState([]);
-    const [advertiserFilterSelectedData, setAdvertiserFilterSelectedData] = useState([]);
+    const [advertiserFilterSelectedData, setAdvertiserFilterSelectedData] =
+      useState([]);
 
     const [campaignFilterAllData, setCampaignFilterAllData] = useState([]);
-    const [campaignFilterSelectedData, setCampaignFilterSelectedData] = useState([]);
+    const [campaignFilterSelectedData, setCampaignFilterSelectedData] =
+      useState([]);
 
     const [statusFilterAllData, setStatusFilterAllData] = useState([]);
-    const [statusFilterSelectedData, setStatusFilterSelectedData] = useState([]);
+    const [statusFilterSelectedData, setStatusFilterSelectedData] = useState(
+      []
+    );
     const [statusKey, setStatusKey] = useState([]);
 
-    const [activeModal, setActiveModal] = useState('');
+    const [activeModal, setActiveModal] = useState("");
     const [modalData, setModalData] = useState({});
     const [toggle, setToggle] = useState(false);
     const [viewDetailsList, setViewDetailsList] = useState([]);
@@ -65,14 +69,16 @@ const ReportsPacing = inject(
                 return dCpy;
               });
             }
-            const postCampaignNetworkContent = JSON.parse(JSON.stringify(results));
+            const postCampaignNetworkContent = JSON.parse(
+              JSON.stringify(results)
+            );
             setPostCampaignNetworkList(postCampaignNetworkContent);
             const advData = [];
             postCampaignNetworkContent.forEach((a) => {
               if (a?.company?.display_name) {
                 advData.push(a.company.display_name);
               } else {
-                advData.push('with no advertiser');
+                advData.push("with no advertiser");
               }
             });
             const advFilteredDataCpy = [...new Set(advData)];
@@ -80,7 +86,7 @@ const ReportsPacing = inject(
             onSetStatusData(postCampaignNetworkContent);
             onSetCampaignData(postCampaignNetworkContent);
           } else {
-            showAckErrorMessage({ message: 'No data available.' });
+            showAckErrorMessage({ message: "No data available." });
           }
         },
         () => {
@@ -97,9 +103,16 @@ const ReportsPacing = inject(
       setStatusFilterSelectedData([]);
       setCampaignFilterSelectedData([]);
       const modifiedData = postCampaignNetworkList.filter((a) => {
-        if (a?.company?.display_name && filteredData.includes(a?.company?.display_name)) {
+        if (
+          a?.company?.display_name &&
+          filteredData.includes(a?.company?.display_name)
+        ) {
           return true;
-        } else if (!a && a.company.display_name && filteredData.includes('with no advertiser')) {
+        } else if (
+          !a &&
+          a.company.display_name &&
+          filteredData.includes("with no advertiser")
+        ) {
           return true;
         }
         return false;
@@ -113,17 +126,17 @@ const ReportsPacing = inject(
         modifiedData.forEach((a) => {
           a.company.campaign?.forEach((c) => {
             if (c.status === 0 || c.status === 1) {
-              statusData?.push('active');
+              statusData?.push("active");
             } else if (c.status === 9) {
-              statusData?.push('canceled');
+              statusData?.push("canceled");
             } else if (c.status === 2) {
-              statusData?.push('completed');
+              statusData?.push("completed");
             } else if (c.status === 4) {
-              statusData?.push('pending distributor approval');
+              statusData?.push("pending distributor approval");
             } else if (c.status === 8) {
-              statusData?.push('pending UCI approval');
+              statusData?.push("pending UCI approval");
             } else {
-              statusData.push('with no status');
+              statusData.push("with no status");
             }
           });
         });
@@ -131,17 +144,17 @@ const ReportsPacing = inject(
         postCampaignNetworkList?.forEach((a) => {
           a.company.campaign?.forEach((c) => {
             if (c.status === 0 || c.status === 1) {
-              statusData?.push('active');
+              statusData?.push("active");
             } else if (c.status === 9) {
-              statusData?.push('canceled');
+              statusData?.push("canceled");
             } else if (c.status === 2) {
-              statusData?.push('completed');
+              statusData?.push("completed");
             } else if (c.status === 4) {
-              statusData?.push('pending distributor approval');
+              statusData?.push("pending distributor approval");
             } else if (c.status === 8) {
-              statusData?.push('pending UCI approval');
+              statusData?.push("pending UCI approval");
             } else {
-              statusData.push('with no status');
+              statusData.push("with no status");
             }
           });
         });
@@ -159,7 +172,7 @@ const ReportsPacing = inject(
           if (b.name) {
             campaignData.push({ value: b.name, label: b.name });
           } else {
-            campaignData.push('with no campaign');
+            campaignData.push("with no campaign");
           }
         });
       });
@@ -192,18 +205,18 @@ const ReportsPacing = inject(
 
       const sData = [];
       filteredData.forEach((d) => {
-        if (d === 'active') {
+        if (d === "active") {
           sData.push(0);
-        } else if (d === 'canceled') {
+        } else if (d === "canceled") {
           sData.push(9);
-        } else if (d === 'completed') {
+        } else if (d === "completed") {
           sData.push(2);
-        } else if (d === 'pending distributor approval') {
+        } else if (d === "pending distributor approval") {
           sData.push(4);
-        } else if (d === 'pending UCI approval') {
+        } else if (d === "pending UCI approval") {
           sData.push(8);
         } else {
-          sData.push('with no status');
+          sData.push("with no status");
         }
       });
 
@@ -232,13 +245,13 @@ const ReportsPacing = inject(
     };
 
     const applyFilter = (filteredData, id) => {
-      if (id === 'adv_filter') {
+      if (id === "adv_filter") {
         setAdvertiserFilterSelectedData(filteredData);
         const modifiedData = onFilteredAdvertiserData(filteredData);
         onSetStatusData(modifiedData);
         onSetCampaignData(modifiedData);
         setFilteredEntityList(modifiedData);
-      } else if (id === 'status_filter') {
+      } else if (id === "status_filter") {
         setStatusFilterSelectedData(filteredData);
         onFilterStatusData(filteredData);
       }
@@ -279,7 +292,7 @@ const ReportsPacing = inject(
           if (res && res.data) {
             setReportData(res?.data);
           } else {
-            showAckErrorMessage({ message: 'No Data Available' });
+            showAckErrorMessage({ message: "No Data Available" });
           }
         },
         () => {
@@ -297,24 +310,24 @@ const ReportsPacing = inject(
         setToggle(!toggle);
         getAllPacingReportsData();
       } else {
-        showAckErrorMessage({ message: 'Please select any filter.' });
+        showAckErrorMessage({ message: "Please select any filter." });
       }
     };
 
     const handleModalAction = (id, data) => {
-      if (id === 'pacing_details') {
+      if (id === "pacing_details") {
         univisionStore.viewReportsDetails(data.id).then(
           (res) => {
             if (res?.data?.results && res?.data?.results?.length) {
               setDetailsData(res?.data);
               setViewDetailsList(res?.data?.results);
             } else {
-              showAckErrorMessage({ message: 'No Data Found.' });
+              showAckErrorMessage({ message: "No Data Found." });
             }
           },
           () => showAckErrorMessage()
         );
-      } else if (id === 'graph') {
+      } else if (id === "graph") {
         setModalData(data);
         setCurrentStep(currentStep + 1);
       }
@@ -328,7 +341,7 @@ const ReportsPacing = inject(
             setViewDetailsList(res?.data?.results);
             setDetailsData(res?.data);
           } else {
-            showAckErrorMessage({ message: 'No Data Found.' });
+            showAckErrorMessage({ message: "No Data Found." });
           }
         },
         () => showAckErrorMessage()
@@ -344,8 +357,8 @@ const ReportsPacing = inject(
         if (res && res.data) {
           axios.get(res.data.s3_url).then(
             (res) => {
-              const blob = new Blob([res.data], { type: 'application/json' });
-              const downloadLink = document.createElement('a');
+              const blob = new Blob([res.data], { type: "application/json" });
+              const downloadLink = document.createElement("a");
               downloadLink.href = window.URL.createObjectURL(blob);
               downloadLink.download = `${data?.campaign_name}_${data?.campaign_start_date}_${data?.campaign_end_date}.csv`;
               downloadLink.click();
@@ -353,7 +366,7 @@ const ReportsPacing = inject(
             },
             () => {
               uiStore.isLoading = false;
-              showAckErrorMessage({ message: 'Unable to download logs.' });
+              showAckErrorMessage({ message: "Unable to download logs." });
             }
           );
         }
@@ -365,9 +378,9 @@ const ReportsPacing = inject(
       univisionStore.downloadPacingReport(advId, campaignIds, status).then(
         (res) => {
           if (res?.success) {
-            showAckMessage({ message: 'File will be sent to email address.' });
+            showAckMessage({ message: "File will be sent to email address." });
           } else {
-            showAckErrorMessage({ message: 'Something went wrong.' });
+            showAckErrorMessage({ message: "Something went wrong." });
           }
         },
         () => {
@@ -405,7 +418,12 @@ const ReportsPacing = inject(
             </div>
           );
         case 1:
-          return <ViewPacingGraph modalData={modalData} backButtonAction={backButtonAction} />;
+          return (
+            <ViewPacingGraph
+              modalData={modalData}
+              backButtonAction={backButtonAction}
+            />
+          );
       }
     };
 
@@ -439,7 +457,7 @@ const ReportsPacing = inject(
                   />
                   <SelectWrapper>
                     <Select
-                      styles={{ marginLeft: '5px', width: '200px' }}
+                      styles={{ marginLeft: "5px", width: "200px" }}
                       isMulti
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
@@ -463,14 +481,16 @@ const ReportsPacing = inject(
               </div>
             </div>
           ) : (
-            <p className="text-center">No pacing reports available for the campaigns.</p>
+            <p className="text-center">
+              No pacing reports available for the campaigns.
+            </p>
           )
         ) : (
           renderCurrentStep()
         )}
         <ViewDetails
-          showModal={activeModal === 'pacing_details'}
-          closeModal={() => onSetActiveModal('')}
+          showModal={activeModal === "pacing_details"}
+          closeModal={() => onSetActiveModal("")}
           viewDetailsList={viewDetailsList}
           viewDetailsTitles={viewDetailsTitles}
           getData={getData}
@@ -482,4 +502,4 @@ const ReportsPacing = inject(
   })
 );
 
-export default withStore(ReportsPacing);
+export default ReportsPacing;
