@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import { Modal } from 'react-bootstrap';
-import styled from 'styled-components';
-import _ from 'lodash';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+import { Modal } from "react-bootstrap";
+import styled from "styled-components";
+import _ from "lodash";
 
-import withStore from '../../../../hocs/WithStore';
+//import withStore from '../../../../hocs/WithStore';
 
-import CustomButton from '../../../CustomButton';
+import CustomButton from "../../../CustomButton";
 
-import { showAckErrorMessage } from '../../../../common/utils';
+import { showAckErrorMessage } from "../../../../common/utils";
 
-import SelectedDaypartsTable from '../components/SelectedDaypartsTable';
-import NetworkListSelector from '../components/NetworkListSelector';
-import SelectDaypartsCheckboxTable from '../components/SelectDaypartsCheckboxTable';
+import SelectedDaypartsTable from "../components/SelectedDaypartsTable";
+import NetworkListSelector from "../components/NetworkListSelector";
+import SelectDaypartsCheckboxTable from "../components/SelectDaypartsCheckboxTable";
 
 const NetworkNameSpan = styled.span`
   word-break: break-word;
@@ -32,7 +32,7 @@ const TableButton = styled.button`
   min-height: 35px;
 `;
 
-const EditModal = inject('networkStore')(
+const EditModal = inject("networkStore")(
   observer((props) => {
     const {
       showModal,
@@ -70,14 +70,24 @@ const EditModal = inject('networkStore')(
           channel_daypart_data: channelDaypartData,
         };
 
-        if (modalType === 'edit' || selectedTab.id === 'nt_cr_declined') {
+        if (modalType === "edit" || selectedTab.id === "nt_cr_declined") {
           networkStore.editApproveCreative(payload).then(
             (res) => {
               if (res && res.status === 200) {
                 if (res.data?.success) {
                   handleSuccessResponse(modalType);
-                } else showAckErrorMessage({ message: res.data?.message ?? 'Something went wrong while Updating!' });
-              } else showAckErrorMessage({ message: res?.data?.message ?? 'Soemthing went wrong while Updating!' });
+                } else
+                  showAckErrorMessage({
+                    message:
+                      res.data?.message ??
+                      "Something went wrong while Updating!",
+                  });
+              } else
+                showAckErrorMessage({
+                  message:
+                    res?.data?.message ??
+                    "Soemthing went wrong while Updating!",
+                });
             },
             () => showAckErrorMessage()
           );
@@ -87,8 +97,18 @@ const EditModal = inject('networkStore')(
               if (res && res.status === 200) {
                 if (res.data?.success) {
                   handleSuccessResponse(modalType);
-                } else showAckErrorMessage({ message: res.data?.message ?? 'Something went wrong while Approving!' });
-              } else showAckErrorMessage({ message: res?.data?.message ?? 'Something went wrong while Approving!' });
+                } else
+                  showAckErrorMessage({
+                    message:
+                      res.data?.message ??
+                      "Something went wrong while Approving!",
+                  });
+              } else
+                showAckErrorMessage({
+                  message:
+                    res?.data?.message ??
+                    "Something went wrong while Approving!",
+                });
             },
             () => showAckErrorMessage()
           );
@@ -108,7 +128,10 @@ const EditModal = inject('networkStore')(
     };
 
     const prepareEditCreativeData = () => {
-      if (modalData.channelDaypartApprovedList && modalData.channelDaypartApprovedList.length) {
+      if (
+        modalData.channelDaypartApprovedList &&
+        modalData.channelDaypartApprovedList.length
+      ) {
         const _selectedDataForEdit = JSON.parse(JSON.stringify(channels));
         const approvedData = [];
         modalData.channelDaypartApprovedList.forEach((stchannel) => {
@@ -126,12 +149,16 @@ const EditModal = inject('networkStore')(
           approvedData.push(obj);
         });
         _selectedDataForEdit.map((ed) => {
-          const approvedDataIndex = approvedData.findIndex((ad) => ad.channelId === ed.id);
+          const approvedDataIndex = approvedData.findIndex(
+            (ad) => ad.channelId === ed.id
+          );
           if (approvedDataIndex !== -1) {
             const selectedApprovedData = approvedData[approvedDataIndex];
             ed.dayparts.forEach((dp) => {
               if (selectedApprovedData.daypartsId.includes(dp.id)) {
-                const atd = selectedApprovedData.activeTradeDetails.find((atd) => atd.id === dp.id);
+                const atd = selectedApprovedData.activeTradeDetails.find(
+                  (atd) => atd.id === dp.id
+                );
                 dp.isTradeActive = atd.isTradeActive;
                 dp.isSelected = true;
               } else {
@@ -154,7 +181,9 @@ const EditModal = inject('networkStore')(
           return ed;
         });
 
-        const _selectedNetworkList = _selectedDataForEdit.filter((d) => d.selected);
+        const _selectedNetworkList = _selectedDataForEdit.filter(
+          (d) => d.selected
+        );
         _selectedNetworkList.forEach((d) => {
           d.isNonRemovable = true;
         });
@@ -189,40 +218,52 @@ const EditModal = inject('networkStore')(
     };
 
     const getDaypartInfo = (daypart) =>
-      `${daypart.start_time} - ${daypart.end_time} ${getAiringDays(daypart.airing_days)}`;
+      `${daypart.start_time} - ${daypart.end_time} ${getAiringDays(
+        daypart.airing_days
+      )}`;
 
     const getAiringDays = (airingDays) => {
       const daysInNum = JSON.parse(JSON.stringify(airingDays));
       if (daysInNum && daysInNum.length) {
-        const defaultDays = ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'];
+        const defaultDays = ["M", "T", "W", "Th", "F", "Sa", "Su"];
         const daysInText = daysInNum.map((d) => defaultDays[d]);
-        return daysInText.join(', ');
+        return daysInText.join(", ");
       }
-      return '';
+      return "";
     };
 
     const createApprovalAction = (type, selectedData = null) => {
-      if (type === 'add') {
-        const selectedDayparts = activeNetworkData.data.dayparts.filter((data) => data.isSelected);
+      if (type === "add") {
+        const selectedDayparts = activeNetworkData.data.dayparts.filter(
+          (data) => data.isSelected
+        );
         if (!selectedDayparts.length) {
-          showAckErrorMessage({ message: 'Please select atleast 1 daypart' });
+          showAckErrorMessage({ message: "Please select atleast 1 daypart" });
           return;
         }
-        const _selectedNetworkList = JSON.parse(JSON.stringify(selectedNetworkList));
+        const _selectedNetworkList = JSON.parse(
+          JSON.stringify(selectedNetworkList)
+        );
         _selectedNetworkList.push(activeNetworkData.data);
         setSelectedNetworkList(_selectedNetworkList);
-        const activeNetworkIndex = networksList.findIndex((data) => data.id === activeNetworkData.data.id);
+        const activeNetworkIndex = networksList.findIndex(
+          (data) => data.id === activeNetworkData.data.id
+        );
         if (activeNetworkIndex !== -1) {
           const _networksList = JSON.parse(JSON.stringify(networksList));
           _networksList.splice(activeNetworkIndex, 1);
           setNetworksList(_networksList);
         }
         setActiveNetworkData({ data: {} });
-      } else if (type === 'remove') {
-        const selectedDataIndex = selectedNetworkList.findIndex((data) => data.id === selectedData.id);
+      } else if (type === "remove") {
+        const selectedDataIndex = selectedNetworkList.findIndex(
+          (data) => data.id === selectedData.id
+        );
         if (selectedDataIndex !== -1) {
           const _networksList = JSON.parse(JSON.stringify(networksList));
-          const _selectedNetworkList = JSON.parse(JSON.stringify(selectedNetworkList));
+          const _selectedNetworkList = JSON.parse(
+            JSON.stringify(selectedNetworkList)
+          );
           const parsedData = selectedNetworkList[selectedDataIndex];
           parsedData.dayparts.map((data) => {
             data.isSelected = true;
@@ -233,14 +274,18 @@ const EditModal = inject('networkStore')(
           _selectedNetworkList.splice(selectedDataIndex, 1);
           setSelectedNetworkList(_selectedNetworkList);
         }
-      } else if (type === 'edit') {
+      } else if (type === "edit") {
         const _selectedData = JSON.parse(JSON.stringify(selectedData));
         setEditDaypartsData(_selectedData);
         setEditDaypartsDataCpy(_selectedData);
-      } else if (type === 'add_edited_data') {
-        const indexVal = selectedNetworkList.findIndex((d) => d.id === editDaypartsData.id);
+      } else if (type === "add_edited_data") {
+        const indexVal = selectedNetworkList.findIndex(
+          (d) => d.id === editDaypartsData.id
+        );
         if (indexVal !== -1) {
-          const _selectedNetworkList = JSON.parse(JSON.stringify(selectedNetworkList));
+          const _selectedNetworkList = JSON.parse(
+            JSON.stringify(selectedNetworkList)
+          );
           _selectedNetworkList[indexVal] = editDaypartsData;
           setSelectedNetworkList(_selectedNetworkList);
         }
@@ -254,7 +299,7 @@ const EditModal = inject('networkStore')(
 
     useEffect(() => {
       processNetworks();
-      if (modalType === 'edit') {
+      if (modalType === "edit") {
         prepareEditCreativeData();
       }
     }, [modalData]);
@@ -263,8 +308,8 @@ const EditModal = inject('networkStore')(
       <Modal show={showModal} onHide={closeModal} dialogClassName={modalClass}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {modalType === 'approve' && 'Creative Approval'}
-            {modalType === 'edit' && 'Edit Approved Creative'}
+            {modalType === "approve" && "Creative Approval"}
+            {modalType === "edit" && "Edit Approved Creative"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -283,7 +328,10 @@ const EditModal = inject('networkStore')(
             />
             {networksList && networksList.length && (
               <>
-                <NetworkListSelector networksList={networksList} setActiveNetworkData={setActiveNetworkData} />
+                <NetworkListSelector
+                  networksList={networksList}
+                  setActiveNetworkData={setActiveNetworkData}
+                />
                 <SelectDaypartsCheckboxTable
                   activeNetworkData={activeNetworkData}
                   NetworkNameSpan={NetworkNameSpan}
@@ -300,15 +348,20 @@ const EditModal = inject('networkStore')(
         <Modal.Footer>
           <CustomButton
             buttonClassName={
-              !selectedNetworkList.length || _.isEqual(selectedNetworkList, selectedNetworkListCpy)
-                ? 'disabled-button block-pointer mr10'
-                : 'mr10'
+              !selectedNetworkList.length ||
+              _.isEqual(selectedNetworkList, selectedNetworkListCpy)
+                ? "disabled-button block-pointer mr10"
+                : "mr10"
             }
             type="primary"
             buttonText="Confirm"
             handleButtonClick={approveCreative}
           />
-          <CustomButton type="secondary" buttonText="Cancel" handleButtonClick={closeModal} />
+          <CustomButton
+            type="secondary"
+            buttonText="Cancel"
+            handleButtonClick={closeModal}
+          />
         </Modal.Footer>
       </Modal>
     );
@@ -326,4 +379,4 @@ EditModal.propTypes = {
   modalClass: PropTypes.string,
 };
 
-export default withStore(EditModal);
+export default EditModal;

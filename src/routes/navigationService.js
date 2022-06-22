@@ -425,13 +425,13 @@ export default class NavigationService {
 
   // UNIVISION-ADMIN
   goToUnivisionLanding() {
-    navigate("/dash.univisionLanding");
+    navigate("univision-network-admin/landing");
   }
   goToManageAudienceLanding() {
-    navigate("/dash.manageAudienceLanding");
+    navigate("univision-network-admin/manage-audience");
   }
   goToUnivisionCreateAudience() {
-    navigate("/dash.univisionCreateAudience");
+    navigate("univision-network-admin/manage-audience/create-audience");
   }
   goToUnivisionSelectAudience(
     companyId,
@@ -440,109 +440,119 @@ export default class NavigationService {
     selectedCompany,
     selectedCompanyName
   ) {
-    navigate("/dash.univisionSelectAudience", {
-      companyId,
-      selectedNodeData,
-      selectedNodeDataType,
-      selectedCompany,
-      selectedCompanyName,
-    });
+    navigate(
+      "univision-network-admin/manage-audience/create-audience/select-audience",
+      {
+        companyId,
+        selectedNodeData,
+        selectedNodeDataType,
+        selectedCompany,
+        selectedCompanyName,
+      }
+    );
   }
   goToUnivisionViewAudience(tableState) {
-    navigate("/dash.univisionViewAudience", {
+    navigate("univision-network-admin/manage-audience/view-audience", {
       tableState,
     });
   }
   goToUnivisionNetworkLogs = function () {
-    navigate("/dash.univisionNetworkLogs");
+    navigate("univision-network-admin/network-logs");
   };
   goToViewSchedules() {
-    navigate("/dash.univisionViewSchedules");
+    navigate("univision/view-schedules");
   }
   goToUnivisionNetworkEdiTable() {
-    navigate("/dash.univisionEdiTable");
+    navigate("univision-network-admin/edi-list");
   }
   goToUnivisionManageChannels() {
-    navigate("/dash.univisionManageNetwork");
+    navigate("univision-network-admin/manage-networks");
   }
   goToUnivisionDeliveryReports() {
-    navigate("/dash.univisionDeliveryReports");
+    navigate("univision-network-admin/delivery-reports");
   }
   goToUnivisionReviewCreatives() {
-    navigate("/dash.univisionReviewCreatives");
+    navigate("univision-network-admin/review-creatives");
   }
   goToUnivisionManageCreatives() {
-    navigate("/dash.univisionManageCreatives");
+    navigate("univision-network-admin/manage-creatives");
   }
   goToUnivisionCreativesWatermarkApproval() {
-    navigate("/dash.univisionCreativesWatermarkApproval");
+    navigate("univision-network-admin/creatives-watermark-approval");
   }
   goToUnivisonCampaignLandingPage() {
-    navigate("/dash.univisionCampaignLandingPage");
+    navigate("univision-network-admin/univsion-build-campaign-landing");
   }
   goToUnivisionOrderManagement() {
-    navigate("/dash.univisionOrderManagement");
+    navigate("univision-network-admin/univsion-order-management");
   }
   goToUnivisionPingReports() {
-    navigate("/dash.univisionPingReports");
+    navigate("/univision-network-admin/tv-ping-reports");
   }
   goToAggCampaign(type, campaignData) {
     if (type === "draft") {
-      navigate("/dash.aggCampaign", { draftData: campaignData });
+      navigate(
+        "univision-network-admin/univsion-campaign-landing-page/agg-campaign",
+        { draftData: campaignData }
+      );
     } else {
-      navigate("/dash.aggCampaign");
+      navigate(
+        "univision-network-admin/univsion-campaign-landing-page/agg-campaign"
+      );
     }
   }
   goToAggCampaignOrderDetails(tradeId, comingFromUCIPending) {
-    navigate("/dash.aggCampaignOrderDetails", {
+    navigate("univision-network-admin/order-details", {
       tradeId: tradeId,
       comingFromUCIPending: comingFromUCIPending,
     });
   }
   goToAggCampaignAddTarget(tradeId) {
-    navigate("/dash.aggCampaignAddTarget", { tradeId: tradeId });
+    navigate("univision-network-admin/add-target-audience", {
+      tradeId: tradeId,
+    });
   }
   goToAggCampaignDrafts() {
-    navigate("/dash.aggCampaignDrafts");
+    navigate("univision/agg-campaign-drafts");
   }
   goToUnivisionManageCampaigns(tableState) {
-    navigate("/dash.univisionManageCampaigns", {
+    navigate("univision-network-admin/manage-campaigns", {
       tableState,
     });
   }
   goToUnivisionReportsTiles() {
-    navigate("/dash.univisionReportsTiles");
+    navigate("univision/reports-dashboard");
   }
   goToUnivisionReportsLanding() {
-    navigate("/dash.univisionReportsLanding");
+    navigate("univision-network-admin/reports-landing");
   }
   goToUnivisionReportsPacing() {
-    navigate("/dash.univisionReportsPacing");
+    navigate("univision-network-admin/reports-pacing");
   }
   goToUnivisionReportsPostCampaign() {
-    navigate("/dash.univisionReportsPostCampaign");
+    navigate("univision-network-admin/reports-post-campaign-isci");
   }
   goToUnivisionPostCampaignDaypartReports() {
-    navigate("/dash.univisionPostCampaignDaypartReports");
+    navigate("univision-network-admin/reports-post-campaign-dma");
   }
   goToUnivisionReportsCtvLogs() {
-    navigate("/dash.univisionReportsCtvLogs");
+    navigate("univision-network-admin/reports-ctv-logs");
   }
   goToUnivisionAdministration() {
-    navigate("/dash.univisionAdministration");
+    navigate("univision-network-admin/administration");
   }
   goToUploadCreative() {
-    navigate("/dash.uploadAdPool");
+    navigate("univision-network-admin/upload-ad-pool");
   }
   goToViewPool() {
-    navigate("/dash.viewPool");
+    navigate("univision-network-admin/view-pool");
   }
   goToUnivisionInventorySpots() {
-    navigate("/dash.univisionInventorySpots");
+    navigate("univision/view-schedules");
   }
 
   goToUnivisionInventorySpot() {
-    navigate("/dash.univisionInventorySpot");
+    navigate("univision/view-addressable-inventory");
   }
 
   // OPERATOR-ADMIN

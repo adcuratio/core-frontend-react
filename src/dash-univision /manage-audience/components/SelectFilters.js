@@ -16,10 +16,10 @@ import CompleteFilterContent from "../../../segments/components/complete-filter-
 import UploadFirstPartyData from "../../../segments/components/upload-first-party-data";
 import ExperianFilterContent from "../../../segments/components/experian-filter-content/experianFilterContent";
 
-import withStore from "../../../hocs/WithStore";
+//import withStore from "../../../hocs/WithStore";
 
 import "../Segments.css";
-import "../../../../styles/unwantedGroup.css";
+import "../../../styles/unwantedGroup.css";
 
 import {
   formatText,
@@ -72,10 +72,7 @@ const segmentFilterTabData = [
     value: 6,
   },
 ];
-@inject("uiStore")
-@inject("univisionStore")
-@inject("segmentStore")
-@observer
+
 class SelectFilters extends React.Component {
   constructor(props) {
     super(props);
@@ -2436,4 +2433,8 @@ SelectFilters.propTypes = {
   $state: PropTypes.object,
 };
 
-export default withStore(SelectFilters);
+export default inject(
+  "uiStore",
+  "univisionStore",
+  "segmentStore"
+)(observer(SelectFilters));

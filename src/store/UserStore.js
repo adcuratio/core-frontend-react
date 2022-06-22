@@ -1,6 +1,6 @@
-import { action, makeObservable } from 'mobx';
+import { action, makeObservable } from "mobx";
 
-import API from '../api';
+import API from "../api";
 
 class UserStore {
   constructor() {
@@ -31,7 +31,7 @@ class UserStore {
   async getAgencyList() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get('/agency/get_agency_list/');
+      const res = await API.get("/agency/get_agency_list/");
       return res.data;
     } catch (error) {
       return error;
@@ -43,7 +43,9 @@ class UserStore {
   async getAllAgencyAdmin(agencyId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/admin/list_agency_admins/?agency_id=${agencyId}`);
+      const res = await API.get(
+        `/admin/list_agency_admins/?agency_id=${agencyId}`
+      );
       return res.data;
     } catch (error) {
       return error;
@@ -103,7 +105,7 @@ class UserStore {
   async getAllOperator() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get('/pilot/operator/');
+      const res = await API.get("/pilot/operator/");
       return res.data;
     } catch (error) {
       return error;
@@ -115,7 +117,9 @@ class UserStore {
   async getAllOperatorAdmin(operatorId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/pilot/operator_admin/?operator_id=${operatorId}`);
+      const res = await API.get(
+        `/pilot/operator_admin/?operator_id=${operatorId}`
+      );
       return res.data;
     } catch (error) {
       return error;
@@ -148,7 +152,7 @@ class UserStore {
     }
   }
 
-  editOperator(payload) {
+  async editOperator(payload) {
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.put(`/pilot/operator/`, payload);
@@ -175,7 +179,7 @@ class UserStore {
   async getAllNetworks() {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get('/admin/list_networks/');
+      const res = await API.get("/admin/list_networks/");
       return res.data;
     } catch (error) {
       return error;
@@ -257,7 +261,9 @@ class UserStore {
   async getAllNetworkAdmin(networkId) {
     this.rootStore.uiStore.isLoading = true;
     try {
-      const res = await API.get(`/admin/list_network_admins/?network_id=${networkId}`);
+      const res = await API.get(
+        `/admin/list_network_admins/?network_id=${networkId}`
+      );
       return res.data;
     } catch (error) {
       return error;

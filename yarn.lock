@@ -125,6 +125,15 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     jsesc "^2.5.1"
 
+"@babel/generator@^7.18.2":
+  version "7.18.2"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.18.2.tgz#33873d6f89b21efe2da63fe554460f3df1c5880d"
+  integrity sha512-W1lG5vUwFvfMd8HVXqdfbuG7RuaSrTCCD8cl8fP8wOivdbtbIg2Db3IWUcgvfxKbbn6ZBGYRW/Zk1MIwK49mgw==
+  dependencies:
+    "@babel/types" "^7.18.2"
+    "@jridgewell/gen-mapping" "^0.3.0"
+    jsesc "^2.5.1"
+
 "@babel/helper-annotate-as-pure@^7.16.0", "@babel/helper-annotate-as-pure@^7.16.7":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.16.7.tgz#bb2339a7534a9c128e3102024c60760a3a7f3862"
@@ -163,6 +172,19 @@
     "@babel/helper-replace-supers" "^7.16.7"
     "@babel/helper-split-export-declaration" "^7.16.7"
 
+"@babel/helper-create-class-features-plugin@^7.18.0":
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.18.0.tgz#fac430912606331cb075ea8d82f9a4c145a4da19"
+  integrity sha512-Kh8zTGR9de3J63e5nS0rQUdRs/kbtwoeQQ0sriS0lItjC96u8XXZN6lKpuyWd2coKSU13py/y+LTmThLuVX0Pg==
+  dependencies:
+    "@babel/helper-annotate-as-pure" "^7.16.7"
+    "@babel/helper-environment-visitor" "^7.16.7"
+    "@babel/helper-function-name" "^7.17.9"
+    "@babel/helper-member-expression-to-functions" "^7.17.7"
+    "@babel/helper-optimise-call-expression" "^7.16.7"
+    "@babel/helper-replace-supers" "^7.16.7"
+    "@babel/helper-split-export-declaration" "^7.16.7"
+
 "@babel/helper-create-regexp-features-plugin@^7.16.7", "@babel/helper-create-regexp-features-plugin@^7.17.0":
   version "7.17.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-create-regexp-features-plugin/-/helper-create-regexp-features-plugin-7.17.0.tgz#1dcc7d40ba0c6b6b25618997c5dbfd310f186fe1"
@@ -191,6 +213,11 @@
   integrity sha512-SLLb0AAn6PkUeAfKJCCOl9e1R53pQlGAfc4y4XuMRZfqeMYLE0dM1LMhqbGAlGQY0lfw5/ohoYWAe9V1yibRag==
   dependencies:
     "@babel/types" "^7.16.7"
+
+"@babel/helper-environment-visitor@^7.18.2":
+  version "7.18.2"
+  resolved "https://registry.yarnpkg.com/@babel/helper-environment-visitor/-/helper-environment-visitor-7.18.2.tgz#8a6d2dedb53f6bf248e31b4baf38739ee4a637bd"
+  integrity sha512-14GQKWkX9oJzPiQQ7/J36FTXcD4kSp8egKjO9nINlSKiHITRA9q/R74qu8S9xlc/b/yjsJItQUeeh3xnGN0voQ==
 
 "@babel/helper-explode-assignable-expression@^7.16.7":
   version "7.16.7"
@@ -279,6 +306,17 @@
     "@babel/traverse" "^7.16.7"
     "@babel/types" "^7.16.7"
 
+"@babel/helper-replace-supers@^7.18.2":
+  version "7.18.2"
+  resolved "https://registry.yarnpkg.com/@babel/helper-replace-supers/-/helper-replace-supers-7.18.2.tgz#41fdfcc9abaf900e18ba6e5931816d9062a7b2e0"
+  integrity sha512-XzAIyxx+vFnrOxiQrToSUOzUOn0e1J2Li40ntddek1Y69AXUTXoDJ40/D5RdjFu7s7qHiaeoTiempZcbuVXh2Q==
+  dependencies:
+    "@babel/helper-environment-visitor" "^7.18.2"
+    "@babel/helper-member-expression-to-functions" "^7.17.7"
+    "@babel/helper-optimise-call-expression" "^7.16.7"
+    "@babel/traverse" "^7.18.2"
+    "@babel/types" "^7.18.2"
+
 "@babel/helper-simple-access@^7.17.7":
   version "7.17.7"
   resolved "https://registry.yarnpkg.com/@babel/helper-simple-access/-/helper-simple-access-7.17.7.tgz#aaa473de92b7987c6dfa7ce9a7d9674724823367"
@@ -348,6 +386,11 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.17.12.tgz#36c2ed06944e3691ba82735fc4cf62d12d491a23"
   integrity sha512-FLzHmN9V3AJIrWfOpvRlZCeVg/WLdicSnTMsLur6uDj9TT8ymUlG9XxURdW/XvuygK+2CW0poOJABdA4m/YKxA==
 
+"@babel/parser@^7.18.5":
+  version "7.18.5"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.18.5.tgz#337062363436a893a2d22faa60be5bb37091c83c"
+  integrity sha512-YZWVaglMiplo7v8f1oMQ5ZPQr0vn7HPeZXxXWsxXJRjGVrzUFn9OxFQl1sb5wzfootjA/yChhW84BV+383FSOw==
+
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@^7.16.7":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression/-/plugin-bugfix-safari-id-destructuring-collision-in-function-expression-7.16.7.tgz#4eda6d6c2a0aa79c70fa7b6da67763dfe2141050"
@@ -400,6 +443,18 @@
     "@babel/helper-replace-supers" "^7.16.7"
     "@babel/helper-split-export-declaration" "^7.16.7"
     "@babel/plugin-syntax-decorators" "^7.17.0"
+    charcodes "^0.2.0"
+
+"@babel/plugin-proposal-decorators@^7.18.2":
+  version "7.18.2"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-decorators/-/plugin-proposal-decorators-7.18.2.tgz#dbe4086d2d42db489399783c3aa9272e9700afd4"
+  integrity sha512-kbDISufFOxeczi0v4NQP3p5kIeW6izn/6klfWBrIIdGZZe4UpHR+QU03FAoWjGGd9SUXAwbw2pup1kaL4OQsJQ==
+  dependencies:
+    "@babel/helper-create-class-features-plugin" "^7.18.0"
+    "@babel/helper-plugin-utils" "^7.17.12"
+    "@babel/helper-replace-supers" "^7.18.2"
+    "@babel/helper-split-export-declaration" "^7.16.7"
+    "@babel/plugin-syntax-decorators" "^7.17.12"
     charcodes "^0.2.0"
 
 "@babel/plugin-proposal-dynamic-import@^7.16.7":
@@ -538,6 +593,13 @@
   integrity sha512-qWe85yCXsvDEluNP0OyeQjH63DlhAR3W7K9BxxU1MvbDb48tgBG+Ao6IJJ6smPDrrVzSQZrbF6donpkFBMcs3A==
   dependencies:
     "@babel/helper-plugin-utils" "^7.16.7"
+
+"@babel/plugin-syntax-decorators@^7.17.12":
+  version "7.17.12"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-decorators/-/plugin-syntax-decorators-7.17.12.tgz#02e8f678602f0af8222235271efea945cfdb018a"
+  integrity sha512-D1Hz0qtGTza8K2xGyEdVNCYLdVHukAcbQr4K3/s6r/esadyEriZovpJimQOpu8ju4/jV8dW/1xdaE0UpDroidw==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.17.12"
 
 "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
@@ -1137,6 +1199,22 @@
     debug "^4.1.0"
     globals "^11.1.0"
 
+"@babel/traverse@^7.18.2":
+  version "7.18.5"
+  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.18.5.tgz#94a8195ad9642801837988ab77f36e992d9a20cd"
+  integrity sha512-aKXj1KT66sBj0vVzk6rEeAO6Z9aiiQ68wfDgge3nHhA/my6xMM/7HGQUNumKZaoa2qUPQ5whJG9aAifsxUKfLA==
+  dependencies:
+    "@babel/code-frame" "^7.16.7"
+    "@babel/generator" "^7.18.2"
+    "@babel/helper-environment-visitor" "^7.18.2"
+    "@babel/helper-function-name" "^7.17.9"
+    "@babel/helper-hoist-variables" "^7.16.7"
+    "@babel/helper-split-export-declaration" "^7.16.7"
+    "@babel/parser" "^7.18.5"
+    "@babel/types" "^7.18.4"
+    debug "^4.1.0"
+    globals "^11.1.0"
+
 "@babel/traverse@^7.4.5":
   version "7.17.12"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.17.12.tgz#011874d2abbca0ccf1adbe38f6f7a4ff1747599c"
@@ -1165,6 +1243,14 @@
   version "7.17.12"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.17.12.tgz#1210690a516489c0200f355d87619157fbbd69a0"
   integrity sha512-rH8i29wcZ6x9xjzI5ILHL/yZkbQnCERdHlogKuIb4PUr7do4iT8DPekrTbBLWTnRQm6U0GYABbTMSzijmEqlAg==
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.16.7"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@^7.18.2", "@babel/types@^7.18.4":
+  version "7.18.4"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.18.4.tgz#27eae9b9fd18e9dccc3f9d6ad051336f307be354"
+  integrity sha512-ThN1mBcMq5pG/Vm2IcBmPPfyPXbd8S02rS+OBIDENdufvqC7Z/jHPCv9IcP01277aKtDI8g/2XysBN4hA8niiw==
   dependencies:
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
@@ -8396,10 +8482,10 @@ react-error-overlay@^6.0.11:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
 
-react-icons@3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.8.0.tgz#229de5904809696c9f46932bd9b6126b2522866e"
-  integrity sha512-rA/8GRKjPulft8BSBSMsHkE1AGPqJ7LjNsyk0BE7XjG70Iz62zOled2SJk7LDo8x9z86a3xOstDlKlMZ4pAy7A==
+react-icons@^3.8.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.11.0.tgz#2ca2903dfab8268ca18ebd8cc2e879921ec3b254"
+  integrity sha512-JRgiI/vdF6uyBgyZhVyYJUZAop95Sy4XDe/jmT3R/bKliFWpO/uZBwvSjWEdxwzec7SYbEPNPck0Kff2tUGM2Q==
   dependencies:
     camelcase "^5.0.0"
 
