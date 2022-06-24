@@ -18,21 +18,17 @@ import ReactLoader from "../../../components/ReactLoader";
 import CompanySelection from "./components/CompanySelection";
 import CampaignDetails from "./components/CampaignDetails";
 import ReviewCampaignDetails from "./components/ReviewCampaignDetails";
+import { useLocation } from "react-router-dom";
 
 const AggCampaign = inject(
   "uiStore",
   "companyStore",
-  "aggCampaignStore",
-  "$state"
+  "aggCampaignStore"
 )(
   observer((props) => {
-    const {
-      uiStore,
-      companyStore,
-      aggCampaignStore,
-      $state,
-      navigationService,
-    } = props;
+    const { uiStore, companyStore, aggCampaignStore, navigationService } =
+      props;
+    const location = useLocation();
     const steps = [
       { title: "Select Advertiser" },
       { title: "Enter Campaign Details" },
@@ -49,23 +45,24 @@ const AggCampaign = inject(
 
     useEffect(() => {
       companyStore.getAllCompanies().then(() => {
-        if ($state?.params?.draftData !== null) {
+        if (location?.state?.draftData !== null) {
           const copyData = _.cloneDeep(
-            $state?.params?.draftData?.campaign_data
+            location?.state?.draftData?.campaign_data
           );
           copyData.campaign_name =
-            $state?.params?.draftData?.campaign_data?.name;
+            location?.state?.draftData?.campaign_data?.name;
           delete copyData?.name;
           setLevelData(copyData);
           const companyData = toJS(
             companyStore.companies.find(
               (company) =>
                 company.company.id ===
-                parseInt($state?.params?.draftData?.adv_company?.id)
+                parseInt(location?.state?.draftData?.draftData?.adv_company?.id)
             )
           );
           const advertiserData = { ...selectedCompanyData };
-          advertiserData.companyId = $state?.params?.draftData?.adv_company?.id;
+          advertiserData.companyId =
+            location?.state?.draftData?.adv_company?.id;
           advertiserData.companyName = companyData;
           setSelectedCompanyData(advertiserData);
           setCurrentStep(1);
@@ -159,9 +156,9 @@ const AggCampaign = inject(
     };
 
     const onSaveTodrafts = async () => {
-      if ($state?.params?.draftData !== null) {
+      if (location?.state?.draftData !== null) {
         showAckErrorMessage({
-          message: `${$state?.params?.draftData?.campaign_data?.name} already saved in draft. Please submit`,
+          message: `${location?.state?.draftData?.campaign_data?.name} already saved in draft. Please submit`,
         });
         return;
       }
@@ -210,6 +207,8 @@ const AggCampaign = inject(
               backHandler={() => stepProgress("previousStep")}
             />
           );
+        default:
+          return;
       }
     };
 

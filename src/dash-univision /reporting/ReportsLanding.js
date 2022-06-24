@@ -1,33 +1,41 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { MainContent, PageHeader, PageContent } from '../../components/PageLayout';
-import { PageTitle } from '../../components/Typography';
-import { FaChartLine } from 'react-icons/fa';
-import LandingPage from '../../components/LandingPage';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../components/PageLayout";
+import { PageTitle } from "../../components/Typography";
+import { FaChartLine } from "react-icons/fa";
+import LandingPage from "../../components/LandingPage";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../routes/NavigationService";
 
 const ReportsLanding = (props) => {
-  const { navigationService } = props;
-
+  let navigate = useNavigate();
+  let navigationService = new NavigationService(navigate);
   const reportsLandingList = [
     {
-      id: 'heading_reports',
+      id: "heading_reports",
       buttons: [
         {
-          id: 'pacing_reports',
-          name: 'View Pacing Reports',
+          id: "pacing_reports",
+          name: "View Pacing Reports",
           onClickFunction: () => navigationService.goToUnivisionReportsPacing(),
           icon: FaChartLine,
         },
         {
-          id: 'post_campaign_network_reports',
-          name: 'Post Campaign By ISCI and Hour',
-          onClickFunction: () => navigationService.goToUnivisionReportsPostCampaign(),
+          id: "post_campaign_network_reports",
+          name: "Post Campaign By ISCI and Hour",
+          onClickFunction: () =>
+            navigationService.goToUnivisionReportsPostCampaign(),
           icon: FaChartLine,
         },
         {
-          id: 'post_campaign_daypart_reports',
-          name: 'Post Campaign By DMA',
-          onClickFunction: () => navigationService.goToUnivisionPostCampaignDaypartReports(),
+          id: "post_campaign_daypart_reports",
+          name: "Post Campaign By DMA",
+          onClickFunction: () =>
+            navigationService.goToUnivisionPostCampaignDaypartReports(),
           icon: FaChartLine,
         },
         // {

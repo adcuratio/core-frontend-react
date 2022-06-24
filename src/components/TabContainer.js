@@ -13,14 +13,16 @@ const TabContainer = (props) => {
           key={tab.id}
           role="presentation"
           className={
-            activeTab.id === tab.id ? "active cursor-pointer" : "cursor-pointer"
+            activeTab?.id === tab.id
+              ? "active cursor-pointer"
+              : "cursor-pointer"
           }
         >
           <a
             aria-controls={tab.id}
             role="tab"
             data-toggle="tab"
-            className={activeTab.id !== tab.id ? "non-active-tab" : ""}
+            className={activeTab?.id !== tab.id ? "non-active-tab" : ""}
             onClick={() => onTabChange(tab)}
             style={{ padding: "7px" }}
           >

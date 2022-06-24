@@ -27,7 +27,7 @@ class AuthStore {
     // login call to server.
     //this.rootStore.uiStore.isLoading = true;
     const authUrl = "login/";
-    
+
     try {
       const res = await API.post(authUrl, {
         username,
@@ -42,15 +42,19 @@ class AuthStore {
           localStorage.setItem("userObj", JSON.stringify(this.userObj));
           return this.userObj;
         } else {
-          throw "Something went wrong with your login, please try again.";
+          throw new Error(
+            "Something went wrong with your login, please try again."
+          );
         }
       });
       return res;
     } catch (err) {
       if (err?.response?.status === 400) {
-        throw "Incorrect login, please try again.";
+        throw new Error("Incorrect login, please try again.");
       } else {
-        throw "Something went wrong with your login, please try again.";
+        throw new Error(
+          "Something went wrong with your login, please try again."
+        );
       }
     } finally {
       //this.rootStore.uiStore.isLoading = false;
@@ -73,7 +77,7 @@ class AuthStore {
       return res;
     } catch (err) {
       if (err?.status === 400) {
-        throw "Please try again.";
+        throw new Error("Please try again.");
       } else {
         throw typeof err === "string"
           ? err
@@ -103,15 +107,15 @@ class AuthStore {
 
           return this.userObj;
         } else {
-          throw "Something went wrong, please try again.";
+          throw new Error("Something went wrong, please try again.");
         }
       });
       return res;
     } catch (err) {
       if (err?.status === 400) {
-        throw "Please try again.";
+        throw new Error("Please try again.");
       } else {
-        throw "Something went wrong, please try again.";
+        throw new Error("Something went wrong, please try again.");
       }
     }
   }
@@ -125,15 +129,15 @@ class AuthStore {
         if (response && response.data.success) {
           return this.userObj;
         } else {
-          throw "Something went wrong, please try again.";
+          throw new Error("Something went wrong, please try again.");
         }
       });
       return res;
     } catch (err) {
       if (err?.status === 400) {
-        throw "Please try again.";
+        throw new Error("Please try again.");
       } else {
-        throw "Something went wrong, please try again.";
+        throw new Error("Something went wrong, please try again.");
       }
     }
   }

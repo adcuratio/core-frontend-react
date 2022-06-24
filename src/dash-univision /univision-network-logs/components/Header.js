@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { DropdownButton, MenuItem } from "react-bootstrap";
 
-import ReactPickyFilter from '../../../components/ReactPickyFilter';
+import ReactPickyFilter from "../../../components/ReactPickyFilter";
 // import SearchBox from '../../../components/SearchBox';
-import CustomButton from '../../../components/CustomButton';
+import CustomButton from "../../../components/CustomButton";
 
 const Header = (props) => {
   const {
@@ -19,14 +19,22 @@ const Header = (props) => {
     // toggleModal,
     onPageRefresh,
   } = props;
-
+  console.log(monthDate);
   return (
     <div className="flex-container2 mb20 mt20">
       <div className="flex-container1 dropdown-scrollable">
         <span>Select Month:</span>
-        <DropdownButton title={selectedMonth || 'select'} id="networkSelect" className="mt5">
+        <DropdownButton
+          title={selectedMonth || "select"}
+          id="networkSelect"
+          className="mt5"
+        >
           {monthDate?.map((month, idx) => (
-            <MenuItem key={`${idx} months`} onSelect={() => setMonth(month)} active={month === selectedMonth}>
+            <MenuItem
+              key={`${idx} months`}
+              onSelect={() => setMonth(month)}
+              active={month === selectedMonth}
+            >
               {month}
             </MenuItem>
           ))}
@@ -44,7 +52,12 @@ const Header = (props) => {
       <div className="flex-container1">
         {/* <SearchBox handleSearchTextChange={handleSearch} searchValue={searchValue} /> */}
         {/* <CustomButton type="primary" buttonText="Upload" handleButtonClick={toggleModal} buttonClassName="ml10" /> */}
-        <CustomButton type="primary" buttonText="Refresh" handleButtonClick={onPageRefresh} buttonClassName="ml10" />
+        <CustomButton
+          type="primary"
+          buttonText="Refresh"
+          handleButtonClick={onPageRefresh}
+          buttonClassName="ml10"
+        />
       </div>
     </div>
   );
@@ -64,14 +77,14 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  selectedMonth: '',
+  selectedMonth: "",
   setMonth: () => {},
   monthDate: [],
   networkFilterData: [],
   selectedNetworkFilterData: [],
   handleNetworkSelect: () => {},
   handleSearch: () => {},
-  searchValue: '',
+  searchValue: "",
   toggleModal: () => {},
   onPageRefresh: () => {},
 };

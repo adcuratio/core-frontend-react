@@ -77,7 +77,29 @@ class UnivisionStore {
       getPacingReports: action,
       downloadNetworkReport: action,
       downloadDaypartReport: action,
+      getForecastData: action,
     });
+  }
+  async getForecastData(url, status, archive) {
+    this.rootStore.uiStore.isLoading = true;
+    let getURL;
+    if (!url) {
+      if (status === "Pending") {
+        getURL = `/forecasts/details/?status=${status}`;
+      } else {
+        getURL = `/forecasts/details/?status=${status}&is_archived=${archive}`;
+      }
+    } else {
+      getURL = url;
+    }
+    try {
+      const response = await API.get(getURL);
+      return response.data;
+    } catch (err) {
+      return err;
+    } finally {
+      this.rootStore.uiStore.isLoading = false;
+    }
   }
 
   async getLogs(month, year) {

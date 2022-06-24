@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Collapse } from 'react-bootstrap';
-import styled from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import { Collapse } from "react-bootstrap";
+import styled from "styled-components";
 
-import CustomButton from '../../../components/CustomButton';
+import CustomButton from "../../../components/CustomButton";
 
-import { formatNumber } from '../../../common/utils';
+import { formatNumber } from "../../../common/utils";
 
 const Accordion = styled.div`
   .collapsible-table {
@@ -47,7 +47,10 @@ const Accordion = styled.div`
 
   .mn-creative-grid-layout {
     display: grid;
-    grid-template-columns: ${(props) => props.columnList.map(() => `${100 / props.columnList.length}% `).join('')};
+    grid-template-columns: ${(props) =>
+      props.columnList
+        .map(() => `${100 / props.columnList.length}% `)
+        .join("")};
     margin-bottom: 5px;
     justify-content: space-evenly;
     margin-left: 7px;
@@ -93,20 +96,29 @@ const NcmManageAccordion = (props) => {
 
   const getAccordionBody = () => {
     const body = orderReplacementInfo?.map((r) => (
-      <span className="mn-accordion-body-wrapper mn-creative-grid-layout mb10 text-center" key={`accId${r.id}`}>
-        <p className="mn-accordion-font">{r?.ad_name || 'NA'}</p>
+      <span
+        className="mn-accordion-body-wrapper mn-creative-grid-layout mb10 text-center"
+        key={`accId${r.id}`}
+      >
+        <p className="mn-accordion-font">{r?.ad_name || "NA"}</p>
         <p className="mn-accordion-font">{r.identifier}</p>
         <p className="mn-accordion-font">{`${r?.adid_meta_file_upload[0]?.duration} sec`}</p>
-        <p className="mn-accordion-font" style={{ textTransform: 'none' }}>
+        <p className="mn-accordion-font" style={{ textTransform: "none" }}>
           {r.default_asset_id}
         </p>
         <p>
           {r?.adid_meta_file_upload[0]?.s3_thumbnail_url ? (
-            <label className="video-thumbnail video-thumbnail-small" onClick={(e) => getVideoUrlForAccordion(r, e)}>
-              <img className="creative-thumb-small" src={r?.adid_meta_file_upload[0]?.s3_thumbnail_url} />
+            <label
+              className="video-thumbnail video-thumbnail-small"
+              onClick={(e) => getVideoUrlForAccordion(r, e)}
+            >
+              <img
+                className="creative-thumb-small"
+                src={r?.adid_meta_file_upload[0]?.s3_thumbnail_url}
+              />
             </label>
           ) : (
-            'Not Available'
+            "Not Available"
           )}
         </p>
       </span>
@@ -123,11 +135,14 @@ const NcmManageAccordion = (props) => {
 
   const getActiveAccordionBody = () => {
     const body = activeReportData?.map((r) => (
-      <span className="mn-accordion-body-wrapper mn-creative-grid-layout mb10 text-center" key={`accId${r.id}`}>
+      <span
+        className="mn-accordion-body-wrapper mn-creative-grid-layout mb10 text-center"
+        key={`accId${r.id}`}
+      >
         <p>{r.segment_name}</p>
         <p>{r.segment_data_provider}</p>
         <p>{formatNumber(r.target_size)}</p>
-        <p>{r.avg_pacing ?? 'N/A'}</p>
+        <p>{r.avg_pacing ?? "N/A"}</p>
         <p>{formatNumber(r.total_impressions)}</p>
         <p>{formatNumber(r.target_impressions)}</p>
         <p>
@@ -135,13 +150,21 @@ const NcmManageAccordion = (props) => {
             {r.status_indication === 0 && (
               <i
                 className="glyphicon glyphicon-play mr10"
-                style={{ color: '#FFE900', transform: 'rotate(90deg)', fontSize: '16px' }}
+                style={{
+                  color: "#FFE900",
+                  transform: "rotate(90deg)",
+                  fontSize: "16px",
+                }}
               />
             )}
             {r.status_indication === 1 && (
               <i
                 className="glyphicon glyphicon-play"
-                style={{ color: 'green', transform: 'rotate(270deg)', fontSize: '16px' }}
+                style={{
+                  color: "green",
+                  transform: "rotate(270deg)",
+                  fontSize: "16px",
+                }}
               />
             )}
           </div>
@@ -150,7 +173,7 @@ const NcmManageAccordion = (props) => {
           <CustomButton
             buttonText="Details"
             buttonClassName="tradebtn"
-            handleButtonClick={() => handleModalAction('details', r)}
+            handleButtonClick={() => handleModalAction("details", r)}
           />
         </p>
         <p>
@@ -158,7 +181,7 @@ const NcmManageAccordion = (props) => {
             buttonText="Graph"
             buttonClassName="tradebtn"
             handleButtonClick={() => {
-              handleModalAction('graph', r);
+              handleModalAction("graph", r);
               setToggleGraph(!toggle);
             }}
           />
@@ -178,7 +201,9 @@ const NcmManageAccordion = (props) => {
   return (
     <Accordion
       className="manage-campaign-accordion-container"
-      columnList={activeTab.id === 'active' ? activeAccordionHeader : accordionHeader}
+      columnList={
+        activeTab.id === "active" ? activeAccordionHeader : accordionHeader
+      }
     >
       <Collapse in={activeAccordion ? true : false} appear={true}>
         <div className="ncm-manage-accordion-block ncm-manage-accordion-content">
@@ -187,34 +212,46 @@ const NcmManageAccordion = (props) => {
               <strong>Loading...</strong>
             </p>
           )}
-          {!isLoadingAccordion && activeTab.id !== 'active' && orderReplacementInfo?.length ? (
+          {!isLoadingAccordion &&
+          activeTab.id !== "active" &&
+          orderReplacementInfo?.length ? (
             <div>
-              <p className="dish-select-campaign-heading text-center capitalize mb10">Order Details</p>
+              <p className="dish-select-campaign-heading text-center capitalize mb10">
+                Order Details
+              </p>
               <>
-                <div className="mn-creative-grid-layout mb15-imp">{getAccordionHeader()}</div>
+                <div className="mn-creative-grid-layout mb15-imp">
+                  {getAccordionHeader()}
+                </div>
                 {getAccordionBody()}
               </>
             </div>
           ) : (
             <>
-              {!isLoadingAccordion && activeTab.id !== 'active' && (
+              {!isLoadingAccordion && activeTab.id !== "active" && (
                 <div className="text-center">
                   <p>No Data Found.</p>
                 </div>
               )}
             </>
           )}
-          {!isLoadingAccordion && activeTab.id === 'active' && activeReportData?.length ? (
+          {!isLoadingAccordion &&
+          activeTab.id === "active" &&
+          activeReportData?.length ? (
             <div>
-              <p className="dish-select-campaign-heading text-center capitalize mb10">Order Report Details</p>
+              <p className="dish-select-campaign-heading text-center capitalize mb10">
+                Order Report Details
+              </p>
               <>
-                <div className="mn-creative-grid-layout mb15-imp">{getActiveAccordionHeader()}</div>
+                <div className="mn-creative-grid-layout mb15-imp">
+                  {getActiveAccordionHeader()}
+                </div>
                 {getActiveAccordionBody()}
               </>
             </div>
           ) : (
             <>
-              {!isLoadingAccordion && activeTab.id === 'active' && (
+              {!isLoadingAccordion && activeTab.id === "active" && (
                 <div className="text-center">
                   <p>No Data Found.</p>
                 </div>

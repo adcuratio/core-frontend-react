@@ -1,20 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { MainContent, PageHeader, PageContent } from '../../../components/PageLayout';
-import { PageTitle } from '../../../components/Typography';
-import { FaRegPlusSquare, FaUserEdit } from 'react-icons/fa';
-import LandingPage from '../../../components/LandingPage';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../../components/PageLayout";
+import { PageTitle } from "../../../components/Typography";
+import { FaRegPlusSquare, FaUserEdit } from "react-icons/fa";
+import LandingPage from "../../../components/LandingPage";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../../routes/NavigationService";
 
 const UnivisionCampaignLandingPage = (props) => {
-  const { navigationService } = props;
+  let navigate = useNavigate();
+  let navigationService = new NavigationService(navigate);
 
   const univisionncmContentList = [
     {
-      id: 'ncm_heading_campaign_management',
+      id: "ncm_heading_campaign_management",
       buttons: [
         {
-          id: 'build_agg_campaign',
-          name: 'Build AGG Campaign',
+          id: "build_agg_campaign",
+          name: "Build AGG Campaign",
           icon: FaRegPlusSquare,
           onClickFunction: () => {
             navigationService.goToAggCampaign();
@@ -23,16 +30,16 @@ const UnivisionCampaignLandingPage = (props) => {
           isGreyOut: false,
         },
         {
-          id: 'build_maso_campaign',
-          name: 'Build MASO Campaign',
+          id: "build_maso_campaign",
+          name: "Build MASO Campaign",
           icon: FaRegPlusSquare,
           onClickFunction: () => {},
           isHidden: false,
           isGreyOut: true,
         },
         {
-          id: 'build_saso_campaign',
-          name: 'Build SASO Campaign',
+          id: "build_saso_campaign",
+          name: "Build SASO Campaign",
           icon: FaRegPlusSquare,
           onClickFunction: () => {
             // navigationService.goToNCMCreate2('standard');
@@ -41,8 +48,8 @@ const UnivisionCampaignLandingPage = (props) => {
           isGreyOut: true,
         },
         {
-          id: 'view_drafts',
-          name: 'View Drafts',
+          id: "view_drafts",
+          name: "View Drafts",
           icon: FaUserEdit,
           onClickFunction: () => {
             navigationService.goToAggCampaignDrafts();

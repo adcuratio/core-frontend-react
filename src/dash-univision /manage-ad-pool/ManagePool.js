@@ -10,10 +10,13 @@ import {
 } from "../../components/PageLayout";
 import LandingPage from "../../components/LandingPage";
 import { observer, inject } from "mobx-react";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../routes/NavigationService";
 
 const ManagePool = inject("networkStore")(
   observer((props) => {
-    const { navigationService } = props;
+    let navigate = useNavigate();
+    let navigationService = new NavigationService(navigate);
 
     const ManageAdLandingList = [
       {

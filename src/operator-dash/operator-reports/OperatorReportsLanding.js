@@ -1,39 +1,48 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { MainContent, PageHeader, PageContent } from '../../components/PageLayout';
-import { PageTitle } from '../../components/Typography';
-import { FaChartLine } from 'react-icons/fa';
-import LandingPage from '../../components/LandingPage';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../components/PageLayout";
+import { PageTitle } from "../../components/Typography";
+import { FaChartLine } from "react-icons/fa";
+import LandingPage from "../../components/LandingPage";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../routes/NavigationService";
 
 const OperatorReportsLanding = (props) => {
-  const { navigationService } = props;
+  let navigate = useNavigate();
+  let navigationService = new NavigationService(navigate);
 
   const reportsLandingList = [
     {
-      id: 'heading_reports',
+      id: "heading_reports",
       buttons: [
         {
-          id: 'impression_reports_saso',
-          name: 'Impression Reports',
+          id: "impression_reports_saso",
+          name: "Impression Reports",
           onClickFunction: () => navigationService.goToAgencyCampaignReports(),
           icon: FaChartLine,
         },
         {
-          id: 'pacing_reports',
-          name: 'View Pacing Reports',
+          id: "pacing_reports",
+          name: "View Pacing Reports",
           onClickFunction: () => navigationService.goToOperatorReportsPacing(),
           icon: FaChartLine,
         },
         {
-          id: 'post_campaign_network_reports',
-          name: 'View Post Campaign Network Reports',
-          onClickFunction: () => navigationService.goToOperatorReportsPostCampaign(),
+          id: "post_campaign_network_reports",
+          name: "View Post Campaign Network Reports",
+          onClickFunction: () =>
+            navigationService.goToOperatorReportsPostCampaign(),
           icon: FaChartLine,
         },
         {
-          id: 'post_campaign_daypart_reports',
-          name: 'View Post Campaign Daypart Reports',
-          onClickFunction: () => navigationService.goToOperatorPostCampaignDaypartReports(),
+          id: "post_campaign_daypart_reports",
+          name: "View Post Campaign Daypart Reports",
+          onClickFunction: () =>
+            navigationService.goToOperatorPostCampaignDaypartReports(),
           icon: FaChartLine,
         },
       ],

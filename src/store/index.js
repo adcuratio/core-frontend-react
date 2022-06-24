@@ -20,7 +20,6 @@ import CreativesVideoStore from "./CreativesVideoStore";
 import UnivisionStore from "./UnivisionStore";
 import AuthStore from "./AuthStore";
 import AggCampaignStore from "./AggCampaignStore";
-//import NavigationService from "./NavigationService";
 
 class RootStore {
   constructor() {
@@ -46,7 +45,6 @@ class RootStore {
     this.univisionStore = new UnivisionStore(this);
     this.authStore = new AuthStore(this);
     this.aggCampaignStore = new AggCampaignStore(this);
-    //this.navigationService = new NavigationService(this);
   }
 }
 

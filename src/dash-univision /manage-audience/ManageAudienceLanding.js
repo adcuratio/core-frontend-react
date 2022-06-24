@@ -1,28 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FaUsers, FaRegPlusSquare } from 'react-icons/fa';
-import LandingPage from '../../components/LandingPage';
-import { MainContent, PageHeader, PageContent } from '../../components/PageLayout';
-import { PageTitle } from '../../components/Typography';
+import React from "react";
+import PropTypes from "prop-types";
+import { FaUsers, FaRegPlusSquare } from "react-icons/fa";
+import LandingPage from "../../components/LandingPage";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../components/PageLayout";
+import { PageTitle } from "../../components/Typography";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../routes/NavigationService";
 
-const ManageAudienceLanding = (props) => {
-  const { navigationService } = props;
+const ManageAudienceLanding = () => {
+  let navigate = useNavigate();
+  let navigationService = new NavigationService(navigate);
   const tableState = 0;
 
   const manageAudienceLandingList = [
     {
-      id: 'build-manage-univision-audience',
+      id: "build-manage-univision-audience",
       buttons: [
         {
-          id: 'build_audience',
-          name: 'Build New Audience',
-          onClickFunction: () => navigationService.goToUnivisionCreateAudience(),
+          id: "build_audience",
+          name: "Build New Audience",
+          onClickFunction: () =>
+            navigationService.goToUnivisionCreateAudience(),
           icon: FaRegPlusSquare,
         },
         {
-          id: 'manage_audience',
-          name: 'View/Manage Addressable Segments',
-          onClickFunction: () => navigationService.goToUnivisionViewAudience(tableState),
+          id: "manage_audience",
+          name: "View/Manage Addressable Segments",
+          onClickFunction: () =>
+            navigationService.goToUnivisionViewAudience(tableState),
           icon: FaUsers,
         },
       ],

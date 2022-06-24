@@ -12,14 +12,16 @@ import ForecastDetail from "./components/ForecastDetail";
 import ReactLoader from "../../components/ReactLoader";
 import { showAckErrorMessage, showAckMessage } from "../../common/utils";
 import CustomButton from "../../components/CustomButton";
+import { useLocation } from "react-router-dom";
 
 const ManageForecast = inject(
   "univisionStore",
   "uiStore"
 )(
   observer((props) => {
-    const { univisionStore, uiStore, $state } = props;
+    const { univisionStore, uiStore } = props;
     const tableRef = useRef(null);
+    const location = useLocation;
 
     const ForcastTabTitles = [
       {
@@ -43,7 +45,7 @@ const ManageForecast = inject(
     ];
 
     const [activeTab, setActiveTab] = useState(
-      ForcastTabTitles[$state.params.tableState]
+      ForcastTabTitles[location?.state?.tableState]
     );
     const [forecastData, setForecastData] = useState([]);
     const [forecastDetail, setForecastDetail] = useState({});
@@ -51,7 +53,7 @@ const ManageForecast = inject(
     const [nextPageUrl, setNextPageUrl] = useState("");
 
     useEffect(() => {
-      getForecastData(null, activeTab.apiStatus);
+      getForecastData(null, activeTab?.apiStatus);
     }, []);
 
     const scrollToTop = () => {
@@ -62,7 +64,7 @@ const ManageForecast = inject(
 
     const getForecastData = (
       url = null,
-      status = activeTab.apiStatus,
+      status = activeTab?.apiStatus,
       archive = false
     ) => {
       univisionStore.getForecastData(url, status, archive).then(

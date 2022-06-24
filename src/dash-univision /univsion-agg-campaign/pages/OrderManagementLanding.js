@@ -1,36 +1,42 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { MainContent, PageHeader, PageContent } from '../../../components/PageLayout';
-import { PageTitle } from '../../../components/Typography';
-import { FaRegPlusSquare, FaUserEdit } from 'react-icons/fa';
-import LandingPage from '../../../components/LandingPage';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  MainContent,
+  PageHeader,
+  PageContent,
+} from "../../../components/PageLayout";
+import { PageTitle } from "../../../components/Typography";
+import { FaRegPlusSquare, FaUserEdit } from "react-icons/fa";
+import LandingPage from "../../../components/LandingPage";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../../routes/NavigationService";
 
-const UnivisionOrderManagement = (props) => {
-  const { navigationService } = props;
-
+const UnivisionOrderManagement = () => {
+  let navigate = useNavigate();
+  let navigationService = new NavigationService(navigate);
   const univisionncmContentList = [
     {
-      id: 'ncm_heading_campaign_management',
+      id: "ncm_heading_campaign_management",
       buttons: [
         {
-          id: 'build_new_campaign',
-          name: 'Build New Campaign',
+          id: "build_new_campaign",
+          name: "Build New Campaign",
           icon: FaRegPlusSquare,
           onClickFunction: () => {
             navigationService.goToUnivisonCampaignLandingPage();
           },
         },
         {
-          id: 'build_maso_campaign',
-          name: 'View/Manage Campaigns',
+          id: "build_maso_campaign",
+          name: "View/Manage Campaigns",
           icon: FaRegPlusSquare,
           onClickFunction: () => {
             navigationService.goToUnivisionManageCampaigns();
           },
         },
         {
-          id: 'build_saso_campaign',
-          name: 'Manage Advertisers',
+          id: "build_saso_campaign",
+          name: "Manage Advertisers",
           icon: FaUserEdit,
           onClickFunction: () => {
             navigationService.goToUnivisionAdministration();
@@ -51,8 +57,6 @@ const UnivisionOrderManagement = (props) => {
     </MainContent>
   );
 };
-UnivisionOrderManagement.propTypes = {
-  navigationService: PropTypes.object,
-};
+UnivisionOrderManagement.propTypes = {};
 
 export default UnivisionOrderManagement;

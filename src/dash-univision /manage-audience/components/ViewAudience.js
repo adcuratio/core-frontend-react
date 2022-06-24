@@ -20,13 +20,15 @@ import ReactPickyFilter from "../../../components/ReactPickyFilter";
 import CustomButton from "../../../components/CustomButton";
 import { PageTitle } from "../../../components/Typography";
 import ConfirmDeclineStatusModal from "./ConfirmDeclineStatusModal";
+import { useLocation } from "react-router-dom";
 
 const ViewAudience = inject(
   "univisionStore",
   "uiStore"
 )(
   observer((props) => {
-    const { univisionStore, uiStore, $state } = props;
+    const { univisionStore, uiStore } = props;
+    const location = useLocation();
     const [tabCount, setTabCount] = useState({
       activeCount: 0,
       processedCount: 0,
@@ -69,7 +71,7 @@ const ViewAudience = inject(
     ];
 
     const [activeTab, setActiveTab] = useState(
-      AudTabTitles[$state.params.tableState]
+      AudTabTitles[location?.state?.tableState]
     );
     const [activeModal, setActiveModal] = useState("");
 
@@ -179,7 +181,7 @@ const ViewAudience = inject(
     const getAudienceTableList = (audience, tabSwitch) => {
       const segData = [];
 
-      if (activeTab.status === 0) {
+      if (activeTab?.status === 0) {
         audience.forEach((seg) => {
           if (
             (seg.audience_state === 0 || seg.audience_state === 1) &&
@@ -190,7 +192,7 @@ const ViewAudience = inject(
           }
         });
         setTabCount({ ...tabCount, activeCount: segData.length });
-      } else if (activeTab.status === 1) {
+      } else if (activeTab?.status === 1) {
         audience.forEach((seg) => {
           if (
             seg.audience_state === 3 ||
@@ -201,21 +203,21 @@ const ViewAudience = inject(
           }
         });
         setTabCount({ ...tabCount, processedCount: segData.length });
-      } else if (activeTab.status === 2) {
+      } else if (activeTab?.status === 2) {
         audience.forEach((seg) => {
           if (seg.is_archived === true) {
             segData.push(seg);
           }
         });
         setTabCount({ ...tabCount, archiveCount: segData.length });
-      } else if (activeTab.status === 3) {
+      } else if (activeTab?.status === 3) {
         audience.forEach((seg) => {
           if (seg.audience_state === 2 || seg.audience_state === 6) {
             segData.push(seg);
           }
         });
         setTabCount({ ...tabCount, pendingCount: segData.length });
-      } else if (activeTab.status === 4) {
+      } else if (activeTab?.status === 4) {
         audience.forEach((seg) => {
           if (seg.audience_state === 4) {
             segData.push(seg);
@@ -297,7 +299,7 @@ const ViewAudience = inject(
         SetFilteredEntityList([]);
         setAudienceData([]);
         setSegmentData([]);
-        switch (activeTab.status) {
+        switch (activeTab?.status) {
           case 0:
             setTabCount({ ...tabCount, activeCount: 0 });
             break;

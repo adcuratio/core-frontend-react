@@ -7,6 +7,8 @@ import {
   showAckErrorMessage,
   showAckMessage,
 } from "../../../common/utils";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../../routes/NavigationService";
 
 import { observer, inject } from "mobx-react";
 import CustomButton from "../../../components/CustomButton";
@@ -35,11 +37,12 @@ const formInitialState = {
 // const updatedF = Anyfunction("some data")(oldFunction)
 const UploadAdPool = inject(
   "networkStore",
-  "uiStore",
-  "navigationService"
+  "uiStore"
 )(
   observer((props) => {
-    const { networkStore, getAllCreatives, uiStore, navigationService } = props;
+    let navigate = useNavigate();
+    let navigationService = new NavigationService(navigate);
+    const { networkStore, getAllCreatives, uiStore } = props;
 
     const [deliveryVendorChoices, setDeliveryVendorChoices] = useState([]);
     const [networkChoices, setNetworkChoices] = useState([]);

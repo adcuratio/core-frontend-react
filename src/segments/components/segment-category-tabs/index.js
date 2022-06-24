@@ -1,8 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
 
-import { hasProperty } from '../../../common/utils';
+import "./index.css";
+import { hasProperty } from "../../../common/utils";
 
 export const SegmentTabWrapper = styled.div`
   border-bottom: 1px solid;
@@ -17,38 +18,61 @@ export const SegmentAddCategoryText = styled.span`
   cursor: pointer;
 `;
 
-import './index.css';
-
 const SegmentCategoryTabs = (props) => {
-  const { filterData, toggleAvailableCategoryModal, onTabClick, addRemoveCategoryTitle, type } = props;
+  const {
+    filterData,
+    toggleAvailableCategoryModal,
+    onTabClick,
+    addRemoveCategoryTitle,
+    type,
+  } = props;
 
   const getTabContent = () => {
     if (filterData && filterData.length) {
       const filterComp = [];
       filterData.forEach((filter, index) => {
         let showData = false;
-        if (hasProperty(filter, 'isHeadingSelected') && filter.isHeadingSelected) {
+        if (
+          hasProperty(filter, "isHeadingSelected") &&
+          filter.isHeadingSelected
+        ) {
           showData = true;
-        } else if (hasProperty(filter, 'isSelected') && filter.isSelected) {
+        } else if (hasProperty(filter, "isSelected") && filter.isSelected) {
           showData = true;
         }
         let isActive = false;
-        if (hasProperty(filter, 'isCreditTabSelected') && filter.isCreditTabSelected) {
+        if (
+          hasProperty(filter, "isCreditTabSelected") &&
+          filter.isCreditTabSelected
+        ) {
           isActive = true;
-        } else if (hasProperty(filter, 'isTabSelectedToShow') && filter.isTabSelectedToShow) {
+        } else if (
+          hasProperty(filter, "isTabSelectedToShow") &&
+          filter.isTabSelectedToShow
+        ) {
           isActive = true;
         }
         if (showData) {
           filterComp.push(
-            <li onClick={() => onTabClick(filter)} key={`${type}-${filter.name}-${index}`}>
-              <span className={isActive ? 'segments-tab-active' : ''}>{filter.title ? filter.title : filter.name}</span>
+            <li
+              onClick={() => onTabClick(filter)}
+              key={`${type}-${filter.name}-${index}`}
+            >
+              <span className={isActive ? "segments-tab-active" : ""}>
+                {filter.title ? filter.title : filter.name}
+              </span>
             </li>
           );
         }
       });
       filterComp.push(
-        <li onClick={toggleAvailableCategoryModal} key={`${type}-add-remove-category`}>
-          <SegmentAddCategoryText>{addRemoveCategoryTitle}</SegmentAddCategoryText>
+        <li
+          onClick={toggleAvailableCategoryModal}
+          key={`${type}-add-remove-category`}
+        >
+          <SegmentAddCategoryText>
+            {addRemoveCategoryTitle}
+          </SegmentAddCategoryText>
         </li>
       );
       return filterComp;

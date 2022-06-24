@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { MainContent, PageHeader, PageContent } from "../components/PageLayout";
 import { PageTitle } from "../components/Typography";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../routes/NavigationService";
 import {
   FaUserFriends,
   FaPlayCircle,
@@ -12,9 +14,9 @@ import {
 } from "react-icons/fa";
 import LandingPage from "../components/LandingPage";
 
-const UnivisionLanding = (props) => {
-  const { navigationService } = props;
-
+const UnivisionLanding = () => {
+  let navigate = useNavigate();
+  let navigationService = new NavigationService(navigate);
   const univisionLandingList = [
     {
       id: "ncm_heading_campaign_management",

@@ -18,16 +18,19 @@ import {
 } from "../../../common/utils";
 import ReactLoader from "../../../components/ReactLoader";
 import CustomButton from "../../../components/CustomButton";
+import { useNavigate } from "react-router-dom";
+import NavigationService from "../../../routes/NavigationService";
 
 const CampaignDrafts = inject(
   "uiStore",
   "companyStore",
   "campaignStore",
-  "aggCampaignStore",
-  "navigationService"
+  "aggCampaignStore"
 )(
   observer((props) => {
-    const { uiStore, aggCampaignStore, navigationService } = props;
+    const { uiStore, aggCampaignStore } = props;
+    let navigate = useNavigate();
+    let navigationService = new NavigationService(navigate);
 
     const [campaignTableData, setCampaignTableData] = useState([]);
     const [toggleModal, setToggleModal] = useState(false);
@@ -192,7 +195,6 @@ const CampaignDrafts = inject(
 );
 
 CampaignDrafts.prototypes = {
-  navigationService: PropTypes.object,
   companyStore: PropTypes.object,
   uiStore: PropTypes.object,
   campaignStore: PropTypes.object,

@@ -47,6 +47,8 @@ import DayPartTableContainer from "../reporting/reports-post-campaign-daypart-re
 import { postCampaignDayPartTitles } from "../reporting/reports-post-campaign-daypart-reports/components/JsonData";
 import PacingReportsTableContainer from "../reporting/reports-pacing/components/TableContainer";
 import { pacingReportsTitles } from "../reporting/reports-pacing/components/JsonData";
+import { useNavigate, useLocation } from "react-router-dom";
+import NavigationService from "../../routes/NavigationService";
 
 const StyledHeader = styled.div`
   width: 54%;
@@ -58,7 +60,6 @@ const UnivisionManageCampaigns = inject(
   "uiStore",
   "tradeStore",
   "univisionStore",
-  "navigationService",
   "aggCampaignStore"
 )(
   observer((props) => {
@@ -66,12 +67,13 @@ const UnivisionManageCampaigns = inject(
       manageCampaignStore,
       uiStore,
       authStore,
-      navigationService,
       tradeStore,
       univisionStore,
       aggCampaignStore,
-      $state,
     } = props;
+    let navigate = useNavigate();
+    let navigationService = new NavigationService(navigate);
+    const location = useLocation();
     const isAgencyAdminUser = authStore.isAgencyAdminUser();
 
     const [trades, setTrades] = useState([]);
@@ -89,7 +91,7 @@ const UnivisionManageCampaigns = inject(
       tablePendingTradesData: [],
     });
     const [activeTab, setActiveTab] = useState(
-      NcmManageTradeTabs[$state.params.tableState]
+      NcmManageTradeTabs[location?.state?.tableState]
     );
     const [activeModal, setActiveModal] = useState("");
     const [modalData, setModalData] = useState(null);
@@ -1019,7 +1021,6 @@ const UnivisionManageCampaigns = inject(
               accordionHeader={accordionHeader}
               getViewTrades={getViewTrades}
               isLoadingAccordion={isLoadingAccordion}
-              navigationService={navigationService}
               getVideoUrlForAccordion={getVideoUrlForAccordion}
               activeReportData={activeReportData}
               activeAccordionHeader={activeAccordionHeader}
@@ -1086,7 +1087,6 @@ const UnivisionManageCampaigns = inject(
                 pacingReportsList={pacingReportData}
                 handleModalAction={handleModalAction}
                 downloadCampaignReport={downloadCampaignReport}
-                navigationService={navigationService}
                 setId={setId}
                 aggCampaignStore={aggCampaignStore}
               />
@@ -1211,6 +1211,5 @@ UnivisionManageCampaigns.propTypes = {
   authStore: PropTypes.object,
   manageCampaignStore: PropTypes.object,
   uiStore: PropTypes.object,
-  navigationService: PropTypes.object,
 };
 export default UnivisionManageCampaigns;

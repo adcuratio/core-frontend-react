@@ -1,7 +1,7 @@
 //import Reports from "../reports/Reports";
-import UnivisionLanding from "../dash-univision /UnivisionLanding";
 // Univision-Network-portal
-//import UnivisionOrderManagement from "../dash-univision /univsion-agg-campaign/pages/OrderManagementLanding.js";
+import UnivisionLanding from "../dash-univision /UnivisionLanding";
+import UnivisionOrderManagement from "../dash-univision /univsion-agg-campaign/pages/OrderManagementLanding";
 import UnivisionNetworkLogs from "../dash-univision /univision-network-logs/UnivisionNetworkLogs";
 import ManageAudienceLanding from "../dash-univision /manage-audience/ManageAudienceLanding";
 import CreateNewAudience from "../dash-univision /manage-audience/components/CreateNewAudience";
@@ -16,25 +16,25 @@ import UnivisionManageCreatives from "../dash-univision /creatives/creatives-man
 import UnivisionCreativesWatermarkApproval from "../dash-univision /creatives/creatives-watermark-approval/CreativesWatermarkApproval";
 import UnivisionCampaignLandingPage from "../dash-univision /univsion-agg-campaign/pages/UnivsionCampaignLandingPage";
 import AggCampaign from "../dash-univision /univsion-agg-campaign/agg-build-campaign/AggCampaign";
-//import UnivisionManageCampaigns from "../dash-univision /manage-campaigns/UnivisionManageCampaigns";
-// import UnivisionReportsLanding from "../dash-univision/reporting/ReportsLanding";
+import UnivisionManageCampaigns from "../dash-univision /manage-campaigns/UnivisionManageCampaigns";
+import UnivisionReportsLanding from "../dash-univision /reporting/ReportsLanding";
 import UnivisionReportsPacing from "../dash-univision /reporting/reports-pacing/ReportsPacing";
 import ReportsPostCampaign from "../dash-univision /reporting/reports-post-campaign/ReportsPostCampaigns";
 import ReportsPostCampaignDaypart from "../dash-univision /reporting/reports-post-campaign-daypart-reports/ReportsPostCampaignDaypart";
-// import UnivisionReportsCtvLogs from "../dash-univision/reporting/reports-ctv-logs/ReportsCtvLogs";
-// import ReportsLanding from "../dash-univision/reporting/ReportsLanding";
+import UnivisionReportsCtvLogs from "../dash-univision /reporting/reports-ctv-logs/ReportsCtvLogs";
+import ReportsLanding from "../dash-univision /reporting/ReportsLanding";
 import UnivisionAdministration from "../dash-univision /administration/Administartion";
-// import UnivisionPingReports from "../dash-univision/tv-ping-reports/PingReports";
+import UnivisionPingReports from "../dash-univision /tv-ping-reports/PingReports";
 import AggVeiwDetailsPage from "../dash-univision /univsion-agg-campaign/agg-view-details/AggViewDetails";
-//import AggAddTargetPage from "../dash-univision/univsion-agg-campaign/agg-add-new-orderline/AggAddNewOrderline";
+import AggAddTargetPage from "../dash-univision /univsion-agg-campaign/agg-add-new-orderline/AggAddNewOrderline";
 import Forecast from "../dash-univision /forecasting/buildForecast";
-// import manageForecast from "../dash-univision/forecasting/manageForecasting";
+import manageForecast from "../dash-univision /forecasting/manageForecasting";
 import ManagePool from "../dash-univision /manage-ad-pool/ManagePool";
 import UploadAdPool from "../dash-univision /manage-ad-pool/upload-ad-pool/UploadAdPool";
 import ViewPool from "../dash-univision /manage-ad-pool/view-manage-ad-pool/ViewPool";
 import UnivisionAddressableInventory from "../dash-univision /view-schedules/view-addressable-inventory/AddressableInventory";
 import UnivisionAddressableLogs from "../dash-univision /view-schedules/view-schedule/ViewSchedulesLogs";
-// import CampaignDrafts from "../dash-univision/univsion-agg-campaign/agg-campaign-drafts/CampaignDrafts";
+import CampaignDrafts from "../dash-univision /univsion-agg-campaign/agg-campaign-drafts/CampaignDrafts";
 
 // import About from "../temp-data/tempAbout";
 // import Delay from "../temp-data/tempDelay";
@@ -84,6 +84,12 @@ const UnivsionAdminRoutes = [
     name: "",
     roles: "Network Admin",
     component: UnivisionNetworkLogs,
+  },
+  {
+    path: "univision-network-admin/univsion-order-management",
+    name: "",
+    roles: "Network Admin",
+    component: UnivisionOrderManagement,
   },
   {
     path: "univision-network-admin/manage-audience",
@@ -223,6 +229,54 @@ const UnivsionAdminRoutes = [
     name: "",
     roles: "Network Admin",
     component: UnivisionAddressableInventory,
+  },
+  {
+    path: "univision-network-admin/manage-campaigns",
+    name: "",
+    roles: "Network Admin",
+    component: UnivisionManageCampaigns,
+  },
+  {
+    path: "univision-network-admin/reports-landing",
+    name: "",
+    roles: "Network Admin",
+    component: UnivisionReportsLanding,
+  },
+  {
+    path: "univision-network-admin/reports-ctv-logs",
+    name: "",
+    roles: "Network Admin",
+    component: UnivisionReportsCtvLogs,
+  },
+  {
+    path: "univision/reports-dashboard",
+    name: "",
+    roles: "Network Admin",
+    component: ReportsLanding,
+  },
+  {
+    path: "univision-network-admin/tv-ping-reports",
+    name: "",
+    roles: "Network Admin",
+    component: UnivisionPingReports,
+  },
+  {
+    path: "univision-network-admin/add-target-audience",
+    name: "",
+    roles: "Network Admin",
+    component: AggAddTargetPage,
+  },
+  {
+    path: "univision-forecast/manage-forecast",
+    name: "",
+    roles: "Network Admin",
+    component: manageForecast,
+  },
+  {
+    path: "univision/agg-campaign-drafts",
+    name: "",
+    roles: "Network Admin",
+    component: CampaignDrafts,
   },
 ];
 
