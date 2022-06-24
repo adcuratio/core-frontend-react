@@ -10,6 +10,8 @@ import "@fortawesome/fontawesome-free/js/fontawesome";
 import "@fortawesome/fontawesome-free/js/solid";
 import "@fortawesome/fontawesome-free/js/regular";
 import "@fortawesome/fontawesome-free/js/brands";
+import NotFound from "./NotFound";
+import ReactLoader from "./components/ReactLoader";
 
 const Login = React.lazy(() => import("./auth/Login"));
 const ForgotPassword = React.lazy(() => import("./auth/ForgotPassword"));
@@ -19,11 +21,12 @@ function App() {
   return (
     <Provider {...store}>
       <BrowserRouter>
-        <React.Suspense>
+        <React.Suspense fallback={<ReactLoader />}>
           <Routes>
             <Route exact path="/" name="Login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/dash/*" name="Home page" element={<Layout />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </React.Suspense>
       </BrowserRouter>

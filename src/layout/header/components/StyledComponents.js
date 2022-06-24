@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ProfileDropdownWrapper = styled.div`
   button#header_user_nav,
@@ -19,6 +19,22 @@ export const ProfileDropdownWrapper = styled.div`
   #header_notification .caret {
     display: none;
   }
+`;
+
+export const SelectWrapper = styled.div`
+  select {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: 0;
+  }
+  option {
+    top: 38px;
+  }
+ select option:hover {
+    background-color: transparent !important;
+  }
+  op
 `;
 
 export const RoleWrapper = styled.span`

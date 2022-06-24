@@ -11,7 +11,7 @@ import {
 } from "./components/AuthStyledComponents";
 
 import { formatEmail, validateEmail } from "../common/utils";
-//import ReactLoader from '../components/ReactLoader';
+import ReactLoader from "../components/ReactLoader";
 import CustomButton from "../components/CustomButton";
 import { inject, observer } from "mobx-react";
 
@@ -145,7 +145,7 @@ const Login = inject("authStore")(
             </div>
           </div>
         </AuthWrapper>
-        {/* <ReactLoader isLoading={isLoading} /> */}
+        <ReactLoader isLoading={isLoading} />
       </>
     );
   })

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { DropdownButton, MenuItem } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
+import { useNavigate } from "react-router-dom";
 
 import Logo from "../../images/logo.png";
 import NotificationImg from "../../images/notification.png";
@@ -12,6 +13,7 @@ import {
   MenuItemWrapper,
   HeaderWrapper,
   LogoWrapper,
+  SelectWrapper,
   UserImg,
 } from "./components/StyledComponents";
 
@@ -19,6 +21,7 @@ const Header = inject("authStore")(
   observer((props) => {
     const { isLogin, navigationService } = props;
     const { authStore } = props;
+    const navigate = useNavigate();
 
     const [fullName] = useState(
       authStore.getUser()
@@ -32,8 +35,9 @@ const Header = inject("authStore")(
     );
 
     const logOut = () => {
+      console.log("am i here?");
       authStore.deleteSession().then(() => {
-        navigationService.goToLogin();
+        navigate("/");
       });
     };
     const goToUpdatePwd = () => {
@@ -61,7 +65,34 @@ const Header = inject("authStore")(
             </ProfileDropdownWrapper>
 
             <ProfileDropdownWrapper>
-              <DropdownButton
+              <SelectWrapper>
+                <select>
+                  <option>
+                    <span>
+                      <UserImg className="user-img far fa-user-circle" />
+                      {fullName}
+                    </span>
+                  </option>
+
+                  <option>
+                    <MenuItemWrapper onClick={logOut}>
+                      <i className="glyphicon glyphicon-log-out mr10">
+                        {" "}
+                        Profile
+                      </i>
+                    </MenuItemWrapper>
+                  </option>
+                  <option>
+                    <MenuItemWrapper onClick={logOut}>
+                      <i className="glyphicon glyphicon-log-out mr10">Logout</i>
+                    </MenuItemWrapper>
+                  </option>
+                  <option disabled={true}>
+                    <RoleWrapper>Role: {userRole}</RoleWrapper>
+                  </option>
+                </select>
+              </SelectWrapper>
+              {/* <DropdownButton
                 id="header_user_nav"
                 title={
                   <span>
@@ -83,7 +114,7 @@ const Header = inject("authStore")(
                 <MenuItem>
                   <RoleWrapper>Role: {userRole}</RoleWrapper>
                 </MenuItem>
-              </DropdownButton>
+              </DropdownButton> */}
             </ProfileDropdownWrapper>
           </div>
         ) : null}

@@ -11,28 +11,36 @@ import {
 import { Layout } from "antd";
 import MainContent from "./content/Content";
 import { Outlet } from "react-router-dom";
+import { observer, inject } from "mobx-react";
 
-const MainLayout = (props) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+const MainLayout = inject("authStore")(
+  observer((props) => {
+    const { authStore } = props;
+    console.log("big boom!!");
+    console.log(authStore);
+    const location = useLocation();
+    const navigate = useNavigate();
+    console.log(location);
 
-  useEffect(() => {
-    navigate("univision-network-admin/landing");
-  }, []);
+    useEffect(() => {
+      navigate("univision-network-admin/landing");
+    }, []);
 
-  return (
-    <Layout>
-      <Header />
-      <Sidebar />
-      <div
-        className="main-container-wrapper main"
-        id="main"
-        style={{ padding: "0 24px 24px", marginTop: 64, marginLeft: "200px" }}
-      >
-        <MainContent />
-      </div>
-    </Layout>
-  );
-};
+    return (
+      <Layout>
+        <Header />
+        <Sidebar />
+        <div
+          className="main-container-wrapper main"
+          id="main"
+          style={{ padding: "0 24px 24px", marginTop: 64, marginLeft: "200px" }}
+        >
+          <MainContent />
+          <Outlet />
+        </div>
+      </Layout>
+    );
+  })
+);
 
 export default MainLayout;
