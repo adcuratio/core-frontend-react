@@ -4,7 +4,7 @@ class UIStore {
   isLoading = false;
   loaderText = "Waiting for server...";
 
-  constructor(rootStore, isLoading, loaderText, showPageLoader, setLoader) {
+  constructor(rootStore) {
     this.rootStore = rootStore;
     makeObservable(this, {
       isLoading: observable,

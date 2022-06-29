@@ -8,20 +8,13 @@ class UnivisionStore {
   modelYearForVehicleMake = null;
   experianFilters = null; //JSON.parse(JSON.stringify(ExperianJsonData));
   manageAudiences = null;
+  rootStore;
 
   archivedSegments = {
     totalPages: 1,
   };
 
-  constructor(
-    segments,
-    liteFilters,
-    fullFilters,
-    modelYearForVehicleMake,
-    experianFilters,
-    manageAudiences,
-    archivedSegments
-  ) {
+  constructor(rootStore) {
     makeObservable(this, {
       segments: observable,
       liteFilters: observable,
@@ -78,7 +71,9 @@ class UnivisionStore {
       downloadNetworkReport: action,
       downloadDaypartReport: action,
       getForecastData: action,
+      rootStore: false,
     });
+    this.rootStore = rootStore;
   }
   async getForecastData(url, status, archive) {
     this.rootStore.uiStore.isLoading = true;
@@ -103,6 +98,8 @@ class UnivisionStore {
   }
 
   async getLogs(month, year) {
+    console.log("maiyaha hoooon!");
+    console.log(this.rootStore);
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get(
@@ -202,6 +199,7 @@ class UnivisionStore {
   }
 
   async getAllChannels() {
+    console.log("getallchgannels", this.rootStore);
     this.rootStore.uiStore.isLoading = true;
     try {
       const res = await API.get("/admin/channels/");

@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 //import { Link } from "react-router-dom";
-import store from "./store";
+import rootStore from "./store";
 import { Provider } from "mobx-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/master.css";
@@ -16,7 +16,7 @@ const Layout = React.lazy(() => import("./layout/Layout"));
 
 function App() {
   return (
-    <Provider {...store}>
+    <Provider {...rootStore}>
       <BrowserRouter>
         <React.Suspense>
           <Routes>

@@ -26,6 +26,7 @@ const UnivisionNetworkLogs = inject(
   "uiStore"
 )(
   observer((props) => {
+    
     const { univisionStore, uiStore } = props;
     const allDates = getMonthArray(stdMonthArray); // get a set of months and year for previous nine months and coming four months
     const [selectedMonth, setSelectedMonth] = useState(

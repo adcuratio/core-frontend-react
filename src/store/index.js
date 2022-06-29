@@ -24,27 +24,27 @@ import AggCampaignStore from "./AggCampaignStore";
 class RootStore {
   constructor() {
     this.uiStore = new UIStore(this);
-    this.companyStore = new CompanyStore(this);
+    //this.companyStore = new CompanyStore(this);
     //this.segmentStore = new SegmentStore(this);
-    this.campaignStore = new CampaignStore(this);
-    this.networkStore = new NetworkStore(this);
-    this.superAdminStore = new SuperAdminStore(this);
-    this.advSchStore = new AdvSchStore(this);
-    this.creativesStore = new CreativesStore(this);
-    this.vizioStore = new VizioStore(this);
-    this.userStore = new UserStore(this);
-    this.accountManagementStore = new AccountManagementStore(this);
-    this.postLogsStore = new PostLogsStore(this);
-    this.messagingGroupStore = new MessagingGroupStore(this);
-    this.xandrStore = new XandrStore(this);
-    this.tradeStore = new TradeStore(this);
-    this.operatorStore = new OperatorStore(this);
-    this.foxVizioStore = new FoxVizioStore(this);
-    this.creativesVideoStore = new CreativesVideoStore(this);
-    this.manageCampaignStore = new ManageCampaignStore(this);
+    // this.campaignStore = new CampaignStore(this);
+    // this.networkStore = new NetworkStore(this);
+    // this.superAdminStore = new SuperAdminStore(this);
+    // this.advSchStore = new AdvSchStore(this);
+    // this.creativesStore = new CreativesStore(this);
+    // this.vizioStore = new VizioStore(this);
+    // this.userStore = new UserStore(this);
+    // this.accountManagementStore = new AccountManagementStore(this);
+    // this.postLogsStore = new PostLogsStore(this);
+    // this.messagingGroupStore = new MessagingGroupStore(this);
+    // this.xandrStore = new XandrStore(this);
+    // this.tradeStore = new TradeStore(this);
+    // this.operatorStore = new OperatorStore(this);
+    // this.foxVizioStore = new FoxVizioStore(this);
+    // this.creativesVideoStore = new CreativesVideoStore(this);
+    // this.manageCampaignStore = new ManageCampaignStore(this);
     this.univisionStore = new UnivisionStore(this);
     this.authStore = new AuthStore(this);
-    this.aggCampaignStore = new AggCampaignStore(this);
+    //this.aggCampaignStore = new AggCampaignStore(this);
   }
 }
 
