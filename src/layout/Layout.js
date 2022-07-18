@@ -35,4 +35,6 @@ const MainLayout = (props) => {
   );
 };
 
+console.log(<MainLayout />);
+
 export default MainLayout;

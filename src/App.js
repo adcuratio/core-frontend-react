@@ -18,7 +18,7 @@ function App() {
   return (
     <Provider {...rootStore}>
       <BrowserRouter>
-        <React.Suspense>
+        <React.Suspense fallback={() => <div>NO result found!</div>}>
           <Routes>
             <Route exact path="/" name="Login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

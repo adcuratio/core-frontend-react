@@ -92,4 +92,6 @@ UnivisionLanding.propTypes = {
   navigationService: PropTypes.object,
 };
 
+console.log(<UnivisionLanding />);
+
 export default UnivisionLanding;
